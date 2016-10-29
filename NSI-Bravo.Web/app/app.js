@@ -1,38 +1,60 @@
 ﻿
-var app = angular.module("app", ['ngRoute']);
+var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
 
-app.factory("ShareData", function () {
-    return { value: 0 }
-});
+app.config(function ($routeProvider) {
 
-//Defining Routing
-app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+    $routeProvider.when("/home", {
+        controller: "homeController",
+        templateUrl: "/app/views/home.html"
+    });
 
-    $routeProvider.when("/home", { controller: "homeController", templateUrl: "/app/views/home.html" });
-    
+    $routeProvider.when("/login", {
+        controller: "loginController",
+        templateUrl: "/app/views/login.html"
+    });
+
+    $routeProvider.when("/signup", {
+        controller: "signupController",
+        templateUrl: "/app/views/signup.html"
+    });
+
+    $routeProvider.when("/orders", {
+        controller: "ordersController",
+        templateUrl: "/app/views/orders.html"
+    });
+
+    $routeProvider.when("/refresh", {
+        controller: "refreshController",
+        templateUrl: "/app/views/refresh.html"
+    });
+
+    $routeProvider.when("/tokens", {
+        controller: "tokensManagerController",
+        templateUrl: "/app/views/tokens.html"
+    });
+
+    $routeProvider.when("/associate", {
+        controller: "associateController",
+        templateUrl: "/app/views/associate.html"
+    });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
-}]);
+});
 
-app.constant('DEBUG_MODE', /*DEBUG_MODE*/true/*DEBUG_MODE*/)
-   .constant('VERSION_TAG', /*VERSION_TAG_START*/new Date().getTime()/*VERSION_TAG_END*/)
-  
-//Defining Translations
-
-var serviceBase = 'http://localhost:26264/'; //port na kojem je web api
-
-//var serviceBase = 'http://nwt-rmk-api.azurewebsites.net/';
-
+var serviceBase = 'http://localhost:26264/';
+//var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
 
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);
 
 
-
-app.config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-}
-]);
