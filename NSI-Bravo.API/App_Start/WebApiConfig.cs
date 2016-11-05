@@ -21,6 +21,9 @@ namespace AngularJSAuthentication.API
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //This line was added because of self referencing loop detected
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }

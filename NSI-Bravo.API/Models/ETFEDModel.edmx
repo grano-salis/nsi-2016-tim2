@@ -65,6 +65,9 @@
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
           <Property Name="CRITERIA_LEVEL" Type="number" Precision="10" Scale="0" />
           <Property Name="PARENT_CRITERIA" Type="number" Precision="19" Scale="0" />
+          <Property Name="POINTS" Type="number" Precision="10" Scale="0" />
+          <Property Name="DATE_CREATED" Type="timestamp" Precision="6" />
+          <Property Name="DATE_MODIFIED" Type="timestamp" Precision="6" />
         </EntityType>
         <EntityType Name="CV_ITEM">
           <Key>
@@ -81,6 +84,7 @@
           <Property Name="OLD_ITEM_ID" Type="number" Precision="19" Scale="0" />
           <Property Name="CV_TABLE_ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="number" Precision="19" Scale="0" />
+          <Property Name="USER_ID_APPROVED" Type="nvarchar2" MaxLength="128" Nullable="true" />
         </EntityType>
         <EntityType Name="CV_TABLE">
           <Key>
@@ -350,6 +354,9 @@
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="CRITERIA_LEVEL" Type="Int32" />
           <Property Name="PARENT_CRITERIA" Type="Int64" />
+          <Property Name="POINTS" Type="Int32" />
+          <Property Name="DATE_CREATED" Type="DateTime" Precision="6" />
+          <Property Name="DATE_MODIFIED" Type="DateTime" Precision="6" />
           <NavigationProperty Name="CRITERIA1" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA" ToRole="CRITERIA1" />
           <NavigationProperty Name="CRITERIA2" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA1" ToRole="CRITERIA" />
           <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CRITERIA" ToRole="CV_ITEM" />
@@ -369,6 +376,7 @@
           <Property Name="OLD_ITEM_ID" Type="Int64" />
           <Property Name="CV_TABLE_ID_CV" Type="Int64" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="Int64" />
+          <Property Name="USER_ID_APPROVED" Type="String" />
           <NavigationProperty Name="CRITERIA" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CV_ITEM" ToRole="CRITERIA" />
           <NavigationProperty Name="CV_ITEM1" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM" ToRole="CV_ITEM1" />
           <NavigationProperty Name="CV_ITEM2" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM1" ToRole="CV_ITEM" />
@@ -610,6 +618,9 @@
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
                 <ScalarProperty Name="CRITERIA_LEVEL" ColumnName="CRITERIA_LEVEL" />
                 <ScalarProperty Name="PARENT_CRITERIA" ColumnName="PARENT_CRITERIA" />
+                <ScalarProperty Name="POINTS" ColumnName="POINTS" />
+                <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
+                <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -627,6 +638,7 @@
                 <ScalarProperty Name="OLD_ITEM_ID" ColumnName="OLD_ITEM_ID" />
                 <ScalarProperty Name="CV_TABLE_ID_CV" ColumnName="CV_TABLE_ID_CV" />
                 <ScalarProperty Name="CRITERIA_ID_CRITERIA" ColumnName="CRITERIA_ID_CRITERIA" />
+                <ScalarProperty Name="USER_ID_APPROVED" ColumnName="USER_ID_APPROVED" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

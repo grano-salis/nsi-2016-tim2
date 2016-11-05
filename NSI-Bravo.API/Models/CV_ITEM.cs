@@ -25,6 +25,7 @@ namespace AngularJSAuthentication.API.Models
         public string DESCRIPTION { get; set; }
         public byte CONFIRMED { get; set; }
         public byte MODIFIED { get; set; }
+        public string USER_ID_APPROVED { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<System.DateTime> DATE_CONFIRMED { get; set; }
