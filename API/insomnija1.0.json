@@ -1,0 +1,92 @@
+{
+  "_type": "export",
+  "__export_format": 1,
+  "__export_date": "2016-11-05T17:57:44.398Z",
+  "__export_source": "insomnia.chrome.app:v2.7.0",
+  "items": [
+    {
+      "_type": "request_group",
+      "_id": "grp_1478357821771",
+      "name": "NSI",
+      "environments": {},
+      "requests": [
+        {
+          "_type": "request",
+          "_id": "req_1478357821772",
+          "url": "http://localhost:26264/api/child-CRITERIA/5",
+          "method": "GET",
+          "body": "{}",
+          "headers": [],
+          "params": [],
+          "authentication": {
+            "_type": "basic",
+            "username": "",
+            "password": ""
+          },
+          "__insomnia": {
+            "format": "json",
+            "panel_width": 0.5
+          },
+          "name": "get all direct child criterias"
+        },
+        {
+          "_type": "request",
+          "_id": "req_1478360807022",
+          "url": "http://localhost:26264/api/CRITERIA",
+          "method": "POST",
+          "body": "{\n    \"NAME\": \"Naucni radovi\",\n    \"DESCRIPTION\": \"TRALALAL\",\n    \"PARENT_CRITERIA\": 15,\n    \"POINTS\": 10\n}",
+          "headers": [],
+          "params": [],
+          "authentication": {
+            "_type": "basic",
+            "username": "",
+            "password": ""
+          },
+          "__insomnia": {
+            "format": "json",
+            "panel_width": 0.5
+          },
+          "name": "create criteria"
+        },
+        {
+          "_type": "request",
+          "_id": "req_1478363578761",
+          "url": "http://localhost:26264/api/CRITERIA/20",
+          "method": "PUT",
+          "body": "{\n    \"NAME\": \"mirhatove carolije\",\n    \"DESCRIPTION\": \"TRALALAL\",\n    \"POINTS\": 10,\n    \"ID_CRITERIA\": 20\n}",
+          "headers": [],
+          "params": [],
+          "authentication": {
+            "_type": "basic",
+            "username": "",
+            "password": ""
+          },
+          "__insomnia": {
+            "format": "json",
+            "panel_width": 0.5
+          },
+          "name": "update criteria"
+        },
+        {
+          "_type": "request",
+          "_id": "req_1478363799900",
+          "url": "http://localhost:26264/api/CRITERIA/17",
+          "method": "DELETE",
+          "body": "{}",
+          "headers": [],
+          "params": [],
+          "authentication": {
+            "_type": "basic",
+            "username": "",
+            "password": ""
+          },
+          "__insomnia": {
+            "format": "json",
+            "panel_width": 0.5
+          },
+          "name": "delete criteria"
+        }
+      ]
+    }
+  ]
+}
