@@ -12,6 +12,7 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/Criteria")]
     public class CRITERIAController : ApiController
     {
         private MyEntities db = new MyEntities();
@@ -22,9 +23,12 @@ namespace AngularJSAuthentication.API.Controllers
             return db.CRITERIA;
         }
 
-        // GET: api/CRITERIA/5
+        // GET: api/CRITERIA/GetCriteria/5
+       [HttpGet]
+      
+        [Route("GetCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
-        public IHttpActionResult GetCRITERIA(long id)
+        public IHttpActionResult GetCriteria(long id)
         {
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
             if (cRITERIA == null)
@@ -35,9 +39,11 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(cRITERIA);
         }
 
-        // PUT: api/CRITERIA/5
+        // PUT: api/CRITERIA/UpdateCriteria/5
+        [HttpPut]
+        [Route("UpdateCriteria/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCRITERIA(long id, CRITERIA cRITERIA)
+        public IHttpActionResult UpdateCriteria(long id, CRITERIA cRITERIA)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +54,7 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return BadRequest();
             }
-
+            cRITERIA.DATE_MODIFIED = DateTime.Now;
             db.Entry(cRITERIA).State = EntityState.Modified;
 
             try
@@ -70,15 +76,17 @@ namespace AngularJSAuthentication.API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CRITERIA
+        // POST: api/CRITERIA/PostCriteria
+        [HttpPost]
+        [Route("PostCriteria")]
         [ResponseType(typeof(CRITERIA))]
-        public IHttpActionResult PostCRITERIA(CRITERIA cRITERIA)
+        public IHttpActionResult PostCriteria(CRITERIA cRITERIA)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            cRITERIA.DATE_CREATED = DateTime.Now;
             db.CRITERIA.Add(cRITERIA);
 
             try
@@ -101,6 +109,8 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // DELETE: api/CRITERIA/5
+        [HttpDelete]
+        [Route("DeleteCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
         public IHttpActionResult DeleteCRITERIA(long id)
         {
