@@ -79,6 +79,8 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // POST: api/CRITERIA/PostCriteria
+
+        //Writes criteria to the database but causes internal server error. Need fix
         [HttpPost]
         [Route("PostCriteria")]
         [ResponseType(typeof(CRITERIA))]
@@ -111,6 +113,8 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // DELETE: api/CRITERIA/5
+
+        //Delete works but not as it should. It only needs to allow delete of the last child
         [HttpDelete]
         [Route("DeleteCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
