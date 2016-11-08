@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
 
+
 namespace AngularJSAuthentication.API.Controllers
 {
     [RoutePrefix("api/Criteria")]
@@ -31,14 +32,22 @@ namespace AngularJSAuthentication.API.Controllers
         // Requested criteria is always at the end of JSON
         public IHttpActionResult GetCriteria(long id)
         {
-           CRITERIA cRITERIA = db.CRITERIA.Find(id);
-            System.Diagnostics.Debug.WriteLine(cRITERIA.ID_CRITERIA);
+            CRITERIA cRITERIA = db.CRITERIA.Find(id);
             if (cRITERIA == null)
             {
                 return NotFound();
             }
 
             return Ok(cRITERIA);
+        }
+
+        [HttpGet]
+        [Route("GetAllCriteria")]
+        
+        //Returns a JSON with all criteria entries
+        public IHttpActionResult GetAllCriteria()
+        {
+            return Ok(db.CRITERIA);
         }
 
         // PUT: api/CRITERIA/UpdateCriteria/5
@@ -103,13 +112,9 @@ namespace AngularJSAuthentication.API.Controllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = cRITERIA.ID_CRITERIA }, cRITERIA);
+            return Ok(cRITERIA);
         }
 
         // DELETE: api/CRITERIA/5
@@ -121,9 +126,15 @@ namespace AngularJSAuthentication.API.Controllers
         public IHttpActionResult DeleteCRITERIA(long id)
         {
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
+            foreach(CRITERIA c in db.CRITERIA)
+            {
+                if (c.PARENT_CRITERIA == id)
+                    return BadRequest("Cannot delete because criteria has subcriteria!");
+            }
             if (cRITERIA == null)
             {
                 return NotFound();
+                
             }
 
             db.CRITERIA.Remove(cRITERIA);
@@ -131,6 +142,7 @@ namespace AngularJSAuthentication.API.Controllers
 
             return Ok(cRITERIA);
         }
+        
 
         protected override void Dispose(bool disposing)
         {
