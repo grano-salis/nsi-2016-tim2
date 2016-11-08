@@ -1,92 +1,123 @@
 {
   "_type": "export",
-  "__export_format": 1,
-  "__export_date": "2016-11-05T17:57:44.398Z",
-  "__export_source": "insomnia.chrome.app:v2.7.0",
-  "items": [
+  "__export_format": 2,
+  "__export_date": "2016-11-08T01:49:48.803Z",
+  "__export_source": "insomnia.desktop.app:v3.6.7",
+  "resources": [
     {
-      "_type": "request_group",
-      "_id": "grp_1478357821771",
+      "modified": 1478540675304,
+      "created": 1478540675304,
+      "parentId": null,
+      "name": "Insomnia",
+      "_id": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+      "_type": "workspace"
+    },
+    {
+      "modified": 1478541040684,
+      "created": 1478541040684,
+      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+      "name": "Base Environment",
+      "data": {},
+      "_id": "env_0314f9fb50df40b6a2fbddb9a99366b9",
+      "_type": "environment"
+    },
+    {
+      "modified": 1478569661926,
+      "created": 1478541040754,
+      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+      "name": "Default Jar",
+      "cookies": [],
+      "_id": "jar_94570bdd56164ea084cba5be3a0ec33a",
+      "_type": "cookie_jar"
+    },
+    {
+      "modified": 1478546164773,
+      "created": 1478546162182,
+      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
       "name": "NSI",
-      "environments": {},
-      "requests": [
+      "environment": {},
+      "_id": "fld_b3c1021d5d454d92a36a758c7079fa51",
+      "_type": "request_group"
+    },
+    {
+      "modified": 1478569783019,
+      "created": 1478546162203,
+      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+      "url": "http://localhost:26264/api/Criteria/GetCriteria/42",
+      "name": "get criteria",
+      "method": "GET",
+      "body": "{}",
+      "parameters": [],
+      "headers": [
         {
-          "_type": "request",
-          "_id": "req_1478357821772",
-          "url": "http://localhost:26264/api/child-CRITERIA/5",
-          "method": "GET",
-          "body": "{}",
-          "headers": [],
-          "params": [],
-          "authentication": {
-            "_type": "basic",
-            "username": "",
-            "password": ""
-          },
-          "__insomnia": {
-            "format": "json",
-            "panel_width": 0.5
-          },
-          "name": "get all direct child criterias"
-        },
-        {
-          "_type": "request",
-          "_id": "req_1478360807022",
-          "url": "http://localhost:26264/api/CRITERIA",
-          "method": "POST",
-          "body": "{\n    \"NAME\": \"Naucni radovi\",\n    \"DESCRIPTION\": \"TRALALAL\",\n    \"PARENT_CRITERIA\": 15,\n    \"POINTS\": 10\n}",
-          "headers": [],
-          "params": [],
-          "authentication": {
-            "_type": "basic",
-            "username": "",
-            "password": ""
-          },
-          "__insomnia": {
-            "format": "json",
-            "panel_width": 0.5
-          },
-          "name": "create criteria"
-        },
-        {
-          "_type": "request",
-          "_id": "req_1478363578761",
-          "url": "http://localhost:26264/api/CRITERIA/20",
-          "method": "PUT",
-          "body": "{\n    \"NAME\": \"mirhatove carolije\",\n    \"DESCRIPTION\": \"TRALALAL\",\n    \"POINTS\": 10,\n    \"ID_CRITERIA\": 20\n}",
-          "headers": [],
-          "params": [],
-          "authentication": {
-            "_type": "basic",
-            "username": "",
-            "password": ""
-          },
-          "__insomnia": {
-            "format": "json",
-            "panel_width": 0.5
-          },
-          "name": "update criteria"
-        },
-        {
-          "_type": "request",
-          "_id": "req_1478363799900",
-          "url": "http://localhost:26264/api/CRITERIA/17",
-          "method": "DELETE",
-          "body": "{}",
-          "headers": [],
-          "params": [],
-          "authentication": {
-            "_type": "basic",
-            "username": "",
-            "password": ""
-          },
-          "__insomnia": {
-            "format": "json",
-            "panel_width": 0.5
-          },
-          "name": "delete criteria"
+          "name": "Content-Type",
+          "value": "application/json"
         }
-      ]
+      ],
+      "authentication": {},
+      "_id": "req_1478357821772",
+      "contentType": "application/json",
+      "_type": "request"
+    },
+    {
+      "modified": 1478569454786,
+      "created": 1478546162203,
+      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+      "url": "http://localhost:26264/api/Criteria/PostCriteria",
+      "name": "create criteria",
+      "method": "POST",
+      "body": "{\n    \"NAME\": \"Projekat\",\n    \"DESCRIPTION\": \"neki projekti mocni\",\n    \"PARENT_CRITERIA\": null,\n    \"POINTS\": 5\n}",
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_id": "req_1478360807022",
+      "contentType": "application/json",
+      "_type": "request"
+    },
+    {
+      "modified": 1478568399694,
+      "created": 1478546162203,
+      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+      "url": "http://localhost:26264/api/Criteria/UpdateCriteria/42",
+      "name": "update criteria",
+      "method": "PUT",
+      "body": "{\n    \"NAME\": \"Naučni rad\",\n    \"DESCRIPTION\": \"Nema\",\n    \"POINTS\": 10,\n    \"ID_CRITERIA\": 42\n}",
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_id": "req_1478363578761",
+      "contentType": "application/json",
+      "_type": "request"
+    },
+    {
+      "modified": 1478569660753,
+      "created": 1478546162203,
+      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+      "url": "http://localhost:26264/api/Criteria/DeleteCriteria/47",
+      "name": "delete criteria",
+      "method": "DELETE",
+      "body": "{}",
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "_id": "req_1478363799900",
+      "contentType": "application/json",
+      "_type": "request"
     }
   ]
 }

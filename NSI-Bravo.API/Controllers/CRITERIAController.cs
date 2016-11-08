@@ -10,8 +10,10 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
 
+
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/Criteria")]
     public class CRITERIAController : ApiController
     {
         private MyEntities db = new MyEntities();
@@ -22,9 +24,13 @@ namespace AngularJSAuthentication.API.Controllers
             return db.CRITERIA;
         }
 
-        // GET: api/CRITERIA/5
+        // GET: api/CRITERIA/GetCriteria/5
+        [HttpGet]
+        [Route("GetCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
-        public IHttpActionResult GetCRITERIA(long id)
+        //Returns a JSON with requested criteria but also returns other parent or child criteria. R
+        // Requested criteria is always at the end of JSON
+        public IHttpActionResult GetCriteria(long id)
         {
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
             if (cRITERIA == null)
@@ -35,9 +41,20 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(cRITERIA);
         }
 
-        // PUT: api/CRITERIA/5
+        [HttpGet]
+        [Route("GetAllCriteria")]
+        
+        //Returns a JSON with all criteria entries
+        public IHttpActionResult GetAllCriteria()
+        {
+            return Ok(db.CRITERIA);
+        }
+
+        // PUT: api/CRITERIA/UpdateCriteria/5
+        [HttpPut]
+        [Route("UpdateCriteria/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCRITERIA(long id, CRITERIA cRITERIA)
+        public IHttpActionResult UpdateCriteria(long id, CRITERIA cRITERIA)
         {
             if (!ModelState.IsValid)
             {
@@ -46,9 +63,9 @@ namespace AngularJSAuthentication.API.Controllers
 
             if (id != cRITERIA.ID_CRITERIA)
             {
-                return BadRequest();
+                return BadRequest("id doesn't match");
             }
-
+            cRITERIA.DATE_MODIFIED = DateTime.Now;
             db.Entry(cRITERIA).State = EntityState.Modified;
 
             try
@@ -61,24 +78,24 @@ namespace AngularJSAuthentication.API.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(cRITERIA);
         }
 
-        // POST: api/CRITERIA
+        // POST: api/CRITERIA/PostCriteria
+
+        //Writes criteria to the database but causes internal server error. Need fix
+        [HttpPost]
+        [Route("PostCriteria")]
         [ResponseType(typeof(CRITERIA))]
-        public IHttpActionResult PostCRITERIA(CRITERIA cRITERIA)
+        public IHttpActionResult PostCriteria(CRITERIA cRITERIA)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            cRITERIA.DATE_CREATED = DateTime.Now;
             db.CRITERIA.Add(cRITERIA);
 
             try
@@ -91,23 +108,29 @@ namespace AngularJSAuthentication.API.Controllers
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = cRITERIA.ID_CRITERIA }, cRITERIA);
+            return Ok(cRITERIA);
         }
 
         // DELETE: api/CRITERIA/5
+
+        //Delete works but not as it should. It only needs to allow delete of the last child
+        [HttpDelete]
+        [Route("DeleteCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
         public IHttpActionResult DeleteCRITERIA(long id)
         {
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
+            foreach(CRITERIA c in db.CRITERIA)
+            {
+                if (c.PARENT_CRITERIA == id)
+                    return BadRequest("Cannot delete because criteria has subcriteria!");
+            }
             if (cRITERIA == null)
             {
                 return NotFound();
+                
             }
 
             db.CRITERIA.Remove(cRITERIA);
@@ -115,6 +138,7 @@ namespace AngularJSAuthentication.API.Controllers
 
             return Ok(cRITERIA);
         }
+        
 
         protected override void Dispose(bool disposing)
         {
