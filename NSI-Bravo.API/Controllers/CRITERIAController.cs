@@ -63,7 +63,7 @@ namespace AngularJSAuthentication.API.Controllers
 
             if (id != cRITERIA.ID_CRITERIA)
             {
-                return BadRequest();
+                return BadRequest("id doesn't match");
             }
             cRITERIA.DATE_MODIFIED = DateTime.Now;
             db.Entry(cRITERIA).State = EntityState.Modified;
@@ -78,13 +78,9 @@ namespace AngularJSAuthentication.API.Controllers
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(cRITERIA);
         }
 
         // POST: api/CRITERIA/PostCriteria
