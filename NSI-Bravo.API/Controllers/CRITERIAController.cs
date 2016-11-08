@@ -24,13 +24,15 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // GET: api/CRITERIA/GetCriteria/5
-       [HttpGet]
-      
+        [HttpGet]
         [Route("GetCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
+        //Returns a JSON with requested criteria but also returns other parent or child criteria. R
+        // Requested criteria is always at the end of JSON
         public IHttpActionResult GetCriteria(long id)
         {
-            CRITERIA cRITERIA = db.CRITERIA.Find(id);
+           CRITERIA cRITERIA = db.CRITERIA.Find(id);
+            System.Diagnostics.Debug.WriteLine(cRITERIA.ID_CRITERIA);
             if (cRITERIA == null)
             {
                 return NotFound();
