@@ -5,8 +5,8 @@ app.factory('criteriaService', ['$http', '$q', 'localStorageService', 'ngAuthSet
     var criteriaServiceFactory = {};
 
 
-    var _GetAllCriteria = function () {
-        return $http.get(serviceBase + 'api/Criteria/GetAllCriteria/').then(function (response) {
+    var _GetAllMasterCriteria = function () {
+        return $http.get(serviceBase + 'api/Criteria/GetAllMasterCriteria/').then(function (response) {
             return response;
         });
     };
@@ -23,7 +23,7 @@ app.factory('criteriaService', ['$http', '$q', 'localStorageService', 'ngAuthSet
         });
     };
     
-    criteriaServiceFactory.GetAllCriteria = _GetAllCriteria;
+    criteriaServiceFactory.GetAllMasterCriteria = _GetAllMasterCriteria;
     criteriaServiceFactory.GetCriteria = _GetCriteria;
     criteriaServiceFactory.DeleteCriteria = _DeleteCriteria;
     return criteriaServiceFactory;
