@@ -13,17 +13,38 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    public class CriteriaModel
+    {
+        public long ID_CRITERIA { get; set; }
+        public string NAME { get; set; }
+        public string DESCRIPTION { get; set; }
+        public Nullable<int> CRITERIA_LEVEL { get; set; }
+        public Nullable<long> PARENT_CRITERIA { get; set; }
+        public int POINTS { get; set; }
+        public Nullable<System.DateTime> DATE_CREATED { get; set; }
+        public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
+        
+        public CriteriaModel(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, int points,
+                               Nullable<System.DateTime> date_created, Nullable<System.DateTime> date_modified)
+        {
+            ID_CRITERIA = id_criteria;
+            NAME = name;
+            DESCRIPTION = description;
+            CRITERIA_LEVEL = criteria_level;
+            PARENT_CRITERIA = parent_criteria;
+            POINTS = points;
+            DATE_CREATED = date_created;
+            DATE_MODIFIED = date_modified;
+
+        }
+    };
+
     [RoutePrefix("api/Criteria")]
     public class CRITERIAController : ApiController
     {
         private MyEntities db = new MyEntities();
 
-        // GET: api/CRITERIA
-        public IQueryable<CRITERIA> GetCRITERIA()
-        {
-            return db.CRITERIA;
-        }
-
+       
         // GET: api/CRITERIA/GetCriteria/5
         [HttpGet]
         [Route("GetCriteria/{id}")]
@@ -37,7 +58,16 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return NotFound();
             }
-
+            /*var returnData = new
+            {
+                id_criteria = cRITERIA.ID_CRITERIA,
+                name = cRITERIA.NAME,
+                description = cRITERIA.DESCRIPTION,
+                parent_criteria=cRITERIA.PARENT_CRITERIA,
+                points=cRITERIA.POINTS,
+                date_created=cRITERIA.DATE_CREATED,
+                date_modified=cRITERIA.DATE_MODIFIED,
+            };*/
             return Ok(cRITERIA);
         }
 
@@ -47,9 +77,47 @@ namespace AngularJSAuthentication.API.Controllers
         //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllCriteria()
         {
-            return Ok(db.CRITERIA);
+            List<CRITERIA> masterlist = db.CRITERIA.ToList();
+            List<CriteriaModel> temp = new List<CriteriaModel>();
+
+            foreach (CRITERIA crit in masterlist)
+            {
+                temp.Add(new CriteriaModel(crit.ID_CRITERIA,
+                                            crit.NAME,
+                                            crit.DESCRIPTION,
+                                            crit.CRITERIA_LEVEL,
+                                            crit.PARENT_CRITERIA,
+                                            crit.POINTS,
+                                            crit.DATE_CREATED,
+                                            crit.DATE_MODIFIED
+                                            ));
+            }
+            return Ok(temp);
         }
 
+        [HttpGet]
+        [Route("GetAllMasterCriteria")]
+
+        //Returns a JSON with all criteria entries
+        public IHttpActionResult GetAllMasterCriteria()
+        {
+            List<CRITERIA> masterlist = db.CRITERIA.Where(u => u.PARENT_CRITERIA == null).ToList();
+            List<CriteriaModel> temp = new List<CriteriaModel>();
+
+            foreach(CRITERIA crit in masterlist)
+            {
+                temp.Add(new CriteriaModel(crit.ID_CRITERIA,
+                                            crit.NAME,
+                                            crit.DESCRIPTION,
+                                            crit.CRITERIA_LEVEL,
+                                            crit.PARENT_CRITERIA,
+                                            crit.POINTS,
+                                            crit.DATE_CREATED,
+                                            crit.DATE_MODIFIED
+                                            ));
+            }
+            return Ok(temp);
+        }
         // PUT: api/CRITERIA/UpdateCriteria/5
         [HttpPut]
         [Route("UpdateCriteria/{id}")]
