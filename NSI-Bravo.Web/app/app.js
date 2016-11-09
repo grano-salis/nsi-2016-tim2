@@ -38,6 +38,11 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/associate.html"
     });
 
+    $routeProvider.when("/delete/criteria", {
+        controller: "criteriaController",
+        templateUrl: "/app/views/Criteria/deleteCriteria.html"
+    });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
@@ -48,7 +53,7 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
-
+/*
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
 });
@@ -56,5 +61,4 @@ app.config(function ($httpProvider) {
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
-
-
+*/

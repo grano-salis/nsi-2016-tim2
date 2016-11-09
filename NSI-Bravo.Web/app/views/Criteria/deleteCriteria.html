@@ -1,0 +1,50 @@
+﻿<div class="container-fluid">
+    <span class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Master Criteria
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="a in masterCriteria">
+                <a ng-click="getLevelOneCriteria(a)">
+                    {{a.name}}
+                </a>
+            </li>
+        </ul>
+    </span>
+    <span class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="update()">
+            Sub Criteria One
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="a in levelOneCriteria">
+                <a ng-click="getLevelTwoCriteria(a)">
+                    {{a.name}}
+                </a>
+            </li>
+        </ul>
+    </span>
+    <span class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+            Sub Criteria Two
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li ng-repeat="a in masterCriteria">
+                <a ng-click="setCriteria(a)">
+                    {{a.name}}
+                </a>
+            </li>
+        </ul>
+    </span>
+
+</div>
+<br />
+<br />
+<br />
+<br />
+<div class="container-fluid">
+    <button class="btn btn-primary" type="button">
+        Delete Criteria
+    </button>
