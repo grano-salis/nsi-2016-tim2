@@ -13,7 +13,7 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
-    public class masterCriteria
+    public class CriteriaModel
     {
         public long ID_CRITERIA { get; set; }
         public string NAME { get; set; }
@@ -24,7 +24,7 @@ namespace AngularJSAuthentication.API.Controllers
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         
-        public masterCriteria(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, int points,
+        public CriteriaModel(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, int points,
                                Nullable<System.DateTime> date_created, Nullable<System.DateTime> date_modified)
         {
             ID_CRITERIA = id_criteria;
@@ -77,7 +77,22 @@ namespace AngularJSAuthentication.API.Controllers
         //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllCriteria()
         {
-            return Ok(db.CRITERIA);
+            List<CRITERIA> masterlist = db.CRITERIA.ToList();
+            List<CriteriaModel> temp = new List<CriteriaModel>();
+
+            foreach (CRITERIA crit in masterlist)
+            {
+                temp.Add(new CriteriaModel(crit.ID_CRITERIA,
+                                            crit.NAME,
+                                            crit.DESCRIPTION,
+                                            crit.CRITERIA_LEVEL,
+                                            crit.PARENT_CRITERIA,
+                                            crit.POINTS,
+                                            crit.DATE_CREATED,
+                                            crit.DATE_MODIFIED
+                                            ));
+            }
+            return Ok(temp);
         }
 
         [HttpGet]
@@ -87,11 +102,11 @@ namespace AngularJSAuthentication.API.Controllers
         public IHttpActionResult GetAllMasterCriteria()
         {
             List<CRITERIA> masterlist = db.CRITERIA.Where(u => u.PARENT_CRITERIA == null).ToList();
-            List<masterCriteria> temp = new List<masterCriteria>();
+            List<CriteriaModel> temp = new List<CriteriaModel>();
 
             foreach(CRITERIA crit in masterlist)
             {
-                temp.Add(new masterCriteria(crit.ID_CRITERIA,
+                temp.Add(new CriteriaModel(crit.ID_CRITERIA,
                                             crit.NAME,
                                             crit.DESCRIPTION,
                                             crit.CRITERIA_LEVEL,
@@ -100,7 +115,6 @@ namespace AngularJSAuthentication.API.Controllers
                                             crit.DATE_CREATED,
                                             crit.DATE_MODIFIED
                                             ));
-
             }
             return Ok(temp);
         }
