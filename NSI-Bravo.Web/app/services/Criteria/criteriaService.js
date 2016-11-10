@@ -22,9 +22,17 @@ app.factory('criteriaService', ['$http', '$q', 'localStorageService', 'ngAuthSet
             return response;
         });
     };
+
+    var _AddCriteria = function(data) {
+            return $http.post(serviceBase + 'api/Criteria/PostCriteria', user_data).then(function (response) {
+                console.log(response);
+                return response;
+            });
+    };
     
     criteriaServiceFactory.GetAllMasterCriteria = _GetAllMasterCriteria;
     criteriaServiceFactory.GetCriteria = _GetCriteria;
     criteriaServiceFactory.DeleteCriteria = _DeleteCriteria;
+    criteriaServiceFactory.AddCriteria = _AddCriteria;
     return criteriaServiceFactory;
 }]);

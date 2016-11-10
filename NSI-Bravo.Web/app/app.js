@@ -38,9 +38,14 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/associate.html"
     });
 
-    $routeProvider.when("/delete/criteria", {
+    $routeProvider.when("/criteria/delete", {
         controller: "criteriaController",
         templateUrl: "/app/views/Criteria/deleteCriteria.html"
+    });
+
+    $routeProvider.when("/criteria/add", {
+        controller: "addCriteriaController",
+        templateUrl: "/app/views/Criteria/addCriteria.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\associateController.js" />
+    <Content Include="app\controllers\Criteria\addCriteriaController.js" />
     <Content Include="app\controllers\Criteria\criteriaController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
@@ -73,6 +74,7 @@
     <Content Include="app\services\ordersService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
+    <Content Include="app\views\Criteria\addCriteria.html" />
     <Content Include="app\views\Criteria\deleteCriteria.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
