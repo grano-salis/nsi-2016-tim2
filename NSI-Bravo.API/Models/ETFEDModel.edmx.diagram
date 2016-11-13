@@ -4,21 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a02ab5308d99492582949441d702bfb4" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.CRITERIA" Width="1.5" PointX="5.25" PointY="14.375" IsExpanded="true" />
+      <Diagram DiagramId="fb845a5f45284a0ba297ced18f0f0667" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CRITERIA" Width="1.5" PointX="5.25" PointY="15.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.CV_ITEM" Width="1.5" PointX="7.5" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.CV_TABLE" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.LOG" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_ITEM_STATUS" Width="1.5" PointX="5.25" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_TABLE" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.LOG" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
         <AssociationConnector Association="Model.FK_UserClaims_Users" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_UserLogins_Users" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_CV_TABLE_ASP_NET_USER" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_LOG_ASP_NET_USER" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_CRITERIA_CRITERIA1" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_CV_ITEM_CRITERIA1" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_CV_ITEM_STATUS" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_CV_ITEM_CV_ITEM1" ManuallyRouted="false" />
         <AssociationConnector Association="Model.FK_CV_ITEM_CV_TABLE1" ManuallyRouted="false" />
         <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />

@@ -183,6 +183,7 @@
     <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\CRITERIAController.cs" />
     <Compile Include="Controllers\CV_ITEMController.cs" />
+    <Compile Include="Controllers\CV_ITEM_STATUSController.cs" />
     <Compile Include="Controllers\CV_TABLEController.cs" />
     <Compile Include="Controllers\LOGsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -211,6 +212,9 @@
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CV_ITEM.cs">
+      <DependentUpon>ETFEDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CV_ITEM_STATUS.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CV_TABLE.cs">
