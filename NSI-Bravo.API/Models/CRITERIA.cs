@@ -26,7 +26,7 @@ namespace AngularJSAuthentication.API.Models
         public string DESCRIPTION { get; set; }
         public Nullable<int> CRITERIA_LEVEL { get; set; }
         public Nullable<long> PARENT_CRITERIA { get; set; }
-        public int POINTS { get; set; }
+        public Nullable<int> POINTS { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
     

@@ -20,11 +20,11 @@ namespace AngularJSAuthentication.API.Controllers
         public string DESCRIPTION { get; set; }
         public Nullable<int> CRITERIA_LEVEL { get; set; }
         public Nullable<long> PARENT_CRITERIA { get; set; }
-        public int POINTS { get; set; }
+        public Nullable<int> POINTS { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         
-        public CriteriaModel(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, int points,
+        public CriteriaModel(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, Nullable<int> points,
                                Nullable<System.DateTime> date_created, Nullable<System.DateTime> date_modified)
         {
             ID_CRITERIA = id_criteria;
