@@ -1,5 +1,5 @@
 ﻿
-var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
+var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid']);
 
 app.config(function ($routeProvider) {
 
@@ -43,9 +43,9 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/deleteCriteria.html"
     });
 
-    $routeProvider.when("/criteria/add", {
-        controller: "addCriteriaController",
-        templateUrl: "/app/views/Criteria/addCriteria.html"
+    $routeProvider.when("/criteria", {
+        controller: "criteriaController",
+        templateUrl: "/app/views/Criteria/criteria.html"
     });
 
     $routeProvider.otherwise({ redirectTo: "/home" });
