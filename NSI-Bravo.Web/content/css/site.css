@@ -67,24 +67,13 @@ a, a:hover, a:focus{
     padding-top: 20px;
 }
 
+.criteria-button{
+    float:right;
+}
+
 .criteria-dropdowns .dropdown{
     display:inline;
 }
-
-.criteria-add-btn{
-  margin-top: 20px;
-}
-
-.modal-header{
-  background-color: #f5f5f5;
-  border-radius: 2px;
-}
-
-.modal-footer{
-  background-color: #f5f5f5;
-  border-radius: 2px;
-}
-
  /*
  * Global add-ons
  */
