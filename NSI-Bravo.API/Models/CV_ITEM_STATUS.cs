@@ -12,27 +12,17 @@ namespace AngularJSAuthentication.API.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CRITERIA
+    public partial class CV_ITEM_STATUS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CRITERIA()
+        public CV_ITEM_STATUS()
         {
-            this.CRITERIA1 = new HashSet<CRITERIA>();
             this.CV_ITEM = new HashSet<CV_ITEM>();
         }
     
-        public long ID_CRITERIA { get; set; }
-        public string NAME { get; set; }
-        public string DESCRIPTION { get; set; }
-        public Nullable<int> CRITERIA_LEVEL { get; set; }
-        public Nullable<long> PARENT_CRITERIA { get; set; }
-        public Nullable<int> POINTS { get; set; }
-        public Nullable<System.DateTime> DATE_CREATED { get; set; }
-        public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
+        public int ID { get; set; }
+        public string STATUS { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CRITERIA> CRITERIA1 { get; set; }
-        public virtual CRITERIA CRITERIA2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
     }

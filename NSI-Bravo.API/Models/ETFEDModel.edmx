@@ -76,15 +76,24 @@
           <Property Name="ID_ITEM" Type="number" Precision="19" Scale="0" Nullable="false" />
           <Property Name="NAME" Type="varchar2" MaxLength="1000" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
-          <Property Name="CONFIRMED" Type="number" Precision="3" Scale="0" Nullable="false" />
-          <Property Name="MODIFIED" Type="number" Precision="3" Scale="0" Nullable="false" />
           <Property Name="DATE_CREATED" Type="timestamp" Precision="6" />
           <Property Name="DATE_MODIFIED" Type="timestamp" Precision="6" />
           <Property Name="DATE_CONFIRMED" Type="timestamp" Precision="6" />
           <Property Name="OLD_ITEM_ID" Type="number" Precision="19" Scale="0" />
           <Property Name="CV_TABLE_ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="number" Precision="19" Scale="0" />
-          <Property Name="USER_ID_APPROVED" Type="nvarchar2" MaxLength="128" Nullable="true" />
+          <Property Name="USER_ID_APPROVED" Type="nvarchar2" MaxLength="128" />
+          <Property Name="START_DATE" Type="date" />
+          <Property Name="END_DATE" Type="date" />
+          <Property Name="ATTACHMENT_LINK" Type="varchar2" MaxLength="1000" />
+          <Property Name="STATUS_ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CV_ITEM_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="STATUS" Type="varchar2" MaxLength="45" Nullable="false" />
         </EntityType>
         <EntityType Name="CV_TABLE">
           <Key>
@@ -131,6 +140,18 @@
             </Principal>
             <Dependent Role="CV_ITEM">
               <PropertyRef Name="CRITERIA_ID_CRITERIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_CV_ITEM_STATUS">
+          <End Role="CV_ITEM_STATUS" Type="Self.CV_ITEM_STATUS" Multiplicity="1" />
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM_STATUS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV_ITEM">
+              <PropertyRef Name="STATUS_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -246,6 +267,7 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" Schema="NSI02" store:Type="Tables" />
+          <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CV_TABLE" EntityType="Self.CV_TABLE" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="LOG" EntityType="Self.LOG" Schema="NSI02" store:Type="Tables" />
           <AssociationSet Name="FK_CRITERIA_CRITERIA1" Association="Self.FK_CRITERIA_CRITERIA1">
@@ -254,6 +276,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_CV_ITEM_CRITERIA1" Association="Self.FK_CV_ITEM_CRITERIA1">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_CV_ITEM_STATUS" Association="Self.FK_CV_ITEM_CV_ITEM_STATUS">
+            <End Role="CV_ITEM_STATUS" EntitySet="CV_ITEM_STATUS" />
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
           <AssociationSet Name="FK_CV_ITEM_CV_ITEM1" Association="Self.FK_CV_ITEM_CV_ITEM1">
@@ -368,19 +394,30 @@
           <Property Name="ID_ITEM" Type="Int64" Nullable="false" />
           <Property Name="NAME" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="CONFIRMED" Type="Byte" Nullable="false" />
-          <Property Name="MODIFIED" Type="Byte" Nullable="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Precision="6" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="6" />
           <Property Name="DATE_CONFIRMED" Type="DateTime" Precision="6" />
           <Property Name="OLD_ITEM_ID" Type="Int64" />
           <Property Name="CV_TABLE_ID_CV" Type="Int64" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="Int64" />
-          <Property Name="USER_ID_APPROVED" Type="String" />
+          <Property Name="USER_ID_APPROVED" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="START_DATE" Type="DateTime" />
+          <Property Name="END_DATE" Type="DateTime" />
+          <Property Name="ATTACHMENT_LINK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_ID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CRITERIA" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CV_ITEM" ToRole="CRITERIA" />
+          <NavigationProperty Name="CV_ITEM_STATUS" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM" ToRole="CV_ITEM_STATUS" />
           <NavigationProperty Name="CV_ITEM1" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM" ToRole="CV_ITEM1" />
           <NavigationProperty Name="CV_ITEM2" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM1" ToRole="CV_ITEM" />
           <NavigationProperty Name="CV_TABLE" Relationship="Self.FK_CV_ITEM_CV_TABLE1" FromRole="CV_ITEM" ToRole="CV_TABLE" />
+        </EntityType>
+        <EntityType Name="CV_ITEM_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="STATUS" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM_STATUS" ToRole="CV_ITEM" />
         </EntityType>
         <EntityType Name="CV_TABLE">
           <Key>
@@ -485,6 +522,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CV_ITEM_CV_ITEM_STATUS">
+          <End Role="CV_ITEM_STATUS" Type="Self.CV_ITEM_STATUS" Multiplicity="1" />
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM_STATUS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV_ITEM">
+              <PropertyRef Name="STATUS_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CV_ITEM_CV_ITEM1">
           <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="0..1" />
           <End Role="CV_ITEM1" Type="Self.CV_ITEM" Multiplicity="*" />
@@ -520,6 +569,7 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" />
           <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" />
+          <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" />
           <EntitySet Name="CV_TABLE" EntityType="Self.CV_TABLE" />
           <EntitySet Name="LOG" EntityType="Self.LOG" />
           <AssociationSet Name="FK_UserClaims_Users" Association="Self.FK_UserClaims_Users">
@@ -544,6 +594,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_CV_ITEM_CRITERIA1" Association="Self.FK_CV_ITEM_CRITERIA1">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_CV_ITEM_STATUS" Association="Self.FK_CV_ITEM_CV_ITEM_STATUS">
+            <End Role="CV_ITEM_STATUS" EntitySet="CV_ITEM_STATUS" />
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
           <AssociationSet Name="FK_CV_ITEM_CV_ITEM1" Association="Self.FK_CV_ITEM_CV_ITEM1">
@@ -630,8 +684,6 @@
                 <ScalarProperty Name="ID_ITEM" ColumnName="ID_ITEM" />
                 <ScalarProperty Name="NAME" ColumnName="NAME" />
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="CONFIRMED" ColumnName="CONFIRMED" />
-                <ScalarProperty Name="MODIFIED" ColumnName="MODIFIED" />
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
                 <ScalarProperty Name="DATE_CONFIRMED" ColumnName="DATE_CONFIRMED" />
@@ -639,6 +691,18 @@
                 <ScalarProperty Name="CV_TABLE_ID_CV" ColumnName="CV_TABLE_ID_CV" />
                 <ScalarProperty Name="CRITERIA_ID_CRITERIA" ColumnName="CRITERIA_ID_CRITERIA" />
                 <ScalarProperty Name="USER_ID_APPROVED" ColumnName="USER_ID_APPROVED" />
+                <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
+                <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
+                <ScalarProperty Name="ATTACHMENT_LINK" ColumnName="ATTACHMENT_LINK" />
+                <ScalarProperty Name="STATUS_ID" ColumnName="STATUS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CV_ITEM_STATUS">
+            <EntityTypeMapping TypeName="Model.CV_ITEM_STATUS">
+              <MappingFragment StoreEntitySet="CV_ITEM_STATUS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

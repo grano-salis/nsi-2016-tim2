@@ -9,6 +9,11 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
+using System.IO;
+using Microsoft.WindowsAzure.Storage;
+using System.Configuration;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Reflection;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -19,6 +24,13 @@ namespace AngularJSAuthentication.API.Controllers
         // GET: api/CV_ITEM
         public IQueryable<CV_ITEM> GetCV_ITEM()
         {
+            try
+            {
+                UploadToBlobStorage();
+            }catch(Exception e)
+            {
+               //TODO vratiti error 500
+            }
             return db.CV_ITEM;
         }
 
@@ -129,5 +141,33 @@ namespace AngularJSAuthentication.API.Controllers
         {
             return db.CV_ITEM.Count(e => e.ID_ITEM == id) > 0;
         }
+
+        private void UploadToBlobStorage()
+        {
+
+            var cvItemId = 23;
+            var fileExtension = ".zip";
+            var fileName = Path.GetFileName("attachment-" + cvItemId+fileExtension);
+            
+            // string directoryPath = string.Format(@"{0}\{1}", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "attachments");
+            //var directoryPath = Server.MapPath("~/Resources/Attachments/NotificationRuns");
+            string directoryPath = string.Format(@"{0}\{1}", @"C:\", "attachments");
+
+            if (!System.IO.Directory.Exists(directoryPath))
+                System.IO.Directory.CreateDirectory(directoryPath);
+            var path = Path.Combine(directoryPath, fileName);
+            //  model.File.SaveAs(path);
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
+            blobContainer.CreateIfNotExists();
+            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
+            blob.UploadFromFile(path);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
+
+        }
+
     }
 }

@@ -16,7 +16,7 @@ namespace AngularJSAuthentication.API.Models
     public partial class MyEntities : DbContext
     {
         public MyEntities()
-            : base("name=Entities")
+            : base("name=MyEntities")
         {
         }
     
@@ -31,6 +31,7 @@ namespace AngularJSAuthentication.API.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<CRITERIA> CRITERIA { get; set; }
         public virtual DbSet<CV_ITEM> CV_ITEM { get; set; }
+        public virtual DbSet<CV_ITEM_STATUS> CV_ITEM_STATUS { get; set; }
         public virtual DbSet<CV_TABLE> CV_TABLE { get; set; }
         public virtual DbSet<LOG> LOG { get; set; }
     }

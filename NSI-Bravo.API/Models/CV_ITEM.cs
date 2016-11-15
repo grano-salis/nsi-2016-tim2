@@ -23,17 +23,20 @@ namespace AngularJSAuthentication.API.Models
         public long ID_ITEM { get; set; }
         public string NAME { get; set; }
         public string DESCRIPTION { get; set; }
-        public byte CONFIRMED { get; set; }
-        public byte MODIFIED { get; set; }
-        public string USER_ID_APPROVED { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<System.DateTime> DATE_CONFIRMED { get; set; }
         public Nullable<long> OLD_ITEM_ID { get; set; }
         public long CV_TABLE_ID_CV { get; set; }
         public Nullable<long> CRITERIA_ID_CRITERIA { get; set; }
+        public string USER_ID_APPROVED { get; set; }
+        public Nullable<System.DateTime> START_DATE { get; set; }
+        public Nullable<System.DateTime> END_DATE { get; set; }
+        public string ATTACHMENT_LINK { get; set; }
+        public int STATUS_ID { get; set; }
     
         public virtual CRITERIA CRITERIA { get; set; }
+        public virtual CV_ITEM_STATUS CV_ITEM_STATUS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CV_ITEM> CV_ITEM1 { get; set; }
         public virtual CV_ITEM CV_ITEM2 { get; set; }
