@@ -1,54 +1,18 @@
 ﻿<div class="container-fluid">
-    <span class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-            {{deleteMasterShow}}
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li ng-repeat="a in masterCriteria">
-                <a ng-click="getLevelOneCriteria(a)">
-                    {{a.name}}
-                </a>
-            </li>
-        </ul>
-    </span>
-    <span class="dropdown" data-ng-hide="showLevel1 == ''">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" ng-click="update()">
-            {{deleteLevel1Show}}
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li ng-repeat="a in levelOneCriteria">
-                <a ng-click="getLevelTwoCriteria(a)">
-                    {{a.name}}
-                </a>
-            </li>
-        </ul>
-    </span>
-    <span class="dropdown" data-ng-hide="showLevel2 == ''">>
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-            {{deleteLevel2Show}}
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li ng-repeat="a in levelTwoCriteria">
-                <a ng-click="setCriteria(a)">
-                    {{a.name}}
-                </a>
-            </li>
-        </ul>
-    </span>
+    <div ng-show="!showMinDir">
+        <!-- <button ng-click="my_tree.expand_all()" class="btn btn-default btn-sm">Expand All</button> -->
+        <!--<button ng-click="my_tree.collapse_all()" class="btn btn-default btn-sm">Collapse All</button>-->
+        <button ng-click="my_tree.collapse_all()" class="btn btn-primary btn-sm">Add Criteria</button>
 
+        <input class="input-sm pull-right" type="text" data-ng-model="filterString" placeholder="Filter" />
+        <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="1" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+    </div>
 </div>
 <br />
 <br />
 <br />
 <br />
 <div>
-    <div class="container-fluid">
-        <button class="btn btn-primary" type="button" ng-click="deleteCriteria()">
-            Delete Criteria
-    </button>
         <div data-ng-hide="deleteMessage == ''" data-ng-class="(deletedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
             {{deleteMessage}}
         </div>
