@@ -85,6 +85,45 @@ a, a:hover, a:focus{
   border-radius: 2px;
 }
 
+.table-search{
+  height: 45px;
+  width: 100%;
+  border-bottom: 1px solid #EEF1F4;
+}
+
+.quick-search{
+    width: 300px;
+    position: absolute;
+    left: 0;
+    border-right: 1px solid #EEF1F4;
+    z-index: 5;
+}
+
+.form-search {
+    height: 36px;
+    font-size: 14px;
+    background-color: transparent;
+    border-color: transparent;
+    padding-left: 35px;
+}
+
+.form-group i.fa.fa-search{
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  opacity: .35;
+  transform: translateY(-50%);
+  font-size: .85em;
+}
+
+input.form-search:focus{
+  outline:none;
+}
+
+.quick-search .form-group{
+    margin: 0px;
+}
+
  /*
  * Global add-ons
  */

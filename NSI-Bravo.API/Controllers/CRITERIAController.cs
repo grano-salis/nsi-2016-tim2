@@ -77,7 +77,7 @@ namespace AngularJSAuthentication.API.Controllers
         //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllCriteria()
         {
-            List<CRITERIA> masterlist = db.CRITERIA.ToList();
+            List<CRITERIA> masterlist = db.CRITERIA.OrderBy(u => u.ID_CRITERIA).ToList();
             List<CriteriaModel> temp = new List<CriteriaModel>();
 
             foreach (CRITERIA crit in masterlist)

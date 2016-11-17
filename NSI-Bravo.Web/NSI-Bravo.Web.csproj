@@ -88,6 +88,7 @@
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="content\css\site.css" />
     <Content Include="content\css\social-buttons.css" />
+    <Content Include="content\css\treeGrid.css" />
     <Content Include="content\fonts\fontawesome-webfont.svg" />
     <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\fonts\glyphicons-halflings-regular.ttf" />
@@ -112,6 +113,7 @@
     <Content Include="scripts\angular-local-storage.min.js" />
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\loading-bar.min.js" />
+    <Content Include="scripts\tree-grid-directive.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
