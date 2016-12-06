@@ -1,18 +1,20 @@
-<div class="row">
+﻿<div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Criteria <span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="#">My CV Items <span class="sr-only">(current)</span></a></li>
         </ul>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <div class="content-header">
             <div class="col-md-10">
                 <div class="content-title">
-                    <h1>Manage criteria</h1>
+                    <h1>Manage CV Items</h1>
                 </div>
             </div>
             <div class="col-md-2">
-                <button type="button" ng-click="my_tree.collapse_all()" class="btn btn-primary criteria-add-btn" data-toggle="modal" data-target="#addCrModal">Add master criteria</button>
+                <div class="col-md-2">
+                    <a href="#/myCV/add" class="btn btn-primary criteria-add-btn" role="button">Add New CV Item Request</a>
+                </div>
             </div>
         </div>
         <div class="table-search">
@@ -59,13 +61,46 @@
                     <div class="form-group row">
                         <label for="points" class="col-xs-2 col-form-label">Points</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="number" min="0" value="" ng-model="cr.points">
+                            <input class="form-control" type="number" value="" ng-model="cr.points">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-xs-2 col-form-label">Description</label>
                         <div class="col-xs-10">
                             <textarea class="form-control" id="description" rows="3" ng-model="cr.desc"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="parent" class="col-xs-2 col-form-label">Belongs to</label>
+                        <div class="col-xs-10">
+                            <div class="criteria-dropdowns">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        {{first}}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat='cr in firstCriteria'>
+                                            <a ng-click='listSubcriteria(cr)'>
+                                                {{cr.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        {{second}}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="cr in secondCriteria">
+                                            <a ng-click="selectSecondCr(cr)">
+                                                {{cr.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -86,63 +121,49 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit criteria</h4>
+                <h4 class="modal-title">Edit CV Item</h4>
             </div>
             <form>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="name" class="col-xs-2 col-form-label">Name</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="text" value="" ng-model="editCr.name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="points" class="col-xs-2 col-form-label">Points</label>
-                        <div class="col-xs-10">
-                            <input class="form-control" type="number" value="" ng-model="editCr.points">
+                            <input class="form-control" type="text" value="" ng-model="cr.name">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-xs-2 col-form-label">Description</label>
                         <div class="col-xs-10">
-                            <textarea class="form-control" id="description" rows="3" ng-model="editCr.desc"></textarea>
+                            <textarea class="form-control" id="description" rows="3" ng-model="cr.desc"></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="editCriteria(editCr)" data-dismiss="modal">Edit</button>
-                </div>
+
+
+                    <div class="form-group row">
+                        <label for="points" class="col-xs-2 col-form-label">Start Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="cr.points">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="points" class="col-xs-2 col-form-label">End Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="cr.points">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Selected criteria</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="text" readonly value="" ng-model="addCr.name">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" ng-click="addCriteria(cr)" data-dismiss="modal">Add</button>
+                    </div>
             </form>
-        </div>
-
-    </div>
-</div>
-
-
-
-<div id="delCrModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Delete criteria</h4>
-            </div>
-            <div>
-                <div class="modal-body ">
-
-                    <div class="text-left">
-                    </div>
-                    <div class="text-center">
-                        <div class="text-danger text-large"><h2>Are you sure you want to proceed with deletion of <span class="text-primary">{{editCr.name}}</span> ?</h2></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" ng-click="deleteCriteria(editCr.id);" data-dismiss="modal">Yes</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal">No</button>
-                </div>
-            </div>
         </div>
 
     </div>

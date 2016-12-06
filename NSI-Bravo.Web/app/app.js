@@ -43,6 +43,16 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/criteria.html"
     });
 
+    $routeProvider.when("/myCV/add", {
+        controller: "requestsController",
+        templateUrl: "/app/views/Criteria/requests.html"
+    });
+
+
+    $routeProvider.when("/myCV", {
+        controller: "myCVController",
+        templateUrl: "/app/views/Criteria/myCV.html"
+    });
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
