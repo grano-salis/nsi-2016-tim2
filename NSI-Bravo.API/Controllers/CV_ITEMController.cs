@@ -14,12 +14,68 @@ using Microsoft.WindowsAzure.Storage;
 using System.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Reflection;
+using System.Web;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/CVitem")]
     public class CV_ITEMController : ApiController
     {
         private MyEntities db = new MyEntities();
+        // POST: api/CV_ITEM
+        [HttpPost]
+        [Route("Create")]
+
+        public IHttpActionResult PostCV_ITEM(CV_ITEM item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
+
+
+            var extension = Path.GetExtension(item.ATTACHMENT_LINK);
+            //file must be one of these extensions
+            string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+            if (!_supportedExtensions.Contains(extension))
+            {
+                return BadRequest("File not supported");
+            }
+            string identifier = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string path = "attachment-" + identifier + extension;
+            var fileName = Path.GetFileName(path);
+
+            blobContainer.CreateIfNotExists();
+            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
+
+            blob.UploadFromFile(item.ATTACHMENT_LINK);
+
+          
+
+            //saving CV_item to database
+            db.CV_ITEM.Add(item);
+
+            db.Database.Log = s =>
+            {
+                // You can put a breakpoint here and examine s with the TextVisualizer
+                // Note that only some of the s values are SQL statements
+                Debug.Print(s);
+            };
+            db.SaveChanges();
+            
+
+
+            return Ok($"File: {fileName} has successfully uploaded");
+
+        }
+
 
         // GET: api/CV_ITEM
         public IQueryable<CV_ITEM> GetCV_ITEM()
@@ -82,35 +138,7 @@ namespace AngularJSAuthentication.API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CV_ITEM
-        [ResponseType(typeof(CV_ITEM))]
-        public IHttpActionResult PostCV_ITEM(CV_ITEM cV_ITEM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.CV_ITEM.Add(cV_ITEM);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CV_ITEMExists(cV_ITEM.ID_ITEM))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = cV_ITEM.ID_ITEM }, cV_ITEM);
-        }
+   
 
         // DELETE: api/CV_ITEM/5
         [ResponseType(typeof(CV_ITEM))]
@@ -170,4 +198,41 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
     }
+    public class AzureStorageMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
+    {
+        private readonly CloudBlobContainer _blobContainer;
+       // private readonly string[] _supportedMimeTypes = { "images/png", "images/jpeg", "images/jpg" };
+
+        public AzureStorageMultipartFormDataStreamProvider(CloudBlobContainer blobContainer) : base("AzureAttachmentsStorage")
+        {
+            _blobContainer = blobContainer;
+        }
+
+        public override Stream GetStream(HttpContent parent, HttpContentHeaders headers)
+        {
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            if (headers == null) throw new ArgumentNullException(nameof(headers));
+            var a = parent;
+           /* if (!_supportedMimeTypes.Contains(headers.ContentType.ToString().ToLower()))
+            {
+                throw new NotSupportedException("Only jpeg and png are supported");
+            }*/
+
+            // Generate a new filename for every new blob
+            var fileName = Guid.NewGuid().ToString();
+
+            CloudBlockBlob blob = _blobContainer.GetBlockBlobReference(fileName);
+
+            if (headers.ContentType != null)
+            {
+                // Set appropriate content type for your uploaded file
+                blob.Properties.ContentType = headers.ContentType.MediaType;
+            }
+
+            this.FileData.Add(new MultipartFileData(headers, blob.Name));
+
+            return blob.OpenWrite();
+        }
+    }
+
 }
