@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2016-12-06T22:30:30.905Z",
+	"__export_date": "2016-12-07T10:07:29.173Z",
 	"__export_source": "insomnia.desktop.app:v4.0.5",
 	"resources": [
 		{
@@ -55,14 +55,14 @@
 		{
 			"_id": "req_2eb23954711045f884a0819fddb6925b",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1481061390395,
+			"modified": 1481105077728,
 			"created": 1481045773570,
 			"url": "http://localhost:26264/api/CVitem/Create",
 			"name": "create CVitem",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"ID_ITEM\": 4,\n    \"NAME\": \"Stavka 1 \",\n    \"DESCRIPTION\": \"glupa stavka\",\n\t\"CV_TABLE_ID_CV\":2,\n\t\"USER_ID_APPROVED\": 2,\n\t\"ATTACHMENT_LINK\": \"C:/Users/User/Desktop/neki.zip\",\n\t\"STATUS_ID\": 1\n}"
+				"text": "{\n\t\"ID_ITEM\": 0,\n    \"NAME\": \"Stavka 1 \",\n    \"DESCRIPTION\": \"glupa stavka\",\n\t\"CV_TABLE_ID_CV\":3,\n\t\"USER_ID_APPROVED\": 2,\n\t\"ATTACHMENT_LINK\": \"C:/Users/User/Desktop/neki.zip\",\n\t\"STATUS_ID\": 2\n}"
 			},
 			"parameters": [],
 			"headers": [

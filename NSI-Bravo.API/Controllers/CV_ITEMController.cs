@@ -57,7 +57,7 @@ namespace AngularJSAuthentication.API.Controllers
 
             blob.UploadFromFile(item.ATTACHMENT_LINK);
 
-          
+            item.ATTACHMENT_LINK = blob.Uri.ToString();
 
             //saving CV_item to database
             db.CV_ITEM.Add(item);
@@ -69,8 +69,6 @@ namespace AngularJSAuthentication.API.Controllers
                 Debug.Print(s);
             };
             db.SaveChanges();
-            
-
 
             return Ok($"File: {fileName} has successfully uploaded");
 
