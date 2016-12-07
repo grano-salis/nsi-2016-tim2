@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2016-12-07T10:07:29.173Z",
+	"__export_date": "2016-12-07T16:56:15.443Z",
 	"__export_source": "insomnia.desktop.app:v4.0.5",
 	"resources": [
 		{
@@ -53,6 +53,46 @@
 			"_type": "request_group"
 		},
 		{
+			"_id": "req_027b0c43e5a74ea6826467a2cea117da",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129642340,
+			"created": 1481122414722,
+			"url": "http://localhost:26264/api/CVitem/Update/52",
+			"name": "Put CVitem",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"ID_ITEM\": 52,\n    \"NAME\": \"Stavka 1 updateddd\",\n    \"DESCRIPTION\": \"glupa stavka\",\n\t\"CV_TABLE_ID_CV\":3,\n\t\"USER_ID_APPROVED\": 2,\n\t\"ATTACHMENT_LINK\": \"C:/Users/User/Desktop/neki.zip\",\n\t\"STATUS_ID\": 2\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1481122414722,
+			"_type": "request"
+		},
+		{
+			"_id": "req_10515f1af6fd40baa55720c0dd306727",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129597988,
+			"created": 1481119674042,
+			"url": "http://localhost:26264/api/CVitem/Get/51",
+			"name": "Get CVitem",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1481119674042,
+			"_type": "request"
+		},
+		{
 			"_id": "req_2eb23954711045f884a0819fddb6925b",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
 			"modified": 1481105077728,
@@ -73,6 +113,46 @@
 			],
 			"authentication": {},
 			"metaSortKey": 1001001,
+			"_type": "request"
+		},
+		{
+			"_id": "req_3573f94f48b44bc0a672a81799a172c8",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129662809,
+			"created": 1481129512922,
+			"url": "http://localhost:26264/api/CVitem/Delete/52",
+			"name": "Delete CVitem",
+			"method": "DELETE",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1481122414772,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6ec4d79108b44067a625aa47efadc11b",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481119686020,
+			"created": 1481116189145,
+			"url": "http://localhost:26264/api/CVitem/GetAll/3",
+			"name": "get all CVitem",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1481116189145,
 			"_type": "request"
 		},
 		{
