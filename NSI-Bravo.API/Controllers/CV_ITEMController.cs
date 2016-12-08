@@ -14,56 +14,175 @@ using Microsoft.WindowsAzure.Storage;
 using System.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Reflection;
+using System.Web;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/CVitem")]
     public class CV_ITEMController : ApiController
     {
         private MyEntities db = new MyEntities();
 
-        // GET: api/CV_ITEM
-        public IQueryable<CV_ITEM> GetCV_ITEM()
-        {
-            try
-            {
-                UploadToBlobStorage();
-            }catch(Exception e)
-            {
-               //TODO vratiti error 500
-            }
-            return db.CV_ITEM;
-        }
 
-        // GET: api/CV_ITEM/5
-        [ResponseType(typeof(CV_ITEM))]
-        public IHttpActionResult GetCV_ITEM(long id)
-        {
-            CV_ITEM cV_ITEM = db.CV_ITEM.Find(id);
-            if (cV_ITEM == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cV_ITEM);
-        }
-
-        // PUT: api/CV_ITEM/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCV_ITEM(long id, CV_ITEM cV_ITEM)
+        //Insert CV_ITEM into database and upload to azure blob storage
+        //Route: http://localhost:26264/api/CVitem/Create
+        [HttpPost]
+        [Route("Create")]
+        public IHttpActionResult PostCV_ITEM(CV_ITEM item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cV_ITEM.ID_ITEM)
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
+
+
+            var extension = Path.GetExtension(item.ATTACHMENT_LINK);
+            //file must be one of these extensions
+            string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+            if (!_supportedExtensions.Contains(extension))
             {
-                return BadRequest();
+                return BadRequest("File not supported");
+            }
+            string identifier = Guid.NewGuid().ToString();
+            var userId = 10;
+            string path = userId+"-" + identifier + extension;
+            var fileName = Path.GetFileName(path);
+
+            blobContainer.CreateIfNotExists();
+            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
+
+            blob.UploadFromFile(item.ATTACHMENT_LINK);
+            item.ATTACHMENT_LINK = blob.Uri.ToString();
+           
+            //saving CV_item to database
+            db.CV_ITEM.Add(item);
+           
+            db.Database.Log = s =>
+            {
+                // You can put a breakpoint here and examine s with the TextVisualizer
+                // Note that only some of the s values are SQL statements
+                Debug.Print(s);
+            };
+            db.SaveChanges();
+            //string a = item.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+            // blob = blobContainer.GetBlockBlobReference(a);
+            // blob.DeleteIfExists();
+            return Ok($"File: {fileName} has successfully uploaded");
+
+        }
+
+        //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
+        //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
+        [HttpGet]
+        [Route("GetAll/{ID_CV}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetAllItems(long ID_CV)
+        {
+            List<CV_ITEM> temp = new List<CV_ITEM>();
+            try
+            {
+                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV).ToList();
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp); ;
+        }
+
+        //Get CV_ITEM via ID_ITEM
+        //Route e.g. : http://localhost:26264/api/CVitem/Get/42
+        [HttpGet]
+        [Route("Get/{ID_ITEM}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetCV_ITEM(long ID_ITEM)
+        {
+            CV_ITEM temp = new CV_ITEM();
+            try {
+               temp = db.CV_ITEM.Find(ID_ITEM);
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp);
+        }
+
+
+        [HttpPut]
+        [Route("Update/{id}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutCV_ITEM(long id, CV_ITEM item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
-            db.Entry(cV_ITEM).State = EntityState.Modified;
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
 
+            if (id != item.ID_ITEM)
+            {
+                return BadRequest("id doesn't match");
+            }
+            CV_ITEM temp = new CV_ITEM();
             try
+            {
+                //AsNOTracking(): no caching of in DBcontext or ObjectContext. 
+                //Without this, internal server error happens when saving to database
+                temp = db.CV_ITEM.AsNoTracking().First(a => a.ID_ITEM == id);
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+           
+            if (item.ATTACHMENT_LINK != null)
+            {
+                var extension = Path.GetExtension(item.ATTACHMENT_LINK);
+                //file must be one of these extensions
+                string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+                if (!_supportedExtensions.Contains(extension))
+                {
+                    return BadRequest("File not supported");
+                }
+                //gets blob reference of CV_ITEM currently in database
+                               
+                if (temp.ATTACHMENT_LINK != null)
+                {
+                    string a = temp.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                    blobContainer.CreateIfNotExists();
+                    CloudBlockBlob blob = blobContainer.GetBlockBlobReference(a);
+
+                    //delete old ATTACHMENT_LINK from blob storage 
+                    blob.DeleteIfExists();
+                }
+
+                //generate new filename
+                string identifier = Guid.NewGuid().ToString();
+                var userId = 10;
+                string path = userId + "-" + identifier + extension;
+                var fileName = Path.GetFileName(path);
+
+                //upload new attachment
+                CloudBlockBlob blob1 = blobContainer.GetBlockBlobReference(fileName);
+                blob1.UploadFromFile(item.ATTACHMENT_LINK);
+                item.ATTACHMENT_LINK = blob1.Uri.ToString();
+            }
+
+            //saving to database                   
+            db.Entry(item).State = EntityState.Modified;
+           
+           try
             {
                 db.SaveChanges();
             }
@@ -79,40 +198,13 @@ namespace AngularJSAuthentication.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(item);
         }
 
-        // POST: api/CV_ITEM
-        [ResponseType(typeof(CV_ITEM))]
-        public IHttpActionResult PostCV_ITEM(CV_ITEM cV_ITEM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+   
 
-            db.CV_ITEM.Add(cV_ITEM);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CV_ITEMExists(cV_ITEM.ID_ITEM))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = cV_ITEM.ID_ITEM }, cV_ITEM);
-        }
-
-        // DELETE: api/CV_ITEM/5
+        [HttpDelete]
+        [Route("Delete/{id}")]
         [ResponseType(typeof(CV_ITEM))]
         public IHttpActionResult DeleteCV_ITEM(long id)
         {
@@ -121,7 +213,20 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return NotFound();
             }
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
 
+
+            if (cV_ITEM.ATTACHMENT_LINK != null)
+            {
+                string a = cV_ITEM.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                blobContainer.CreateIfNotExists();
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(a);
+
+                //delete file(ATTACHMENT_LINK) from blob storage 
+                blob.DeleteIfExists();
+            }
             db.CV_ITEM.Remove(cV_ITEM);
             db.SaveChanges();
 
@@ -170,4 +275,7 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
     }
+    
+    
+
 }

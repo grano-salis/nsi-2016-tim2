@@ -160,6 +160,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+	<Content Include="Models\*.*"></Content>
     <Content Include="Models\ETFEDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
