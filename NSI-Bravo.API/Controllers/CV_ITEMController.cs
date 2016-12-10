@@ -18,6 +18,7 @@ using System.Web;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -31,53 +32,79 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVitem/Create
         [HttpPost]
         [Route("Create")]
-        public IHttpActionResult PostCV_ITEM(CV_ITEM item)
+        public async Task<IHttpActionResult> PostCV_ITEM()
         {
-            if (!ModelState.IsValid)
+
+
+            if (!Request.Content.IsMimeMultipartContent())
             {
-                return BadRequest(ModelState);
+                this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
+            CV_ITEM cv = new CV_ITEM();
+         
+            try {
+                string root = HttpContext.Current.Server.MapPath("~/App_Data");
+                var provider = new MultipartFormDataStreamProvider(root);
+                await Request.Content.ReadAsMultipartAsync(provider);
 
+                //lopp for going trough all key:values pairs
+                /* foreach (var key in provider.FormData.AllKeys)
+                 {
+                     //next loop is used for the case when one key has multiple values
+                     foreach (var val in provider.FormData.GetValues(key))
+                     {
+                     }
+                 }*/
+                cv.NAME = provider.FormData.GetValues("NAME").First();
+                cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
+                cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
+                cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
+                cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
+                cv.STATUS_ID = 2;
+                cv.DATE_CREATED = DateTime.Now;
 
-            var extension = Path.GetExtension(item.ATTACHMENT_LINK);
-            //file must be one of these extensions
-            string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
-            if (!_supportedExtensions.Contains(extension))
-            {
-                return BadRequest("File not supported");
+                if (provider.FileData.Count > 0)
+                {
+                    string uploadedFile = "";
+                    string localfilename = "";
+
+                    //loop for multiple files if needed
+                    foreach (var file in provider.FileData)
+                    {
+                        //deletes "" / signs in filename
+                        uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
+                        localfilename = file.LocalFileName;
+                    }
+                    var userId = 10;
+                    string identifier = Guid.NewGuid().ToString();
+                    var extension = Path.GetExtension(uploadedFile);
+                    string path = userId + "-" + identifier + extension;
+                    var fileName = Path.GetFileName(path);
+
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
+
+                    blobContainer.CreateIfNotExists();
+                    CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
+                    //localfilename: path of the file on server
+                    blob.UploadFromFile(localfilename);
+                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                }
             }
-            string identifier = Guid.NewGuid().ToString();
-            var userId = 10;
-            string path = userId+"-" + identifier + extension;
-            var fileName = Path.GetFileName(path);
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
 
-            blobContainer.CreateIfNotExists();
-            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
-
-            blob.UploadFromFile(item.ATTACHMENT_LINK);
-            item.ATTACHMENT_LINK = blob.Uri.ToString();
-           
             //saving CV_item to database
-            db.CV_ITEM.Add(item);
-           
-            db.Database.Log = s =>
-            {
-                // You can put a breakpoint here and examine s with the TextVisualizer
-                // Note that only some of the s values are SQL statements
-                Debug.Print(s);
-            };
+            db.CV_ITEM.Add(cv);
             db.SaveChanges();
-            //string a = item.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
-            // blob = blobContainer.GetBlockBlobReference(a);
-            // blob.DeleteIfExists();
-            return Ok($"File: {fileName} has successfully uploaded");
+            return Ok(cv);
 
         }
-
         //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
         //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
         [HttpGet]
