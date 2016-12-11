@@ -1,7 +1,7 @@
 ﻿'use strict';
 
-app.controller('requestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route) {
-    //START DeleteCriteria
+app.controller('requestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, requestService, $route) {
+    //Initial Variables :
     $scope.data = new Array();
     $scope.tree_data = new Array();
     var rawTreeData = new Array();
@@ -10,12 +10,13 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
     $scope.my_tree = tree = {};
     var myTreeData = new Array();
 
+    // Tree for Criteria
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<i>{{row.branch[expandingProperty.field]}}</i>"
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
     };
 
     $scope.col_defs = [
@@ -47,7 +48,6 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
 
     $scope.my_tree_handler = function (branch) {
         console.log('you clicked on', branch);
-        $scope.getMasterCriteria();
     }
 
     function clearTable() {
@@ -63,7 +63,7 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
 
         clearTable();
 
-        criteriaService.GetAllCriteria().then(function (response) {
+        requestService.GetAllCriteria().then(function (response) {
 
             data = response.data;
             for (var i = 0; i < data.length; i++) {
@@ -78,7 +78,7 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
                 criterion.id = data[i].iD_CRITERIA;
                 criterion.title = data[i].name;
                 criterion.parent_id = data[i].parenT_CRITERIA;
-                var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
                 if (date !== null)
                     criterion.created = date;
                 criterion.points = data[i].points;
@@ -93,10 +93,6 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
     };
 
     GetAllCriteria();
-
-    $scope.alarmAll = function () {
-        alert(1);
-    }
 
     function getTree(data, primaryIdName, parentIdName) {
 
@@ -136,127 +132,38 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
         };
         return tree;
     }
+    // Tree for CriteriaEnd
 
+    //Add New CV Item
 
-    $scope.deletedSuccessfully = false;
-    $scope.deleteMessage = "";
-
-    $scope.deleteCriteria = function (currentCriteria) {
-        criteriaService.DeleteCriteria(currentCriteria).then(function (response) {
-
-            $scope.deletedSuccessfully = true;
-            //$scope.deleteMessage = "Uspjesno ste izbrisali dati kriterij.";
-            GetAllCriteria();
-
-        },
-         function (response) {
-             $scope.deleteMessage = "Failed to delete:" + response.data.message;
-             startTimerX();
-         });
-    };
-
-    var startTimerX = function () {
-        var timer = $timeout(function () {
-            $timeout.cancel(timer);
-            $scope.deleteMessage = "";
-        }, 1000);
-
-    };
-
-    $scope.editCriteria = function (cr) {
-        $log.log(cr);
+    $scope.addCVItem = function (cr) {
         var data = {};
         data.NAME = cr.name;
         data.DESCRIPTION = cr.desc;
-        data.POINTS = cr.points;
-        data.ID_CRITERIA = cr.id;
-        data.PARENT_CRITERIA = cr.parent_id;
-
-        criteriaService.UpdateCriteria(cr.id, data).then(function (response) {
-            $log.log(response);
-            GetAllCriteria();
-        });
-    };
-
-    $scope.first = "Criteria";
-    $scope.second = "Subcategory";
-    $scope.selectedCr;
-    $scope.firstCriteria = [];
-    $scope.secondCriteria = [];
-
-    $scope.getMasterCriteria = function () {
-
-        $scope.firstCriteria = [];
-
-        criteriaService.GetAllMasterCriteria().then(function (response) {
-            var data = response.data;
-            for (var i = 0; i < data.length; i++) {
-                var criterion = {};
-                criterion.id = data[i].iD_CRITERIA;
-                criterion.name = data[i].name;
-                if (criterion.name != null)
-                    $scope.firstCriteria.push(criterion);
-                $log.log(criterion);
-            }
-
-        });
-    };
-    $scope.getMasterCriteria();
-
-    $scope.listSubcriteria = function (cr) {
-
-        $scope.first = cr.name;
-        $scope.second = 'Subcategory';
-        $scope.selectedCr = cr.id;
-        $log.log(cr.id);
-        var subcriteria = [];
-        criteriaService.GetCriteria(cr.id).then(function (response) {
-            var data = response.data;
-            for (var i = 0; i < data.criteriA1.length; i++) {
-                var criterion = {};
-                criterion.id = data.criteriA1[i].iD_CRITERIA;
-                criterion.name = data.criteriA1[i].name;
-                if (criterion.name != null) {
-                    subcriteria.push(criterion);
-                }
-            }
-            $log.log('sub' + subcriteria);
-            if (subcriteria.length > 0) {
-                $scope.secondCriteria = subcriteria;
-                $log.log($scope.secondCriteria);
-            }
-        });
-
-    };
-
-
-    $scope.addCriteria = function (cr) {
-        var data = {};
-        data.NAME = cr.name;
-        data.DESCRIPTION = cr.desc;
-        data.POINTS = cr.points;
-        data.PARENT_CRITERIA = $scope.selectedCr;
-        criteriaService.AddCriteria(data).then(function (response) {
+        data.START_DATE = cr.startDate;
+        data.END_DATE = cr.endDate;
+        data.ATTACHMENT_LINK = "C:/Users/Aeternus/Desktop/a.zip";
+        data.CRITERIA_ID_CRITERIA = $scope.addCr.id;
+        // FORCED FOR THE MOMENT
+        data.CV_TABLE_ID_CV = 3;
+        data.STATUS_ID = 2;
+        // END OF FORCED DATA
+        requestService.AddCV(data).then(function (response) {
             $log.log(response);
             $scope.clearForm();
             GetAllCriteria();
         });
     };
 
-    $scope.selectSecondCr = function (cr) {
-        $scope.second = cr.name;
-        $scope.selectedCr = cr.id;
+    $scope.filetest = function (test) {
+        alert(test);
     };
 
     $scope.clearForm = function () {
         //clear form
         $scope.cr = {};
-        $scope.first = "Criteria";
-        $scope.second = "Subcategory";
+        $scope.addCr = {};
         $scope.selectedCr = null;
-        $scope.secondCriteria = [];
-        $scope.firstCriteria = [];
-        $scope.getMasterCriteria();
     };
 
     //END DeleteCriteria

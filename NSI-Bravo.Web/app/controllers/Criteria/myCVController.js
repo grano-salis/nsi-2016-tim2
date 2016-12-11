@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route) {
-    //START DeleteCriteria
+    // MY CV TABLE
     $scope.data = new Array();
     $scope.tree_data = new Array();
     var rawTreeData = new Array();
@@ -9,16 +9,128 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     var tree;
     $scope.my_tree = tree = {};
     var myTreeData = new Array();
-
+    $scope.editCriteriaFull = new Array();
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<i>{{row.branch[expandingProperty.field]}}</i>"
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
     };
 
     $scope.col_defs = [
+        {
+            field: "link",
+            displayName: "Attachment link",
+            sortable: true,
+            cellTemplate: "<a href='{{ row.branch[col.field] }}' >Download</a>",
+            sortingType: "number",
+            filterable: true
+        },
+        {
+            field: "Actions",
+            displayName: "Actions",
+            cellTemplate: "<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
+            cellTemplateScope: {
+                clickEdit: function (branch) {
+                    $scope.editCr = branch;
+                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                        $scope.editCriteriaFull = response.data;
+                        $scope.editCriteria = $scope.editCriteriaFull.name;
+                        console.log($scope.editCriteriaFull.name);
+                    });
+
+                },
+                clickDel: function (branch) {
+                    $scope.delCr = branch;
+                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                        $scope.delCriteriaFull = response.data;
+                        $scope.delCriteria = $scope.editCriteriaFull.name;
+                        console.log($scope.editCriteriaFull.name);
+                    });
+                }
+            }
+        }
+    ];
+
+    $scope.my_tree_handler = function (branch) {
+        console.log('you clicked on', branch);
+    }
+
+    function clearTable() {
+        $scope.data = [];
+        $scope.tree_data = [];
+        rawTreeData = [];
+        data = [];
+        $scope.my_tree = tree = {};
+        myTreeData = [];
+    };
+
+    function GetMyCVs() {
+        clearTable();
+        // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
+        criteriaService.GetMyCVs(3).then(function (response) {
+            data = response.data;
+            for (var i = 0; i < data.length; i++) {
+
+                var cv_item = {
+                    id: "",
+                    title: "",
+                    description: "",
+                    link: "",
+                    user_cv_id: "",
+                    criteria_id: "",
+                    start_date: "",
+                    end_date: ""
+                }
+                cv_item.id = data[i].iD_ITEM;
+                cv_item.title = data[i].name;
+                cv_item.description = data[i].description;
+                cv_item.link = data[i].attachmenT_LINK;
+                cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
+                cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
+
+                var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
+                cv_item.start_date = date;
+                date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
+                cv_item.end_date = date;
+                /*
+                    var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                    if (date !== null)
+                        criterion.created = date;
+                */
+                if (cv_item.title != null) {
+                    rawTreeData.push(cv_item);
+                }
+            }
+            console.log(rawTreeData);
+            myTreeData = rawTreeData;
+                //getTree(rawTreeData, 'id', 'parent_id');
+            $scope.tree_data = myTreeData;
+        });
+    };
+
+    GetMyCVs();
+    // MY CV TABLE END
+
+
+    //MYcv Edit Criteria Choose
+    $scope.tree_dataCrit = new Array();
+    var rawTreeDataCrit = new Array();
+    var treeCrit;
+    $scope.my_treeCrit = treeCrit = {};
+    var myTreeDataCrit = new Array();
+
+    // Tree for Criteria
+    $scope.expanding_propertyCrit = {
+        field: "title",
+        displayName: "Name",
+        sortable: true,
+        filterable: true,
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+    };
+
+    $scope.col_defsCrit = [
         {
             field: "created",
             displayName: "Created",
@@ -35,15 +147,14 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' >Delete</button>",
+            cellTemplate: "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal' >Select</button>",
             cellTemplateScope: {
-                clickEdit: function (branch) {
-                    $log.log(branch);
-                    $scope.editCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id };
-                },
-                clickDel: function (branch) {
-                    $scope.delCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id };
-                    $scope.deleteCriteria(branch.id);
+                clickAdd: function (branch) {
+                    criteriaService.GetCriteria(branch.id).then(function (response) {
+                        $scope.editCriteriaFull = response.data;
+                        $scope.editCriteria = $scope.editCriteriaFull.name;
+                        console.log($scope.editCriteriaFull.name);
+                    });
                 }
             }
         }
@@ -51,25 +162,24 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
 
     $scope.my_tree_handler = function (branch) {
         console.log('you clicked on', branch);
-        $scope.getMasterCriteria();
     }
 
-    function clearTable() {
-        $scope.data = [];
-        $scope.tree_data = [];
-        rawTreeData = [];
+    function clearTableCrit() {
+        $scope.dataCrit = [];
+        $scope.tree_dataCrit = [];
+        rawTreeDataCrit = [];
         data = [];
-        $scope.my_tree = tree = {};
-        myTreeData = [];
+        $scope.my_treeCrit = tree = {};
+        myTreeDataCrit = [];
     };
 
     function GetAllCriteria() {
 
-        clearTable();
+        clearTableCrit();
 
         criteriaService.GetAllCriteria().then(function (response) {
 
-            data = response.data;
+            var data = response.data;
             for (var i = 0; i < data.length; i++) {
 
                 var criterion = {
@@ -82,25 +192,21 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 criterion.id = data[i].iD_CRITERIA;
                 criterion.title = data[i].name;
                 criterion.parent_id = data[i].parenT_CRITERIA;
-                var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
                 if (date !== null)
                     criterion.created = date;
                 criterion.points = data[i].points;
                 if (criterion.title != null) {
-                    rawTreeData.push(criterion);
+                    rawTreeDataCrit.push(criterion);
                 }
             }
             console.log(rawTreeData);
-            myTreeData = getTree(rawTreeData, 'id', 'parent_id');
-            $scope.tree_data = myTreeData;
+            myTreeDataCrit = getTree(rawTreeDataCrit, 'id', 'parent_id');
+            $scope.tree_dataCrit = myTreeDataCrit;
         });
     };
 
     GetAllCriteria();
-
-    $scope.alarmAll = function () {
-        alert(1);
-    }
 
     function getTree(data, primaryIdName, parentIdName) {
 
@@ -140,44 +246,30 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         };
         return tree;
     }
+    // Tree for CriteriaEnd
 
 
-    $scope.deletedSuccessfully = false;
-    $scope.deleteMessage = "";
 
-    $scope.deleteCriteria = function (currentCriteria) {
-        criteriaService.DeleteCriteria(currentCriteria).then(function (response) {
 
-            $scope.deletedSuccessfully = true;
-            //$scope.deleteMessage = "Uspjesno ste izbrisali dati kriterij.";
-            GetAllCriteria();
 
-        },
-         function (response) {
-             $scope.deleteMessage = "Failed to delete:" + response.data.message;
-             startTimerX();
-         });
-    };
+    //MYCV Edit Criteria Choose END
 
-    var startTimerX = function () {
-        var timer = $timeout(function () {
-            $timeout.cancel(timer);
-            $scope.deleteMessage = "";
-        }, 1000);
-
-    };
-
-    $scope.editCriteria = function (cr) {
-        $log.log(cr);
+    $scope.editCVItem = function (cr) {
         var data = {};
-        data.NAME = cr.name;
-        data.DESCRIPTION = cr.desc;
-        data.POINTS = cr.points;
-        data.ID_CRITERIA = cr.id;
-        data.PARENT_CRITERIA = cr.parent_id;
-
-        criteriaService.UpdateCriteria(cr.id, data).then(function (response) {
+        data.ID_ITEM = cr.id;
+        data.NAME = cr.title;
+        data.DESCRIPTION = cr.description;
+        data.START_DATE = cr.start_date;
+        data.END_DATE = cr.end_date;
+        data.ATTACHMENT_LINK = "C:/Users/Aeternus/Desktop/a.zip";
+        data.CRITERIA_ID_CRITERIA = $scope.editCriteriaFull.iD_CRITERIA;
+        // FORCED FOR THE MOMENT
+        data.CV_TABLE_ID_CV = 3;
+        data.STATUS_ID = 2;
+        // END OF FORCED DATA
+        criteriaService.EditCVItem(cr.id,data).then(function (response) {
             $log.log(response);
+            $scope.clearForm();
             GetAllCriteria();
         });
     };
@@ -188,70 +280,6 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     $scope.firstCriteria = [];
     $scope.secondCriteria = [];
 
-    $scope.getMasterCriteria = function () {
-
-        $scope.firstCriteria = [];
-
-        criteriaService.GetAllMasterCriteria().then(function (response) {
-            var data = response.data;
-            for (var i = 0; i < data.length; i++) {
-                var criterion = {};
-                criterion.id = data[i].iD_CRITERIA;
-                criterion.name = data[i].name;
-                if (criterion.name != null)
-                    $scope.firstCriteria.push(criterion);
-                $log.log(criterion);
-            }
-
-        });
-    };
-    $scope.getMasterCriteria();
-
-    $scope.listSubcriteria = function (cr) {
-
-        $scope.first = cr.name;
-        $scope.second = 'Subcategory';
-        $scope.selectedCr = cr.id;
-        $log.log(cr.id);
-        var subcriteria = [];
-        criteriaService.GetCriteria(cr.id).then(function (response) {
-            var data = response.data;
-            for (var i = 0; i < data.criteriA1.length; i++) {
-                var criterion = {};
-                criterion.id = data.criteriA1[i].iD_CRITERIA;
-                criterion.name = data.criteriA1[i].name;
-                if (criterion.name != null) {
-                    subcriteria.push(criterion);
-                }
-            }
-            $log.log('sub' + subcriteria);
-            if (subcriteria.length > 0) {
-                $scope.secondCriteria = subcriteria;
-                $log.log($scope.secondCriteria);
-            }
-        });
-
-    };
-
-
-    $scope.addCriteria = function (cr) {
-        var data = {};
-        data.NAME = cr.name;
-        data.DESCRIPTION = cr.desc;
-        data.POINTS = cr.points;
-        data.PARENT_CRITERIA = $scope.selectedCr;
-        criteriaService.AddCriteria(data).then(function (response) {
-            $log.log(response);
-            $scope.clearForm();
-            GetAllCriteria();
-        });
-    };
-
-    $scope.selectSecondCr = function (cr) {
-        $scope.second = cr.name;
-        $scope.selectedCr = cr.id;
-    };
-
     $scope.clearForm = function () {
         //clear form
         $scope.cr = {};
@@ -260,8 +288,18 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         $scope.selectedCr = null;
         $scope.secondCriteria = [];
         $scope.firstCriteria = [];
-        $scope.getMasterCriteria();
     };
+
+
+    $scope.delCVItem = function (cr) {
+        criteriaService.DeleteCVItem(cr.id).then(function (response) {
+            $log.log(response);
+            GetMyCVs();
+        });
+    };
+
+
+
 
     //END DeleteCriteria
 

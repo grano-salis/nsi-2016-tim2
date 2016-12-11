@@ -85,7 +85,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                 criterion.id = data[i].iD_CRITERIA;
                 criterion.title = data[i].name;
                 criterion.parent_id = data[i].parenT_CRITERIA;
-                var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
                 if(date !== null)
                     criterion.created = date;
                 criterion.points = data[i].points;
