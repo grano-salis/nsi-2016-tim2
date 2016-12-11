@@ -69,7 +69,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     function GetMyCVs() {
         clearTable();
         // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
-        criteriaService.GetMyCVs(3).then(function (response) {
+        criteriaService.GetMyCVs(2).then(function (response) {
             data = response.data;
             for (var i = 0; i < data.length; i++) {
 

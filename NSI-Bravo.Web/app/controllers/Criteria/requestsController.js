@@ -86,7 +86,6 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
                     rawTreeData.push(criterion);
                 }
             }
-            console.log(rawTreeData);
             myTreeData = getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
         });
@@ -136,18 +135,18 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
 
     //Add New CV Item
 
-    $scope.addCVItem = function (cr) {
+    $scope.addCVItem = function (cr,file) {
         var data = {};
         data.NAME = cr.name;
         data.DESCRIPTION = cr.desc;
         data.START_DATE = cr.startDate;
         data.END_DATE = cr.endDate;
-        data.ATTACHMENT_LINK = "C:/Users/Aeternus/Desktop/a.zip";
         data.CRITERIA_ID_CRITERIA = $scope.addCr.id;
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 3;
+        data.CV_TABLE_ID_CV = 2;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
+        data.file = file;
         requestService.AddCV(data).then(function (response) {
             $log.log(response);
             $scope.clearForm();

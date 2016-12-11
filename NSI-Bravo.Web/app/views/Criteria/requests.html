@@ -62,12 +62,19 @@
 
                     <!--Attachment to be added here / TO BE MODIFIED FOR PROPER FILE UPLOAD-->
 
+
+
+
+
                     <div class="form-group row">
-                        <label for="fileUpload" class="col-xs-2 col-form-label">CV File</label>
+                        <label for="FileUpload" class="col-xs-2 col-form-label">Attachment</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="file" name="fileUpload" id="fileUpload">
+                            <input type="file" ngf-select ng-model="file" name="file">
                         </div>
                     </div>
+
+
+
 
                     <!--StartDate-->
                     <div class="form-group row">
@@ -84,16 +91,16 @@
                         </div>
                     </div>
                     <!--Criteria-->
-                        <div class="form-group row">
-                            <label for="name" class="col-xs-2 col-form-label">Selected criteria</label>
-                            <div class="col-xs-10">
-                                <input class="form-control" type="text" readonly value="" ng-model="addCr.name">
-                            </div>
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Selected criteria</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="text" readonly value="" ng-model="addCr.name">
                         </div>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="addCVItem(cr)" data-dismiss="modal">Add</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" ng-click="addCVItem(cr,file)" data-dismiss="modal">Add</button>
+                    </div>
             </form>
         </div>
 
