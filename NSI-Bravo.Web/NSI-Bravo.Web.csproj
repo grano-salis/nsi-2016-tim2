@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\associateController.js" />
+    <Content Include="app\controllers\Criteria\addCriteriaController.js" />
     <Content Include="app\controllers\Criteria\criteriaController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
@@ -73,6 +74,7 @@
     <Content Include="app\services\ordersService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
+    <Content Include="app\views\Criteria\addCriteria.html" />
     <Content Include="app\views\Criteria\deleteCriteria.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
@@ -86,6 +88,7 @@
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="content\css\site.css" />
     <Content Include="content\css\social-buttons.css" />
+    <Content Include="content\css\treeGrid.css" />
     <Content Include="content\fonts\fontawesome-webfont.svg" />
     <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\fonts\glyphicons-halflings-regular.ttf" />
@@ -110,6 +113,7 @@
     <Content Include="scripts\angular-local-storage.min.js" />
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\loading-bar.min.js" />
+    <Content Include="scripts\tree-grid-directive.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

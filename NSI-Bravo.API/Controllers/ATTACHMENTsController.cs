@@ -12,52 +12,51 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
-
-    [RoutePrefix("api/CV")]
-    public class CV_TABLEController : ApiController
+    [RoutePrefix("api/Attachment")]
+    public class ATTACHMENTsController : ApiController
     {
         private MyEntities db = new MyEntities();
 
-        // GET: api/CV_TABLE
+        // GET: api/ATTACHMENTs
         [HttpGet]
-        [Route("GetAllCVs")]
-        public IQueryable<CV_TABLE> GetCV_TABLE()
+        [Route("GetAllAttachment")]
+        public IQueryable<ATTACHMENT> GetATTACHMENT()
         {
-            return db.CV_TABLE;
+            return db.ATTACHMENT;
         }
 
-        // GET: api/CV_TABLE/5
+        // GET: api/ATTACHMENTs/5
         [HttpGet]
-        [Route("GetCV/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
-        public IHttpActionResult GetCV_TABLE(long id)
+        [Route("GetAttachment/{id}")]
+        [ResponseType(typeof(ATTACHMENT))]
+        public IHttpActionResult GetATTACHMENT(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
-            if (cV_TABLE == null)
+            ATTACHMENT aTTACHMENT = db.ATTACHMENT.Find(id);
+            if (aTTACHMENT == null)
             {
                 return NotFound();
             }
 
-            return Ok(cV_TABLE);
+            return Ok(aTTACHMENT);
         }
 
-        // PUT: api/CV_TABLE/5
+        // PUT: api/ATTACHMENTs/5
         [HttpPut]
-        [Route("UpdateCV/{id}")]
+        [Route("UpdateAttachment/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCV_TABLE(long id, CV_TABLE cV_TABLE)
+        public IHttpActionResult PutATTACHMENT(long id, ATTACHMENT aTTACHMENT)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cV_TABLE.ID_CV)
+            if (id != aTTACHMENT.ID)
             {
                 return BadRequest();
             }
 
-            db.Entry(cV_TABLE).State = EntityState.Modified;
+            db.Entry(aTTACHMENT).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +64,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CV_TABLEExists(id))
+                if (!ATTACHMENTExists(id))
                 {
                     return NotFound();
                 }
@@ -78,18 +77,18 @@ namespace AngularJSAuthentication.API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/CV_TABLE
+        // POST: api/ATTACHMENTs
         [HttpPost]
-        [Route("PostCV")]
-        [ResponseType(typeof(CV_TABLE))]
-        public IHttpActionResult PostCV_TABLE(CV_TABLE cV_TABLE)
+        [Route("PostAttachment")]
+        [ResponseType(typeof(ATTACHMENT))]
+        public IHttpActionResult PostATTACHMENT(ATTACHMENT aTTACHMENT)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.CV_TABLE.Add(cV_TABLE);
+            db.ATTACHMENT.Add(aTTACHMENT);
 
             try
             {
@@ -97,7 +96,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CV_TABLEExists(cV_TABLE.ID_CV))
+                if (ATTACHMENTExists(aTTACHMENT.ID))
                 {
                     return Conflict();
                 }
@@ -107,26 +106,26 @@ namespace AngularJSAuthentication.API.Controllers
                 }
             }
 
-            return Ok(cV_TABLE);
-            //return CreatedAtRoute("DefaultApi", new { id = cV_TABLE.ID_CV }, cV_TABLE);
+            return Ok(aTTACHMENT);
+            //return CreatedAtRoute("DefaultApi", new { id = aTTACHMENT.ID }, aTTACHMENT);
         }
 
-        // DELETE: api/CV_TABLE/5
+        // DELETE: api/ATTACHMENTs/5
         [HttpDelete]
-        [Route("DeleteCV/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
-        public IHttpActionResult DeleteCV_TABLE(long id)
+        [Route("DeleteAttachment/{id}")]
+        [ResponseType(typeof(ATTACHMENT))]
+        public IHttpActionResult DeleteATTACHMENT(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
-            if (cV_TABLE == null)
+            ATTACHMENT aTTACHMENT = db.ATTACHMENT.Find(id);
+            if (aTTACHMENT == null)
             {
                 return NotFound();
             }
 
-            db.CV_TABLE.Remove(cV_TABLE);
+            db.ATTACHMENT.Remove(aTTACHMENT);
             db.SaveChanges();
 
-            return Ok(cV_TABLE);
+            return Ok(aTTACHMENT);
         }
 
         protected override void Dispose(bool disposing)
@@ -138,9 +137,9 @@ namespace AngularJSAuthentication.API.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CV_TABLEExists(long id)
+        private bool ATTACHMENTExists(long id)
         {
-            return db.CV_TABLE.Count(e => e.ID_CV == id) > 0;
+            return db.ATTACHMENT.Count(e => e.ID == id) > 0;
         }
     }
 }
