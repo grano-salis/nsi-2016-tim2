@@ -27,6 +27,16 @@ namespace AngularJSAuthentication.API.Controllers
     {
         private MyEntities db = new MyEntities();
 
+        CloudStorageAccount storageAccount;
+        CloudBlobClient blobClient;
+        CloudBlobContainer blobContainer;
+
+        public CV_ITEMController()
+        {
+            storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            blobClient = storageAccount.CreateCloudBlobClient();
+            blobContainer = blobClient.GetContainerReference("attachment-files");
+        }
 
         //Insert CV_ITEM into database and upload to azure blob storage
         //Route: http://localhost:26264/api/CVitem/Create
@@ -82,10 +92,6 @@ namespace AngularJSAuthentication.API.Controllers
                     var extension = Path.GetExtension(uploadedFile);
                     string path = userId + "-" + identifier + extension;
                     var fileName = Path.GetFileName(path);
-
-                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                    CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
 
                     blobContainer.CreateIfNotExists();
                     CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
@@ -152,10 +158,6 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
 
             if (id != item.ID_ITEM)
             {
