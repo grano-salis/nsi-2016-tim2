@@ -10,6 +10,7 @@
 namespace AngularJSAuthentication.API.Models
 {
     using System;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class CRITERIA
@@ -26,14 +27,16 @@ namespace AngularJSAuthentication.API.Models
         public string DESCRIPTION { get; set; }
         public Nullable<int> CRITERIA_LEVEL { get; set; }
         public Nullable<long> PARENT_CRITERIA { get; set; }
-        public Nullable<int> POINTS { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
+        public Nullable<int> POINTS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CRITERIA> CRITERIA1 { get; set; }
         public virtual CRITERIA CRITERIA2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+        [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace AngularJSAuthentication.API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CV_ITEM()
         {
+            this.ATTACHMENT = new HashSet<ATTACHMENT>();
             this.CV_ITEM1 = new HashSet<CV_ITEM>();
         }
     
@@ -35,6 +36,8 @@ namespace AngularJSAuthentication.API.Models
         public string ATTACHMENT_LINK { get; set; }
         public int STATUS_ID { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ATTACHMENT> ATTACHMENT { get; set; }
         public virtual CRITERIA CRITERIA { get; set; }
         public virtual CV_ITEM_STATUS CV_ITEM_STATUS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

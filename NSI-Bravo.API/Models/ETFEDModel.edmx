@@ -56,6 +56,15 @@
           <Property Name="AccessFailedCount" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="UserName" Type="nvarchar2" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="ATTACHMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="1000" />
+          <Property Name="URL" Type="varchar2" MaxLength="1000" />
+          <Property Name="CV_ITEM_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
+        </EntityType>
         <EntityType Name="CRITERIA">
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
@@ -65,9 +74,9 @@
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
           <Property Name="CRITERIA_LEVEL" Type="number" Precision="10" Scale="0" />
           <Property Name="PARENT_CRITERIA" Type="number" Precision="19" Scale="0" />
-          <Property Name="POINTS" Type="number" Precision="10" Scale="0" />
           <Property Name="DATE_CREATED" Type="timestamp" Precision="6" />
           <Property Name="DATE_MODIFIED" Type="timestamp" Precision="6" />
+          <Property Name="POINTS" Type="number" Precision="10" Scale="0" />
         </EntityType>
         <EntityType Name="CV_ITEM">
           <Key>
@@ -119,6 +128,18 @@
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
           <Property Name="USER_ID" Type="nvarchar2" MaxLength="128" Nullable="false" />
         </EntityType>
+        <Association Name="FK_ATTACHMENT_CV_ITEM">
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
+          <End Role="ATTACHMENT" Type="Self.ATTACHMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="ATTACHMENT">
+              <PropertyRef Name="CV_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CRITERIA_CRITERIA1">
           <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
           <End Role="CRITERIA1" Type="Self.CRITERIA" Multiplicity="*" />
@@ -265,11 +286,16 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="NSI02" store:Type="Tables" />
+          <EntitySet Name="ATTACHMENT" EntityType="Self.ATTACHMENT" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="CV_TABLE" EntityType="Self.CV_TABLE" Schema="NSI02" store:Type="Tables" />
           <EntitySet Name="LOG" EntityType="Self.LOG" Schema="NSI02" store:Type="Tables" />
+          <AssociationSet Name="FK_ATTACHMENT_CV_ITEM" Association="Self.FK_ATTACHMENT_CV_ITEM">
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+            <End Role="ATTACHMENT" EntitySet="ATTACHMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_CRITERIA_CRITERIA1" Association="Self.FK_CRITERIA_CRITERIA1">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
             <End Role="CRITERIA1" EntitySet="CRITERIA" />
@@ -371,6 +397,16 @@
           <NavigationProperty Name="LOG" Relationship="Self.FK_LOG_ASP_NET_USER" FromRole="AspNetUsers" ToRole="LOG" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
+        <EntityType Name="ATTACHMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CV_ITEM_ID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_ATTACHMENT_CV_ITEM" FromRole="ATTACHMENT" ToRole="CV_ITEM" />
+        </EntityType>
         <EntityType Name="CRITERIA">
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
@@ -380,9 +416,9 @@
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="CRITERIA_LEVEL" Type="Int32" />
           <Property Name="PARENT_CRITERIA" Type="Int64" />
-          <Property Name="POINTS" Type="Int32" />
           <Property Name="DATE_CREATED" Type="DateTime" Precision="6" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="6" />
+          <Property Name="POINTS" Type="Int32" />
           <NavigationProperty Name="CRITERIA1" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA" ToRole="CRITERIA1" />
           <NavigationProperty Name="CRITERIA2" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA1" ToRole="CRITERIA" />
           <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CRITERIA" ToRole="CV_ITEM" />
@@ -405,6 +441,7 @@
           <Property Name="END_DATE" Type="DateTime" />
           <Property Name="ATTACHMENT_LINK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ATTACHMENT" Relationship="Self.FK_ATTACHMENT_CV_ITEM" FromRole="CV_ITEM" ToRole="ATTACHMENT" />
           <NavigationProperty Name="CRITERIA" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CV_ITEM" ToRole="CRITERIA" />
           <NavigationProperty Name="CV_ITEM_STATUS" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM" ToRole="CV_ITEM_STATUS" />
           <NavigationProperty Name="CV_ITEM1" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM" ToRole="CV_ITEM1" />
@@ -498,6 +535,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ATTACHMENT_CV_ITEM">
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
+          <End Role="ATTACHMENT" Type="Self.ATTACHMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="ATTACHMENT">
+              <PropertyRef Name="CV_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CRITERIA_CRITERIA1">
           <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
           <End Role="CRITERIA1" Type="Self.CRITERIA" Multiplicity="*" />
@@ -562,11 +611,12 @@
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MyEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="ATTACHMENT" EntityType="Self.ATTACHMENT" />
           <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" />
           <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" />
           <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" />
@@ -587,6 +637,10 @@
           <AssociationSet Name="FK_LOG_ASP_NET_USER" Association="Self.FK_LOG_ASP_NET_USER">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="LOG" EntitySet="LOG" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ATTACHMENT_CV_ITEM" Association="Self.FK_ATTACHMENT_CV_ITEM">
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+            <End Role="ATTACHMENT" EntitySet="ATTACHMENT" />
           </AssociationSet>
           <AssociationSet Name="FK_CRITERIA_CRITERIA1" Association="Self.FK_CRITERIA_CRITERIA1">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
@@ -618,7 +672,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="MyEntities">
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="Model.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -664,6 +718,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ATTACHMENT">
+            <EntityTypeMapping TypeName="Model.ATTACHMENT">
+              <MappingFragment StoreEntitySet="ATTACHMENT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="CV_ITEM_ID" ColumnName="CV_ITEM_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CRITERIA">
             <EntityTypeMapping TypeName="Model.CRITERIA">
               <MappingFragment StoreEntitySet="CRITERIA">
@@ -672,9 +736,9 @@
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
                 <ScalarProperty Name="CRITERIA_LEVEL" ColumnName="CRITERIA_LEVEL" />
                 <ScalarProperty Name="PARENT_CRITERIA" ColumnName="PARENT_CRITERIA" />
-                <ScalarProperty Name="POINTS" ColumnName="POINTS" />
                 <ScalarProperty Name="DATE_CREATED" ColumnName="DATE_CREATED" />
                 <ScalarProperty Name="DATE_MODIFIED" ColumnName="DATE_MODIFIED" />
+                <ScalarProperty Name="POINTS" ColumnName="POINTS" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

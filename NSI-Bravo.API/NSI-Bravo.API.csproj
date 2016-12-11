@@ -181,6 +181,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AspNetRolesController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
+    <Compile Include="Controllers\ATTACHMENTsController.cs" />
     <Compile Include="Controllers\CRITERIAController.cs" />
     <Compile Include="Controllers\CV_ITEMController.cs" />
     <Compile Include="Controllers\CV_ITEM_STATUSController.cs" />
@@ -206,6 +207,9 @@
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>ETFEDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ATTACHMENT.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CRITERIA.cs">
@@ -236,6 +240,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ETFEDModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETFEDModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ExternalLoginModels.cs" />
     <Compile Include="Models\LOG.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
@@ -253,7 +262,7 @@
     <Content Include="packages.config" />
     <EntityDeploy Include="Models\ETFEDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ETFEDModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ETFEDModel1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Models\ETFEDModel.edmx.diagram">
       <DependentUpon>ETFEDModel.edmx</DependentUpon>

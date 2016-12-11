@@ -12,17 +12,24 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/Log")]
     public class LOGsController : ApiController
     {
         private MyEntities db = new MyEntities();
 
         // GET: api/LOGs
+        [HttpGet]
+        [Route("GetAllLogs")]
         public IQueryable<LOG> GetLOG()
         {
             return db.LOG;
         }
 
+        //TODO: Write the action for get log by date
+
         // GET: api/LOGs/5
+        [HttpGet]
+        [Route("GetLog/{id}")]
         [ResponseType(typeof(LOG))]
         public IHttpActionResult GetLOG(long id)
         {
@@ -71,6 +78,7 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // POST: api/LOGs
+        //This action should be nested in specific controllers
         [ResponseType(typeof(LOG))]
         public IHttpActionResult PostLOG(LOG lOG)
         {
@@ -100,20 +108,21 @@ namespace AngularJSAuthentication.API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = lOG.LOG_ID }, lOG);
         }
 
-        // DELETE: api/LOGs/5
-        [ResponseType(typeof(LOG))]
-        public IHttpActionResult DeleteLOG(long id)
+        //This action will reset all tables with initial data (seed)
+        [HttpDelete]
+        [Route("ResetAllTables")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult ResetAllTables()
         {
-            LOG lOG = db.LOG.Find(id);
-            if (lOG == null)
-            {
-                return NotFound();
-            }
-
-            db.LOG.Remove(lOG);
+            db.Database.ExecuteSqlCommand("delete from NSI02.log");
             db.SaveChanges();
 
-            return Ok(lOG);
+            LOG log = new LOG();
+            log.LOG_ID = 1; log.EVENT_CREATED = System.DateTime.Now; log.EVENT_TYPE = "ResetAllTables"; log.DESCRIPTION = ""; log.USER_ID = "1";
+            db.LOG.Add(log);
+            db.SaveChanges();
+
+            return Ok();
         }
 
         protected override void Dispose(bool disposing)
