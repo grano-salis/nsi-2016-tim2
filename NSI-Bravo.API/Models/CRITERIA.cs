@@ -30,9 +30,11 @@ namespace AngularJSAuthentication.API.Models
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<int> POINTS { get; set; }
-    
+
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CRITERIA> CRITERIA1 { get; set; }
+        [JsonIgnore]
         public virtual CRITERIA CRITERIA2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 

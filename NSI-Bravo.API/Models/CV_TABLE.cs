@@ -10,6 +10,7 @@
 namespace AngularJSAuthentication.API.Models
 {
     using System;
+    using Newtonsoft.Json;
     using System.Collections.Generic;
     
     public partial class CV_TABLE
@@ -29,8 +30,10 @@ namespace AngularJSAuthentication.API.Models
         public string EMAIL { get; set; }
         public Nullable<System.DateTime> BIRTH_DATE { get; set; }
         public string USER_ID { get; set; }
-    
+
+        [JsonIgnore]
         public virtual AspNetUsers AspNetUsers { get; set; }
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
     }
