@@ -1,0 +1,73 @@
+create or replace TRIGGER LOG_RESET_DB
+  AFTER DELETE ON LOG
+BEGIN
+
+  delete from attachment;
+  delete from cv_item;
+  delete from cv_table;
+  delete from cv_item_status;
+  delete from criteria;
+  delete from "AspNetUsers";
+  
+  --AspNetUsers
+  insert into "AspNetUsers" values (1,'admin@hotmail.com',0,'','','',0,0,null,0,0,'admin');
+  insert into "AspNetUsers" values (2,'profesor@hotmail.com',0,'','','',0,0,null,0,0,'profesor');
+  insert into "AspNetUsers" values (3,'profesor2@hotmail.com',0,'','','',0,0,null,0,0,'profesor2');
+  
+  --cv_table
+  insert into cv_table (ID_CV, FIRSTNAME, LASTNAME, ADDRESS, PHONE, MOBILEPHONE, EMAIL, BIRTH_DATE, USER_ID)
+  values (1, 'Profesor', 'Profesoric', 'Adrese profesora', '+38761-123-123', '+38761-123-123', 'profesor@hotmail.com', sysdate, 2);
+
+  insert into cv_table (ID_CV, FIRSTNAME, LASTNAME, ADDRESS, PHONE, MOBILEPHONE, EMAIL, BIRTH_DATE, USER_ID)
+  values (2, 'Profesor2', 'Profesoric2', 'Adrese profesora2', '+38761-222-222', '+38761-222-222', 'profesor2@hotmail.com', sysdate, 3);
+
+  --criteria
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (1, 'master', null, 0, null, sysdate, null, 0);
+  
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (2, 'Nauèni rad', null, 1, 1, sysdate, null, 5);
+
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (3, 'Projekti', null, 2, 2, sysdate, null, 5);
+
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (4, 'Nauèni radovi', null, 2, 2, sysdate, null, 5);
+
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (5, 'Patenti', null, 2, 2, sysdate, null, 5);
+  
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (6, 'SCOPUS', null, 3, 4, sysdate, null, 5);
+
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (7, 'INSPEC', null, 3, 4, sysdate, null, 5);
+  
+  insert into criteria (ID_CRITERIA, NAME, DESCRIPTION, CRITERIA_LEVEL, PARENT_CRITERIA, DATE_CREATED, DATE_MODIFIED, POINTS) 
+  values (8, 'IEEE', null, 3, 4, sysdate, null, 5);
+
+  --cv_item_status
+  insert into cv_item_status (ID, STATUS) values (1, 'unconfirmed');
+  insert into cv_item_status (ID, STATUS) values (2, 'confirmed');
+  insert into cv_item_status (ID, STATUS) values (3, 'modified');
+  insert into cv_item_status (ID, STATUS) values (4, 'rejected');
+  insert into cv_item_status (ID, STATUS) values (5, 'deleted');
+  
+  --cv_item
+  insert into cv_item (ID_ITEM, NAME, DESCRIPTION, DATE_CREATED, DATE_MODIFIED, DATE_CONFIRMED, OLD_ITEM_ID, CV_TABLE_ID_CV, CRITERIA_ID_CRITERIA,
+  USER_ID_APPROVED, START_DATE, END_DATE, ATTACHMENT_LINK, STATUS_ID) values
+  (1,'Stavka1','Opis stavke1',sysdate,null,null,null,1,7,1,sysdate,sysdate,null,1);
+  
+  insert into cv_item (ID_ITEM, NAME, DESCRIPTION, DATE_CREATED, DATE_MODIFIED, DATE_CONFIRMED, OLD_ITEM_ID, CV_TABLE_ID_CV, CRITERIA_ID_CRITERIA,
+  USER_ID_APPROVED, START_DATE, END_DATE, ATTACHMENT_LINK, STATUS_ID) values
+  (2,'Stavka2','Opis stavke2',sysdate,null,null,null,1,5,1,sysdate,sysdate,null,2);
+  
+  insert into cv_item (ID_ITEM, NAME, DESCRIPTION, DATE_CREATED, DATE_MODIFIED, DATE_CONFIRMED, OLD_ITEM_ID, CV_TABLE_ID_CV, CRITERIA_ID_CRITERIA,
+  USER_ID_APPROVED, START_DATE, END_DATE, ATTACHMENT_LINK, STATUS_ID) values
+  (3,'Stavka3','Opis stavke3',sysdate,null,null,null,2,5,1,sysdate,sysdate,null,2);
+  
+  insert into cv_item (ID_ITEM, NAME, DESCRIPTION, DATE_CREATED, DATE_MODIFIED, DATE_CONFIRMED, OLD_ITEM_ID, CV_TABLE_ID_CV, CRITERIA_ID_CRITERIA,
+  USER_ID_APPROVED, START_DATE, END_DATE, ATTACHMENT_LINK, STATUS_ID) values
+  (4,'Stavka4','Opis stavke4',sysdate,null,null,null,2,4,1,sysdate,sysdate,null,1);
+  
+END;
