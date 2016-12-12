@@ -60,7 +60,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="ID" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="1000" />
           <Property Name="URL" Type="varchar2" MaxLength="1000" />
           <Property Name="CV_ITEM_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
@@ -69,7 +69,7 @@
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
           </Key>
-          <Property Name="ID_CRITERIA" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="ID_CRITERIA" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="varchar2" MaxLength="2000" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
           <Property Name="CRITERIA_LEVEL" Type="number" Precision="10" Scale="0" />
@@ -82,7 +82,7 @@
           <Key>
             <PropertyRef Name="ID_ITEM" />
           </Key>
-          <Property Name="ID_ITEM" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="ID_ITEM" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="varchar2" MaxLength="1000" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
           <Property Name="DATE_CREATED" Type="timestamp" Precision="6" />
@@ -101,14 +101,14 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="STATUS" Type="varchar2" MaxLength="45" Nullable="false" />
         </EntityType>
         <EntityType Name="CV_TABLE">
           <Key>
             <PropertyRef Name="ID_CV" />
           </Key>
-          <Property Name="ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="FIRSTNAME" Type="varchar2" MaxLength="45" />
           <Property Name="LASTNAME" Type="varchar2" MaxLength="45" />
           <Property Name="ADDRESS" Type="varchar2" MaxLength="1000" />
@@ -122,7 +122,7 @@
           <Key>
             <PropertyRef Name="LOG_ID" />
           </Key>
-          <Property Name="LOG_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="LOG_ID" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="EVENT_CREATED" Type="timestamp" Precision="6" />
           <Property Name="EVENT_TYPE" Type="varchar2" MaxLength="1000" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
@@ -401,7 +401,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="CV_ITEM_ID" Type="Int64" Nullable="false" />
@@ -411,7 +411,7 @@
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
           </Key>
-          <Property Name="ID_CRITERIA" Type="Int64" Nullable="false" />
+          <Property Name="ID_CRITERIA" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="CRITERIA_LEVEL" Type="Int32" />
@@ -427,7 +427,7 @@
           <Key>
             <PropertyRef Name="ID_ITEM" />
           </Key>
-          <Property Name="ID_ITEM" Type="Int64" Nullable="false" />
+          <Property Name="ID_ITEM" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NAME" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="DATE_CREATED" Type="DateTime" Precision="6" />
@@ -452,7 +452,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="STATUS" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM_STATUS" ToRole="CV_ITEM" />
         </EntityType>
@@ -460,7 +460,7 @@
           <Key>
             <PropertyRef Name="ID_CV" />
           </Key>
-          <Property Name="ID_CV" Type="Int64" Nullable="false" />
+          <Property Name="ID_CV" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FIRSTNAME" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="LASTNAME" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
@@ -476,7 +476,7 @@
           <Key>
             <PropertyRef Name="LOG_ID" />
           </Key>
-          <Property Name="LOG_ID" Type="Int64" Nullable="false" />
+          <Property Name="LOG_ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EVENT_CREATED" Type="DateTime" Precision="6" />
           <Property Name="EVENT_TYPE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />

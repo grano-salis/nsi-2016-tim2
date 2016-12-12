@@ -19,6 +19,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using Oracle.ManagedDataAccess.Client;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -75,7 +76,6 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
                 cv.STATUS_ID = 2;
                 cv.DATE_CREATED = DateTime.Now;
-
                 if (provider.FileData.Count > 0)
                 {
                     string uploadedFile = "";
@@ -109,7 +109,10 @@ namespace AngularJSAuthentication.API.Controllers
             //saving CV_item to database
             db.CV_ITEM.Add(cv);
             db.SaveChanges();
-           // db.Entry(cv).GetDatabaseValues();
+
+          
+                // db.Entry(cv).GetDatabaseValues();
+
             return Ok(cv);
 
         }

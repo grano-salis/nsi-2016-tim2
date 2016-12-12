@@ -9,10 +9,10 @@
 
 namespace AngularJSAuthentication.API.Models
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
     using System.Collections.Generic;
-    
+
     public partial class LOG
     {
         public long LOG_ID { get; set; }
@@ -20,7 +20,7 @@ namespace AngularJSAuthentication.API.Models
         public string EVENT_TYPE { get; set; }
         public string DESCRIPTION { get; set; }
         public string USER_ID { get; set; }
-        
+
         [JsonIgnore]
         public virtual AspNetUsers AspNetUsers { get; set; }
     }

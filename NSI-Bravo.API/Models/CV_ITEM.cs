@@ -9,10 +9,10 @@
 
 namespace AngularJSAuthentication.API.Models
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
     using System.Collections.Generic;
-    
+
     public partial class CV_ITEM
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -36,16 +36,16 @@ namespace AngularJSAuthentication.API.Models
         public Nullable<System.DateTime> END_DATE { get; set; }
         public string ATTACHMENT_LINK { get; set; }
         public int STATUS_ID { get; set; }
-
-        [JsonIgnore]
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<ATTACHMENT> ATTACHMENT { get; set; }
         [JsonIgnore]
         public virtual CRITERIA CRITERIA { get; set; }
         [JsonIgnore]
         public virtual CV_ITEM_STATUS CV_ITEM_STATUS { get; set; }
-        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM1 { get; set; }
         [JsonIgnore]
         public virtual CV_ITEM CV_ITEM2 { get; set; }

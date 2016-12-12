@@ -9,10 +9,10 @@
 
 namespace AngularJSAuthentication.API.Models
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
     using System.Collections.Generic;
-    
+
     public partial class CV_TABLE
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -33,8 +33,8 @@ namespace AngularJSAuthentication.API.Models
 
         [JsonIgnore]
         public virtual AspNetUsers AspNetUsers { get; set; }
-        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
     }
 }
