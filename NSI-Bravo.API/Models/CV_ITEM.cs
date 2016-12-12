@@ -38,7 +38,7 @@ namespace AngularJSAuthentication.API.Models
         public int STATUS_ID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [JsonIgnore]
+    
         public virtual ICollection<ATTACHMENT> ATTACHMENT { get; set; }
         [JsonIgnore]
         public virtual CRITERIA CRITERIA { get; set; }

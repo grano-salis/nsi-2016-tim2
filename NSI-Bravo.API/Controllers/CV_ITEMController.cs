@@ -53,7 +53,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
 
             CV_ITEM cv = new CV_ITEM();
-         
+            List<ATTACHMENT> links= new List<ATTACHMENT>();
             try {
                 string root = HttpContext.Current.Server.MapPath("~/App_Data");
                 var provider = new MultipartFormDataStreamProvider(root);
@@ -67,7 +67,7 @@ namespace AngularJSAuthentication.API.Controllers
                      {
                      }
                  }*/
-                List<ATTACHMENT> links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
+                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
                 cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
@@ -110,9 +110,13 @@ namespace AngularJSAuthentication.API.Controllers
             db.CV_ITEM.Add(cv);
             db.SaveChanges();
 
-          
-                // db.Entry(cv).GetDatabaseValues();
+            //now update CV_ITEM_ID in every link
+            foreach (ATTACHMENT link in links)
+                link.CV_ITEM_ID = cv.ID_ITEM;
 
+            db.ATTACHMENT.AddRange(links);
+            db.SaveChanges();
+           
             return Ok(cv);
 
         }
