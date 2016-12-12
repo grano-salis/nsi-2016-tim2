@@ -74,7 +74,8 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
-                cv.STATUS_ID = 2;
+                //status=unconfirmed
+                cv.STATUS_ID = 1;
                 cv.DATE_CREATED = DateTime.Now;
                 if (provider.FileData.Count > 0)
                 {
@@ -88,7 +89,7 @@ namespace AngularJSAuthentication.API.Controllers
                         uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
                         localfilename = file.LocalFileName;
                     }
-                    var userId = 3333;
+                    var userId = 10;
                     string identifier = Guid.NewGuid().ToString();
                     var extension = Path.GetExtension(uploadedFile);
                     string path = userId + "-" + identifier + extension;
@@ -206,7 +207,9 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE = Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
-                cv.STATUS_ID = 2;
+
+                //STATUS=modified
+                cv.STATUS_ID = 3;
                 cv.DATE_MODIFIED = DateTime.Now;
 
                 //current file is deleted only if new is provided
@@ -230,7 +233,7 @@ namespace AngularJSAuthentication.API.Controllers
                         uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
                         localfilename = file.LocalFileName;
                     }
-                    var userId = 4444;
+                    var userId = 10;
                     string identifier = Guid.NewGuid().ToString();
                     var extension = Path.GetExtension(uploadedFile);
                     string path = userId + "-" + identifier + extension;
