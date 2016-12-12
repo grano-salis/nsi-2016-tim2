@@ -45,7 +45,7 @@ namespace AngularJSAuthentication.API.Controllers
         public async Task<IHttpActionResult> PostCV_ITEM()
         {
 
-
+            
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
@@ -66,6 +66,7 @@ namespace AngularJSAuthentication.API.Controllers
                      {
                      }
                  }*/
+                List<ATTACHMENT> links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
                 cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
@@ -108,6 +109,7 @@ namespace AngularJSAuthentication.API.Controllers
             //saving CV_item to database
             db.CV_ITEM.Add(cv);
             db.SaveChanges();
+           // db.Entry(cv).GetDatabaseValues();
             return Ok(cv);
 
         }
