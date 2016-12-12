@@ -94,6 +94,12 @@ namespace AngularJSAuthentication.API.Controllers
                     string path = userId + "-" + identifier + extension;
                     var fileName = Path.GetFileName(path);
 
+                    string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+                    if (!_supportedExtensions.Contains(extension))
+                    {
+                        return BadRequest("File not supported");
+                    }
+
                     blobContainer.CreateIfNotExists();
                     CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
@@ -116,7 +122,7 @@ namespace AngularJSAuthentication.API.Controllers
 
             db.ATTACHMENT.AddRange(links);
             db.SaveChanges();
-           
+           //returns cv_item atributes incuding list of ATTACHMENTS
             return Ok(cv);
 
         }
