@@ -29,6 +29,7 @@ namespace AngularJSAuthentication.API.Models
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<ATTACHMENT> ATTACHMENT { get; set; }
         public virtual DbSet<CRITERIA> CRITERIA { get; set; }
         public virtual DbSet<CV_ITEM> CV_ITEM { get; set; }
         public virtual DbSet<CV_ITEM_STATUS> CV_ITEM_STATUS { get; set; }

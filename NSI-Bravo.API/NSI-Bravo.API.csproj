@@ -160,7 +160,38 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Models\*.*"></Content>
+    <Content Include="Models\AspNetRoles.cs" />
+    <Content Include="Models\AspNetUserClaims.cs" />
+    <Content Include="Models\AspNetUserLogins.cs" />
+    <Content Include="Models\AspNetUsers.cs" />
+    <Content Include="Models\ATTACHMENT.cs" />
+    <Content Include="Models\CRITERIA.cs" />
+    <Content Include="Models\CV_ITEM.cs" />
+    <Content Include="Models\CV_ITEM_STATUS.cs" />
+    <Content Include="Models\CV_TABLE.cs" />
+    <Content Include="Models\Enums.cs" />
+    <Content Include="Models\ETFEDModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
+    <Content Include="Models\ETFEDModel.Context.tt" />
+    <Content Include="Models\ETFEDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETFEDModel.tt</DependentUpon>
+    </Content>
+    <Content Include="Models\ETFEDModel.Designer.cs" />
+    <Content Include="Models\ETFEDModel.edmx" />
+    <Content Include="Models\ETFEDModel.edmx.diagram" />
+    <Content Include="Models\ETFEDModel.tt" />
+    <Content Include="Models\ETFEDModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETFEDModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\ExternalLoginModels.cs" />
+    <Content Include="Models\LOG.cs" />
+    <Content Include="Models\UserModel.cs" />
     <Content Include="Models\ETFEDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
@@ -182,6 +213,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AspNetRolesController.cs" />
     <Compile Include="Controllers\AspNetUsersController.cs" />
+    <Compile Include="Controllers\ATTACHMENTsController.cs" />
     <Compile Include="Controllers\CRITERIAController.cs" />
     <Compile Include="Controllers\CV_ITEMController.cs" />
     <Compile Include="Controllers\CV_ITEM_STATUSController.cs" />
@@ -207,6 +239,9 @@
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>ETFEDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ATTACHMENT.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CRITERIA.cs">
@@ -237,6 +272,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ETFEDModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETFEDModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ExternalLoginModels.cs" />
     <Compile Include="Models\LOG.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
@@ -254,7 +294,7 @@
     <Content Include="packages.config" />
     <EntityDeploy Include="Models\ETFEDModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ETFEDModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>ETFEDModel1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="Models\ETFEDModel.edmx.diagram">
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
@@ -289,7 +329,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>26264</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

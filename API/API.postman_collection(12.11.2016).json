@@ -1,0 +1,176 @@
+{
+	"id": "83198c09-cfda-8cab-5db8-134455ab144b",
+	"name": "API",
+	"description": "",
+	"order": [
+		"7dfb50de-4c36-0e37-e141-1b18a8a0b7f0",
+		"6bc33ec6-cba4-fea3-ef74-cc33270d43c4"
+	],
+	"folders": [],
+	"timestamp": 1481400856274,
+	"owner": "445372",
+	"public": false,
+	"requests": [
+		{
+			"id": "6bc33ec6-cba4-fea3-ef74-cc33270d43c4",
+			"headers": "",
+			"url": "http://localhost:26264/api/CVitem/Update/152",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "83198c09-cfda-8cab-5db8-134455ab144b",
+			"data": [
+				{
+					"key": "attachment",
+					"value": "neki.zip",
+					"type": "file",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "NAME",
+					"value": "AzuriranAAAAAA",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "DESCRIPTION",
+					"value": "vrijeme je irelevantno",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "CV_TABLE_ID_CV",
+					"value": "1",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "STATUS_ID",
+					"value": "1",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "START_DATE",
+					"value": "01-DEC-16",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "END_DATE",
+					"value": "15-DEC-16",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "CRITERIA_ID_CRITERIA",
+					"value": "5",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "LINKS",
+					"value": "[{DESCRIPTION:'azuriranLINK1',URL:'URL1'},{DESCRIPTION:'azuriranLINK2',URL:'URL2'},{DESCRIPTION:'azuriranLINK3',URL:'URL3'}]",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"name": "http://localhost:26264/api/CVitem/Update/152",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1481571414180,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "7dfb50de-4c36-0e37-e141-1b18a8a0b7f0",
+			"headers": "",
+			"url": "http://localhost:26264/api/CVitem/Create",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "83198c09-cfda-8cab-5db8-134455ab144b",
+			"data": [
+				{
+					"key": "attachment",
+					"value": "neki.zip",
+					"type": "file",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "NAME",
+					"value": "oooo provjeraaa",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "DESCRIPTION",
+					"value": "nema nikakvog opisa",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "CV_TABLE_ID_CV",
+					"value": "3",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "STATUS_ID",
+					"value": "2",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "START_DATE",
+					"value": "01-DEC-16",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "END_DATE",
+					"value": "15-DEC-16",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				},
+				{
+					"key": "CRITERIA_ID_CRITERIA",
+					"value": "191",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"name": "http://localhost:26264/api/CVitem/Create",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1481400866199,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	]
+}

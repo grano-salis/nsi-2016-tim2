@@ -13,19 +13,13 @@ namespace AngularJSAuthentication.API.Models
     using System;
     using System.Collections.Generic;
 
-    public partial class CV_ITEM_STATUS
+    public partial class ATTACHMENT
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CV_ITEM_STATUS()
-        {
-            this.CV_ITEM = new HashSet<CV_ITEM>();
-        }
-    
-        public int ID { get; set; }
-        public string STATUS { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public long ID { get; set; }
+        public string DESCRIPTION { get; set; }
+        public string URL { get; set; }
+        public long CV_ITEM_ID { get; set; }
         [JsonIgnore]
-        public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
+        public virtual CV_ITEM CV_ITEM { get; set; }
     }
 }

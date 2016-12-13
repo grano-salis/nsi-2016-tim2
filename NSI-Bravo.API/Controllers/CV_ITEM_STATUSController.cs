@@ -12,17 +12,23 @@ using AngularJSAuthentication.API.Models;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/CvItemStatus")]
     public class CV_ITEM_STATUSController : ApiController
     {
         private MyEntities db = new MyEntities();
 
         // GET: api/CV_ITEM_STATUS
+        [HttpGet]
+        [Route("GetAllItemStatuses")]
+        //[ResponseType(typeof(CRITERIA))]
         public IQueryable<CV_ITEM_STATUS> GetCV_ITEM_STATUS()
         {
             return db.CV_ITEM_STATUS;
         }
 
         // GET: api/CV_ITEM_STATUS/5
+        [HttpGet]
+        [Route("GetAllItemStatus/{id}")]
         [ResponseType(typeof(CV_ITEM_STATUS))]
         public IHttpActionResult GetCV_ITEM_STATUS(int id)
         {
@@ -36,6 +42,8 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // PUT: api/CV_ITEM_STATUS/5
+        [HttpPut]
+        [Route("UpdateItemStatus/{id}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCV_ITEM_STATUS(int id, CV_ITEM_STATUS cV_ITEM_STATUS)
         {
@@ -71,6 +79,8 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         // POST: api/CV_ITEM_STATUS
+        [HttpPost]
+        [Route("PostItemStatus")]
         [ResponseType(typeof(CV_ITEM_STATUS))]
         public IHttpActionResult PostCV_ITEM_STATUS(CV_ITEM_STATUS cV_ITEM_STATUS)
         {
@@ -96,11 +106,13 @@ namespace AngularJSAuthentication.API.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtRoute("DefaultApi", new { id = cV_ITEM_STATUS.ID }, cV_ITEM_STATUS);
+            return Ok(cV_ITEM_STATUS);
+            //return CreatedAtRoute("DefaultApi", new { id = cV_ITEM_STATUS.ID }, cV_ITEM_STATUS);
         }
 
         // DELETE: api/CV_ITEM_STATUS/5
+        [HttpDelete]
+        [Route("DeleteItemStatus/{id}")]
         [ResponseType(typeof(CV_ITEM_STATUS))]
         public IHttpActionResult DeleteCV_ITEM_STATUS(int id)
         {
