@@ -10,6 +10,35 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     $scope.my_tree = tree = {};
     var myTreeData = new Array();
     $scope.editCriteriaFull = new Array();
+
+
+
+
+
+    $scope.links = [{ DESCRIPTION: '', URL: '' }];
+    $scope.addNewLink = function () {
+        $scope.links.push({ DESCRIPTION: '', URL: '' });
+    };
+    $scope.resetLinks = function () {
+        $scope.links = [{ DESCRIPTION: '', URL: '' }];
+    }
+    $scope.removeLink = function (id) {
+        if ($scope.links.length > 1) {
+            $scope.links.splice(id,1);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
@@ -17,6 +46,11 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         filterable: true,
         cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
     };
+
+
+
+
+
 
     $scope.col_defs = [
         {
@@ -34,6 +68,11 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             cellTemplateScope: {
                 clickEdit: function (branch) {
                     $scope.editCr = branch;
+                    console.log(branch.links);
+                    $scope.links = [];
+                    for (var i = 0; i < branch.links.length; i++) {
+                        $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
+                    }
                     criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.editCriteriaFull = response.data;
                         $scope.editCriteria = $scope.editCriteriaFull.name;
@@ -72,7 +111,6 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         criteriaService.GetMyCVs(2).then(function (response) {
             data = response.data;
             for (var i = 0; i < data.length; i++) {
-
                 var cv_item = {
                     id: "",
                     title: "",
@@ -81,7 +119,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     user_cv_id: "",
                     criteria_id: "",
                     start_date: "",
-                    end_date: ""
+                    end_date: "",
+                    links: []
                 }
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
@@ -89,6 +128,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 cv_item.link = data[i].attachmenT_LINK;
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
+                cv_item.links = data[i].attachment;
+                
 
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
@@ -103,7 +144,6 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     rawTreeData.push(cv_item);
                 }
             }
-            console.log(rawTreeData);
             myTreeData = rawTreeData;
                 //getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
@@ -254,23 +294,28 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
 
     //MYCV Edit Criteria Choose END
 
-    $scope.editCVItem = function (cr) {
+    $scope.editCVItem = function (cr, file) {
         var data = {};
         data.ID_ITEM = cr.id;
         data.NAME = cr.title;
         data.DESCRIPTION = cr.description;
         data.START_DATE = cr.start_date;
         data.END_DATE = cr.end_date;
-        data.ATTACHMENT_LINK = "C:/Users/Aeternus/Desktop/a.zip";
         data.CRITERIA_ID_CRITERIA = $scope.editCriteriaFull.iD_CRITERIA;
+
+
+        data.LINKS = JSON.stringify(angular.copy($scope.links));
+        data.file = file;
+
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 3;
+        data.CV_TABLE_ID_CV = 2;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
         criteriaService.EditCVItem(cr.id,data).then(function (response) {
             $log.log(response);
             $scope.clearForm();
             GetAllCriteria();
+            GetMyCVs();
         });
     };
 

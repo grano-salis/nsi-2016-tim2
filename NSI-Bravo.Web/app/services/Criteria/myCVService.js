@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSettings','Upload', function ($http, $q, localStorageService, ngAuthSettings,Upload) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var criteriaServiceFactory = {};
@@ -11,10 +11,19 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _EditCVItem = function (id, data) {
+        return Upload.upload({
+            url: serviceBase + 'api/CVitem/Update/'+id,
+            data: data,
+            method: 'put'
+        });
+
+
+
+        /*
         return $http.put(serviceBase + 'api/CVitem/Update/' + id, data).then(function (response) {
             console.log(response);
             return response;
-        });
+        });*/
     };
 
 

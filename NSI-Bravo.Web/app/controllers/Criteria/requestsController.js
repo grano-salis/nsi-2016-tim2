@@ -10,6 +10,20 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
     $scope.my_tree = tree = {};
     var myTreeData = new Array();
 
+
+    $scope.links = [{ DESCRIPTION:'',URL:''}];
+    $scope.addNewLink = function () {
+        $scope.links.push({ DESCRIPTION: '', URL: ''});
+    };
+    $scope.resetLinks = function () {
+        $scope.links = [{ DESCRIPTION: '', URL: '' }];
+    }
+    $scope.removeLink = function (id) {
+        alert(id);
+        if ($scope.links.length > 1) {
+            $scope.links.splice(id, 1);
+        }
+    }
     // Tree for Criteria
     $scope.expanding_property = {
         field: "title",
@@ -40,6 +54,8 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
             cellTemplateScope: {
                 clickAdd: function (branch) {
                     $log.log(branch);
+                    $scope.resetLinks();
+                    $scope.cr = {};
                     $scope.addCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id };
                 }
             }
@@ -135,7 +151,7 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
 
     //Add New CV Item
 
-    $scope.addCVItem = function (cr,file) {
+    $scope.addCVItem = function (cr, file) {
         var data = {};
         data.NAME = cr.name;
         data.DESCRIPTION = cr.desc;
@@ -145,6 +161,8 @@ app.controller('requestsController', ['$scope', '$location', '$timeout', '$route
         // FORCED FOR THE MOMENT
         data.CV_TABLE_ID_CV = 2;
         data.STATUS_ID = 2;
+        //Angular COPY za uklanjanje HASH Taga, JSON Stringify da Server moze procesirati
+        data.LINKS = JSON.stringify(angular.copy($scope.links));
         // END OF FORCED DATA
         data.file = file;
         requestService.AddCV(data).then(function (response) {
