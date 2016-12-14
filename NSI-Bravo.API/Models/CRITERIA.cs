@@ -9,10 +9,10 @@
 
 namespace AngularJSAuthentication.API.Models
 {
-    using System;
     using Newtonsoft.Json;
+    using System;
     using System.Collections.Generic;
-    
+
     public partial class CRITERIA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -32,10 +32,11 @@ namespace AngularJSAuthentication.API.Models
         public Nullable<int> POINTS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
         public virtual ICollection<CRITERIA> CRITERIA1 { get; set; }
+        [JsonIgnore]
         public virtual CRITERIA CRITERIA2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
         [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
     }

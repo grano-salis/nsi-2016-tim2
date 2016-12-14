@@ -14,56 +14,259 @@ using Microsoft.WindowsAzure.Storage;
 using System.Configuration;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Reflection;
+using System.Web;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using Oracle.ManagedDataAccess.Client;
 
 namespace AngularJSAuthentication.API.Controllers
 {
+    [RoutePrefix("api/CVitem")]
     public class CV_ITEMController : ApiController
     {
         private MyEntities db = new MyEntities();
 
-        // GET: api/CV_ITEM
-        public IQueryable<CV_ITEM> GetCV_ITEM()
+        CloudStorageAccount storageAccount;
+        CloudBlobClient blobClient;
+        CloudBlobContainer blobContainer;
+        CloudBlockBlob blob;
+
+        public CV_ITEMController()
         {
-            try
-            {
-                UploadToBlobStorage();
-            }catch(Exception e)
-            {
-               //TODO vratiti error 500
-            }
-            return db.CV_ITEM;
+            storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
+            blobClient = storageAccount.CreateCloudBlobClient();
+            blobContainer = blobClient.GetContainerReference("attachment-files");
         }
 
-        // GET: api/CV_ITEM/5
-        [ResponseType(typeof(CV_ITEM))]
-        public IHttpActionResult GetCV_ITEM(long id)
+
+        //Insert CV_ITEM into database and upload to azure blob storage
+        //Route: http://localhost:26264/api/CVitem/Create
+        [HttpPost]
+        [Route("Create")]
+        public async Task<IHttpActionResult> PostCV_ITEM()
         {
-            CV_ITEM cV_ITEM = db.CV_ITEM.Find(id);
-            if (cV_ITEM == null)
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            CV_ITEM cv = new CV_ITEM();
+            List<ATTACHMENT> links= new List<ATTACHMENT>();
+            try {
+                string root = HttpContext.Current.Server.MapPath("~/App_Data");
+                var provider = new MultipartFormDataStreamProvider(root);
+                await Request.Content.ReadAsMultipartAsync(provider);
+
+                //lopp for going trough all key:values pairs
+                /* foreach (var key in provider.FormData.AllKeys)
+                 {
+                     //next loop is used for the case when one key has multiple values
+                     foreach (var val in provider.FormData.GetValues(key))
+                     {
+                     }
+                 }*/
+                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
+                cv.NAME = provider.FormData.GetValues("NAME").First();
+                cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
+                cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
+                cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
+                cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
+                //status=unconfirmed
+                cv.STATUS_ID = 1;
+                cv.DATE_CREATED = DateTime.Now;
+                if (provider.FileData.Count > 0)
+                {
+                    string uploadedFile = "";
+                    string localfilename = "";
+
+                    //loop for multiple files if needed
+                    foreach (var file in provider.FileData)
+                    {
+                        //deletes "" / signs in filename
+                        uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
+                        localfilename = file.LocalFileName;
+                    }
+                    var userId = 10;
+                    string identifier = Guid.NewGuid().ToString();
+                    var extension = Path.GetExtension(uploadedFile);
+                    string path = userId + "-" + identifier + extension;
+                    var fileName = Path.GetFileName(path);
+
+                    string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+                    if (!_supportedExtensions.Contains(extension))
+                    {
+                        return BadRequest("File not supported");
+                    }
+
+                    blobContainer.CreateIfNotExists();
+                    blob = blobContainer.GetBlockBlobReference(fileName);
+                    //localfilename: path of the file on server
+                    blob.UploadFromFile(localfilename);
+                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+
+            //saving CV_item to database
+            db.CV_ITEM.Add(cv);
+            db.SaveChanges();
+
+            //now update CV_ITEM_ID in every link
+            foreach (ATTACHMENT link in links)
+                link.CV_ITEM_ID = cv.ID_ITEM;
+
+            db.ATTACHMENT.AddRange(links);
+            db.SaveChanges();
+           //returns cv_item atributes incuding list of ATTACHMENTS
+            return Ok(cv);
+
+        }
+        //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
+        //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
+        [HttpGet]
+        [Route("GetAll/{ID_CV}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetAllItems(long ID_CV)
+        {
+            List<CV_ITEM> temp = new List<CV_ITEM>();
+            try
+            {
+                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV).ToList();
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp); ;
+        }
+
+        //Get CV_ITEM via ID_ITEM
+        //Route e.g. : http://localhost:26264/api/CVitem/Get/42
+        [HttpGet]
+        [Route("Get/{ID_ITEM}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetCV_ITEM(long ID_ITEM)
+        {
+            CV_ITEM temp = new CV_ITEM();
+            try {
+               temp = db.CV_ITEM.Find(ID_ITEM);
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp);
+        }
+
+
+        [HttpPut]
+        [Route("Update/{id}")]
+        [ResponseType(typeof(void))]
+        public async Task<IHttpActionResult> PutCV_ITEM(long id)
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            /* if (id != item.ID_ITEM)
+            {
+                return BadRequest("id doesn't match");
+            }*/
+            CV_ITEM cv = new CV_ITEM();
+            CV_ITEM currentCV = new CV_ITEM();
+            List<ATTACHMENT> links = new List<ATTACHMENT>();
+            try
+            {
+                //AsNOTracking(): no caching of in DBcontext or ObjectContext. 
+                //Without this, internal server error happens when saving to database
+                currentCV = db.CV_ITEM.AsNoTracking().First(a => a.ID_ITEM == id);
+            }
+            catch (DBConcurrencyException e)
             {
                 return NotFound();
             }
 
-            return Ok(cV_ITEM);
-        }
-
-        // PUT: api/CV_ITEM/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutCV_ITEM(long id, CV_ITEM cV_ITEM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != cV_ITEM.ID_ITEM)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(cV_ITEM).State = EntityState.Modified;
 
             try
+            {
+                string root = HttpContext.Current.Server.MapPath("~/App_Data");
+                var provider = new MultipartFormDataStreamProvider(root);
+                await Request.Content.ReadAsMultipartAsync(provider);
+                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>(provider.FormData.GetValues("LINKS").First());
+                cv.ID_ITEM = id;
+                cv.NAME = provider.FormData.GetValues("NAME").First();
+                cv.DESCRIPTION = provider.FormData.GetValues("DESCRIPTION").First();
+                cv.CV_TABLE_ID_CV = Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
+                cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
+                cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
+               
+                //STATUS=modified
+                cv.STATUS_ID = 3;
+                cv.DATE_MODIFIED = DateTime.Now;
+
+                //current file is deleted only if new is provided
+                if (provider.FileData.Count > 0)
+                {
+                    if (currentCV.ATTACHMENT_LINK != null)
+                    {
+                        //delete old ATTACHMENT_LINK from blob storage 
+                        string a = currentCV.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                        blobContainer.CreateIfNotExists();
+                        blob = blobContainer.GetBlockBlobReference(a);
+                        blob.DeleteIfExists();
+                    }
+                    string uploadedFile = "";
+                    string localfilename = "";
+
+                    //loop for multiple files if needed
+                    foreach (var file in provider.FileData)
+                    {
+                        //deletes "" / signs in filename
+                        uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
+                        localfilename = file.LocalFileName;
+                    }
+                    var userId = 10;
+                    string identifier = Guid.NewGuid().ToString();
+                    var extension = Path.GetExtension(uploadedFile);
+                    string path = userId + "-" + identifier + extension;
+                    var fileName = Path.GetFileName(path);
+
+                    string[] _supportedExtensions = { ".zip", ".rar", ".doc", ".pdf", ".docx", ".odt" };
+                    if (!_supportedExtensions.Contains(extension))
+                    {
+                        return BadRequest("File not supported");
+                    }
+
+                    blobContainer.CreateIfNotExists();
+                    blob = blobContainer.GetBlockBlobReference(fileName);
+                    //localfilename: path of the file on server
+                    blob.UploadFromFile(localfilename);
+                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                }
+                //no new file uploaded => use old file
+                else
+                {
+                    cv.ATTACHMENT_LINK = provider.FormData.GetValues("ATTACHMENT_LINK").ToString();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+
+            //saving to database                   
+            db.Entry(cv).State = EntityState.Modified;
+
+           try
             {
                 db.SaveChanges();
             }
@@ -78,41 +281,26 @@ namespace AngularJSAuthentication.API.Controllers
                     throw;
                 }
             }
+            //remove all current links from database
+            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
+           
+            //update CV_ITEM_ID in every link; In case that CV_ITEM_ID field in links is not set
+            foreach (ATTACHMENT link in links)
+                link.CV_ITEM_ID = id;
 
-            return StatusCode(HttpStatusCode.NoContent);
+            //add new links to database
+            db.ATTACHMENT.AddRange(links);     
+
+            //db.ATTACHMENT.AddRange(links);
+            db.SaveChanges();
+
+            return Ok(cv);
         }
 
-        // POST: api/CV_ITEM
-        [ResponseType(typeof(CV_ITEM))]
-        public IHttpActionResult PostCV_ITEM(CV_ITEM cV_ITEM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+   
 
-            db.CV_ITEM.Add(cV_ITEM);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CV_ITEMExists(cV_ITEM.ID_ITEM))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtRoute("DefaultApi", new { id = cV_ITEM.ID_ITEM }, cV_ITEM);
-        }
-
-        // DELETE: api/CV_ITEM/5
+        [HttpDelete]
+        [Route("Delete/{id}")]
         [ResponseType(typeof(CV_ITEM))]
         public IHttpActionResult DeleteCV_ITEM(long id)
         {
@@ -122,10 +310,21 @@ namespace AngularJSAuthentication.API.Controllers
                 return NotFound();
             }
 
+            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(u => u.CV_ITEM_ID == id).ToList());
+
+            if (cV_ITEM.ATTACHMENT_LINK != null)
+            {
+                string a = cV_ITEM.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                blobContainer.CreateIfNotExists();
+                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(a);
+
+                //delete file(ATTACHMENT_LINK) from blob storage 
+                blob.DeleteIfExists();
+            }
             db.CV_ITEM.Remove(cV_ITEM);
             db.SaveChanges();
 
-            return Ok(cV_ITEM);
+            return Ok("Deleted CV_ITEM: "+cV_ITEM.ID_ITEM);
         }
 
         protected override void Dispose(bool disposing)
@@ -170,4 +369,7 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
     }
+    
+    
+
 }

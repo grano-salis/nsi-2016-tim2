@@ -1,123 +1,251 @@
 {
-  "_type": "export",
-  "__export_format": 2,
-  "__export_date": "2016-11-08T01:49:48.803Z",
-  "__export_source": "insomnia.desktop.app:v3.6.7",
-  "resources": [
-    {
-      "modified": 1478540675304,
-      "created": 1478540675304,
-      "parentId": null,
-      "name": "Insomnia",
-      "_id": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-      "_type": "workspace"
-    },
-    {
-      "modified": 1478541040684,
-      "created": 1478541040684,
-      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-      "name": "Base Environment",
-      "data": {},
-      "_id": "env_0314f9fb50df40b6a2fbddb9a99366b9",
-      "_type": "environment"
-    },
-    {
-      "modified": 1478569661926,
-      "created": 1478541040754,
-      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-      "name": "Default Jar",
-      "cookies": [],
-      "_id": "jar_94570bdd56164ea084cba5be3a0ec33a",
-      "_type": "cookie_jar"
-    },
-    {
-      "modified": 1478546164773,
-      "created": 1478546162182,
-      "parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-      "name": "NSI",
-      "environment": {},
-      "_id": "fld_b3c1021d5d454d92a36a758c7079fa51",
-      "_type": "request_group"
-    },
-    {
-      "modified": 1478569783019,
-      "created": 1478546162203,
-      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-      "url": "http://localhost:26264/api/Criteria/GetCriteria/42",
-      "name": "get criteria",
-      "method": "GET",
-      "body": "{}",
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "_id": "req_1478357821772",
-      "contentType": "application/json",
-      "_type": "request"
-    },
-    {
-      "modified": 1478569454786,
-      "created": 1478546162203,
-      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-      "url": "http://localhost:26264/api/Criteria/PostCriteria",
-      "name": "create criteria",
-      "method": "POST",
-      "body": "{\n    \"NAME\": \"Projekat\",\n    \"DESCRIPTION\": \"neki projekti mocni\",\n    \"PARENT_CRITERIA\": null,\n    \"POINTS\": 5\n}",
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "_id": "req_1478360807022",
-      "contentType": "application/json",
-      "_type": "request"
-    },
-    {
-      "modified": 1478568399694,
-      "created": 1478546162203,
-      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-      "url": "http://localhost:26264/api/Criteria/UpdateCriteria/42",
-      "name": "update criteria",
-      "method": "PUT",
-      "body": "{\n    \"NAME\": \"Naučni rad\",\n    \"DESCRIPTION\": \"Nema\",\n    \"POINTS\": 10,\n    \"ID_CRITERIA\": 42\n}",
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "_id": "req_1478363578761",
-      "contentType": "application/json",
-      "_type": "request"
-    },
-    {
-      "modified": 1478569660753,
-      "created": 1478546162203,
-      "parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-      "url": "http://localhost:26264/api/Criteria/DeleteCriteria/47",
-      "name": "delete criteria",
-      "method": "DELETE",
-      "body": "{}",
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "_id": "req_1478363799900",
-      "contentType": "application/json",
-      "_type": "request"
-    }
-  ]
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2016-12-07T16:56:15.443Z",
+	"__export_source": "insomnia.desktop.app:v4.0.5",
+	"resources": [
+		{
+			"_id": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"parentId": null,
+			"modified": 1478540675304,
+			"created": 1478540675304,
+			"name": "Insomnia",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_0314f9fb50df40b6a2fbddb9a99366b9",
+			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"modified": 1478541040684,
+			"created": 1478541040684,
+			"name": "Base Environment",
+			"data": {},
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_94570bdd56164ea084cba5be3a0ec33a",
+			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"modified": 1479334954701,
+			"created": 1478541040754,
+			"name": "Default Jar",
+			"cookies": [],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"modified": 1481045762003,
+			"created": 1481045762003,
+			"name": "CVitem",
+			"environment": {},
+			"metaSortKey": -1481045762003,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"modified": 1478546164773,
+			"created": 1478546162182,
+			"name": "NSI",
+			"environment": {},
+			"metaSortKey": 1000,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_027b0c43e5a74ea6826467a2cea117da",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129642340,
+			"created": 1481122414722,
+			"url": "http://localhost:26264/api/CVitem/Update/52",
+			"name": "Put CVitem",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"ID_ITEM\": 52,\n    \"NAME\": \"Stavka 1 updateddd\",\n    \"DESCRIPTION\": \"glupa stavka\",\n\t\"CV_TABLE_ID_CV\":3,\n\t\"USER_ID_APPROVED\": 2,\n\t\"ATTACHMENT_LINK\": \"C:/Users/User/Desktop/neki.zip\",\n\t\"STATUS_ID\": 2\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1481122414722,
+			"_type": "request"
+		},
+		{
+			"_id": "req_10515f1af6fd40baa55720c0dd306727",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129597988,
+			"created": 1481119674042,
+			"url": "http://localhost:26264/api/CVitem/Get/51",
+			"name": "Get CVitem",
+			"method": "GET",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1481119674042,
+			"_type": "request"
+		},
+		{
+			"_id": "req_2eb23954711045f884a0819fddb6925b",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481105077728,
+			"created": 1481045773570,
+			"url": "http://localhost:26264/api/CVitem/Create",
+			"name": "create CVitem",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"ID_ITEM\": 0,\n    \"NAME\": \"Stavka 1 \",\n    \"DESCRIPTION\": \"glupa stavka\",\n\t\"CV_TABLE_ID_CV\":3,\n\t\"USER_ID_APPROVED\": 2,\n\t\"ATTACHMENT_LINK\": \"C:/Users/User/Desktop/neki.zip\",\n\t\"STATUS_ID\": 2\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1001001,
+			"_type": "request"
+		},
+		{
+			"_id": "req_3573f94f48b44bc0a672a81799a172c8",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481129662809,
+			"created": 1481129512922,
+			"url": "http://localhost:26264/api/CVitem/Delete/52",
+			"name": "Delete CVitem",
+			"method": "DELETE",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1481122414772,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6ec4d79108b44067a625aa47efadc11b",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481119686020,
+			"created": 1481116189145,
+			"url": "http://localhost:26264/api/CVitem/GetAll/3",
+			"name": "get all CVitem",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1481116189145,
+			"_type": "request"
+		},
+		{
+			"_id": "req_1478357821772",
+			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"modified": 1478711683568,
+			"created": 1478546162203,
+			"url": "http://localhost:26264/api/Criteria/GetAllCriteria",
+			"name": "get criteria",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1000000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_1478360807022",
+			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"modified": 1481050428481,
+			"created": 1478546162203,
+			"url": "http://localhost:26264/api/Criteria/PostCriteria",
+			"name": "create criteria",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"NAME\": \"potkategorija roditelja ID-139\",\n    \"DESCRIPTION\": \"bla bla bla\",\n    \"PARENT_CRITERIA\": 139,\n    \"POINTS\": 5\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1001000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_1478363578761",
+			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"modified": 1478700027119,
+			"created": 1478546162203,
+			"url": "http://localhost:26264/api/Criteria/UpdateCriteria/51",
+			"name": "update criteria",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n    \"NAME\": \"Projekat\",\n    \"DESCRIPTION\": \"Nema\",\n    \"POINTS\": 10,\n    \"ID_CRITERIA\": 51\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1002000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_1478363799900",
+			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"modified": 1478700410765,
+			"created": 1478546162203,
+			"url": "http://localhost:26264/api/Criteria/DeleteCriteria/53",
+			"name": "delete criteria",
+			"method": "DELETE",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1003000,
+			"_type": "request"
+		}
+	]
 }
