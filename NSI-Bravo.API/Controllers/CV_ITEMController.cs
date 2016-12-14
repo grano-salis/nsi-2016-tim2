@@ -205,9 +205,9 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.DESCRIPTION = provider.FormData.GetValues("DESCRIPTION").First();
                 cv.CV_TABLE_ID_CV = Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
-                cv.START_DATE = Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
+                cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
-
+               
                 //STATUS=modified
                 cv.STATUS_ID = 3;
                 cv.DATE_MODIFIED = DateTime.Now;
@@ -251,6 +251,11 @@ namespace AngularJSAuthentication.API.Controllers
                     blob.UploadFromFile(localfilename);
                     cv.ATTACHMENT_LINK = blob.Uri.ToString();
                 }
+                //no new file uploaded => use old file
+                else
+                {
+                    cv.ATTACHMENT_LINK = provider.FormData.GetValues("ATTACHMENT_LINK").ToString();
+                }
 
             }
             catch (Exception e)
@@ -278,7 +283,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
             //remove all current links from database
             db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
-
+           
             //update CV_ITEM_ID in every link; In case that CV_ITEM_ID field in links is not set
             foreach (ATTACHMENT link in links)
                 link.CV_ITEM_ID = id;
@@ -304,10 +309,8 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return NotFound();
             }
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
 
+            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(u => u.CV_ITEM_ID == id).ToList());
 
             if (cV_ITEM.ATTACHMENT_LINK != null)
             {
@@ -321,7 +324,7 @@ namespace AngularJSAuthentication.API.Controllers
             db.CV_ITEM.Remove(cV_ITEM);
             db.SaveChanges();
 
-            return Ok(cV_ITEM);
+            return Ok("Deleted CV_ITEM: "+cV_ITEM.ID_ITEM);
         }
 
         protected override void Dispose(bool disposing)
