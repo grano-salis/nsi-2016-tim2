@@ -146,8 +146,27 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(temp); ;
         }
 
-        //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
-        //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
+        [HttpGet]
+        [Route("GetHistory/{ID_CV}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetHistory(long ID_CV)
+        {
+
+            CV_ITEM_STATUS confirmed;
+            CV_ITEM_STATUS rejected;
+            try
+            {
+                confirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "confirmed").Single();
+                rejected = db.CV_ITEM_STATUS.Where(s => s.STATUS == "rejected").Single();
+                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                return Ok(temp);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet]
         [Route("GetAllUnconfirmedAndModified/{ID_CV}")]
         [ResponseType(typeof(List<CV_ITEM>))]
