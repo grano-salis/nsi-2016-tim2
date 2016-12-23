@@ -187,6 +187,25 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(temp);
         }
 
+        [HttpPost]
+        [Route("Update/{cv_item_id}/{status_id}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult UpdateStatus(long cv_item_id, int status_id)
+        {
+            try
+            {
+                var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
+                result.STATUS_ID = status_id;
+                //saving to database                   
+                db.Entry(result).State = EntityState.Modified;
+                db.SaveChanges();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
 
         [HttpPut]
         [Route("Update/{id}")]
