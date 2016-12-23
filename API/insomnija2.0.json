@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2016-12-23T12:56:01.621Z",
+	"__export_date": "2016-12-23T13:07:14.039Z",
 	"__export_source": "insomnia.desktop.app:v4.0.9",
 	"resources": [
 		{
@@ -36,7 +36,7 @@
 		{
 			"_id": "jar_94570bdd56164ea084cba5be3a0ec33a",
 			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-			"modified": 1482497709926,
+			"modified": 1482498409437,
 			"created": 1478541040754,
 			"name": "Default Jar",
 			"cookies": [],
@@ -338,6 +338,29 @@
 			],
 			"authentication": {},
 			"metaSortKey": 1003000,
+			"_type": "request"
+		},
+		{
+			"_id": "req_94f1fd65da92431ea23956b955ba245c",
+			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
+			"modified": 1482498420596,
+			"created": 1482498169185,
+			"url": "http://localhost:26264/api/Log/GetAllLogs",
+			"name": "get all logs",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": 1000001,
 			"_type": "request"
 		}
 	]
