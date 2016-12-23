@@ -155,36 +155,19 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetByDateRange([FromUri()]int id, [FromBody()] JObject dateRange)
         {
-            foreach(CV_ITEM a in db.CV_ITEM)
-            {
-                if (a.DATE_CREATED == null) a.DATE_CREATED = DateTime.Now;
-            }
-            db.SaveChanges();
+           
             List<CV_ITEM> items=new List<CV_ITEM>();
             DateTime from = (DateTime) dateRange.GetValue("from");
             DateTime to = (DateTime) dateRange.GetValue("to");
-             long aa = from.Ticks;
-            try
-            {
-                //first find all CV_ITEMs with CV_TABLE_ID_CV==id, than sum points of criteria in all CV_ITEMs
-                items = db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id).Where(o=>o.DATE_CREATED>=from & o.DATE_CREATED <= to).ToList();
-            
-                       
-
-            }
-            catch (DBConcurrencyException)
-            {
-                return BadRequest("Error");
-            }
-            
-            List<CV_ITEM> items2 = new List<CV_ITEM>();
+          
+       
             foreach (CV_ITEM c in db.CV_ITEM)
                 if (c.CV_TABLE_ID_CV==id && (c.DATE_CREATED.Value.Year >= from.Year && c.DATE_CREATED.Value.Year <= to.Year)&&
                                             (c.DATE_CREATED.Value.Month >= from.Month && c.DATE_CREATED.Value.Month <= to.Month)&&
                                             (c.DATE_CREATED.Value.Day >=from.Day && c.DATE_CREATED.Value.Day<=to.Day))
-                    items2.Add(c);
+                    items.Add(c);
 
-            List<CV_ITEM> cc = items2.Except(items).ToList();
+            List<CV_ITEM> cc = items.Except(items).ToList();
             return Ok(items);
         }
 
