@@ -147,9 +147,9 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetHistory/{ID_CV}")]
+        [Route("GetProcessedRequests/{ID_CV}")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetHistory(long ID_CV)
+        public IHttpActionResult GetProcessedRequests(long ID_CV)
         {
 
             CV_ITEM_STATUS confirmed;
@@ -213,8 +213,23 @@ namespace AngularJSAuthentication.API.Controllers
         {
             try
             {
+                var status = db.CV_ITEM_STATUS.Where(a => a.ID == status_id).Single();
                 var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
                 result.STATUS_ID = status_id;
+                // treba postaviti user_id
+
+                if (status.STATUS == "confirmed" || status.STATUS == "rejected")
+                {
+                    var log = new LOG();
+                    log.EVENT_CREATED = DateTime.Now;
+                    log.EVENT_TYPE = status.STATUS;
+                    log.DESCRIPTION = cv_item_id.ToString();
+                    // treba postaviti pravi user_id
+                    log.USER_ID = "1";
+                    db.LOG.Add(log);
+                    db.SaveChanges();
+                }
+                
                 //saving to database                   
                 db.Entry(result).State = EntityState.Modified;
                 db.SaveChanges();
