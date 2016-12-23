@@ -1,13 +1,13 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2016-12-23T13:07:14.039Z",
+	"__export_date": "2016-12-23T15:01:27.679Z",
 	"__export_source": "insomnia.desktop.app:v4.0.9",
 	"resources": [
 		{
 			"_id": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
 			"parentId": null,
-			"modified": 1482489061722,
+			"modified": 1482505222907,
 			"created": 1478540675304,
 			"name": "Insomnia",
 			"description": "",
@@ -17,7 +17,7 @@
 		{
 			"_id": "wrk_is5q15dzj8Frp5yxE2Fr6",
 			"parentId": null,
-			"modified": 1471850992150,
+			"modified": 1482505222633,
 			"created": 1471850913671,
 			"name": "Insomnia",
 			"description": "",
@@ -27,7 +27,7 @@
 		{
 			"_id": "env_0314f9fb50df40b6a2fbddb9a99366b9",
 			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-			"modified": 1482489061719,
+			"modified": 1482505222503,
 			"created": 1478541040684,
 			"name": "Base Environment",
 			"data": {},
@@ -36,16 +36,26 @@
 		{
 			"_id": "jar_94570bdd56164ea084cba5be3a0ec33a",
 			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-			"modified": 1482498409437,
+			"modified": 1482505222405,
 			"created": 1478541040754,
 			"name": "Default Jar",
 			"cookies": [],
 			"_type": "cookie_jar"
 		},
 		{
+			"_id": "fld_031ed6388d87406da33ad4173e6c8147",
+			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
+			"modified": 1482505270625,
+			"created": 1482505270625,
+			"name": "Auth",
+			"environment": {},
+			"metaSortKey": -1482505270625,
+			"_type": "request_group"
+		},
+		{
 			"_id": "fld_63f3e08f10144a5fa657619fd51c67b3",
 			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-			"modified": 1482489061716,
+			"modified": 1482505222298,
 			"created": 1481045762003,
 			"name": "CVitem",
 			"environment": {},
@@ -55,7 +65,7 @@
 		{
 			"_id": "fld_b3c1021d5d454d92a36a758c7079fa51",
 			"parentId": "wrk_5f209111c7fa4e8f89f6e90de2d80f26",
-			"modified": 1482489061715,
+			"modified": 1482505222189,
 			"created": 1478546162182,
 			"name": "NSI",
 			"environment": {},
@@ -65,7 +75,7 @@
 		{
 			"_id": "env_is5q2iq1jADfmeaqJU47h",
 			"parentId": "wrk_is5q15dzj8Frp5yxE2Fr6",
-			"modified": 1471850977609,
+			"modified": 1482505222036,
 			"created": 1471850977609,
 			"name": "Base Environment",
 			"data": {},
@@ -74,7 +84,7 @@
 		{
 			"_id": "jar_is5q2iq2bXpKfnCTeThsV",
 			"parentId": "wrk_is5q15dzj8Frp5yxE2Fr6",
-			"modified": 1471851011563,
+			"modified": 1482505221929,
 			"created": 1471850977610,
 			"name": "Default Jar",
 			"cookies": [
@@ -89,9 +99,90 @@
 			"_type": "cookie_jar"
 		},
 		{
+			"_id": "req_04c44d07afc74f33809402bee379c6f9",
+			"parentId": "fld_031ed6388d87406da33ad4173e6c8147",
+			"modified": 1482505276192,
+			"created": 1482247740778,
+			"url": "http://localhost:48202/BusinessLogic/Account.svc/json/auth",
+			"name": "Auth",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1482247785718,
+			"_type": "request"
+		},
+		{
+			"_id": "req_0e1a0671873b4c7e95ee51be7acbcde6",
+			"parentId": "fld_031ed6388d87406da33ad4173e6c8147",
+			"modified": 1482505278257,
+			"created": 1482247496253,
+			"url": "http://localhost:48202/BusinessLogic/Account.svc/json/register",
+			"name": "Register",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\t\"Username\": \"User123\",\n\t\t\"Email\": \"user123@etf.unsa.ba\",\n\t\t\"Password\": \"User123.\",\n\t\t\"FirstName\": \"Ensar\",\n\t\t\"LastName\": \"Muratovic\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1482247785618,
+			"_type": "request"
+		},
+		{
+			"_id": "req_40a0d6445f8444ae83365b28200ecaee",
+			"parentId": "fld_031ed6388d87406da33ad4173e6c8147",
+			"modified": 1482505277270,
+			"created": 1482247612414,
+			"url": "http://localhost:48202/BusinessLogic/Account.svc/json/login",
+			"name": "Login",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \t\"loginModel\":{\n\t\t\"Username\": \"User123\",\n\t\t\"Password\": \"User123.\"\n  \t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1482247785668,
+			"_type": "request"
+		},
+		{
+			"_id": "req_8c0b0e0dba4347869c965615e51992fe",
+			"parentId": "fld_031ed6388d87406da33ad4173e6c8147",
+			"modified": 1482505272773,
+			"created": 1482247785768,
+			"url": "http://localhost:48202/BusinessLogic/Account.svc/json/logout",
+			"name": "Logout",
+			"method": "POST",
+			"body": {
+				"text": ""
+			},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1482247785768,
+			"_type": "request"
+		},
+		{
 			"_id": "req_027b0c43e5a74ea6826467a2cea117da",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489061711,
+			"modified": 1482505221747,
 			"created": 1481122414722,
 			"url": "http://localhost:26264/api/CVitem/Update/52",
 			"name": "Put CVitem",
@@ -114,7 +205,7 @@
 		{
 			"_id": "req_10515f1af6fd40baa55720c0dd306727",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489061710,
+			"modified": 1482505221620,
 			"created": 1481119674042,
 			"url": "http://localhost:26264/api/CVitem/Get/51",
 			"name": "Get CVitem",
@@ -131,7 +222,7 @@
 		{
 			"_id": "req_2eb23954711045f884a0819fddb6925b",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489061708,
+			"modified": 1482505221489,
 			"created": 1481045773570,
 			"url": "http://localhost:26264/api/CVitem/Create",
 			"name": "create CVitem",
@@ -154,7 +245,7 @@
 		{
 			"_id": "req_3573f94f48b44bc0a672a81799a172c8",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489061705,
+			"modified": 1482505221384,
 			"created": 1481129512922,
 			"url": "http://localhost:26264/api/CVitem/Delete/52",
 			"name": "Delete CVitem",
@@ -171,7 +262,7 @@
 		{
 			"_id": "req_6ec4d79108b44067a625aa47efadc11b",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489061703,
+			"modified": 1482505221288,
 			"created": 1481116189145,
 			"url": "http://localhost:26264/api/CVitem/GetAll/3",
 			"name": "get all CVitem",
@@ -194,7 +285,7 @@
 		{
 			"_id": "req_94d64c5eee304b4f889e7622f59d4512",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489127432,
+			"modified": 1482505221162,
 			"created": 1482489093934,
 			"url": "http://localhost:26264/api/CVitem/GetAllUnconfirmedAndModified/1",
 			"name": "Get CVitem Unconfirmed and Modified",
@@ -211,7 +302,7 @@
 		{
 			"_id": "req_ac72ded7032c408c9d68b5fe2af1bdaa",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489192560,
+			"modified": 1482505221031,
 			"created": 1482489142602,
 			"url": "http://localhost:26264/api/CVitem/Update/1/4",
 			"name": "Update CVitem status",
@@ -232,9 +323,70 @@
 			"_type": "request"
 		},
 		{
+			"_id": "req_d98fe3c458f140f39f2113643c90efbd",
+			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
+			"modified": 1481395319280,
+			"created": 1481391290316,
+			"url": "http://localhost:26264/api/CVitem/CreateNew",
+			"name": "New Create CVitem",
+			"method": "POST",
+			"body": {
+				"mimeType": "multipart/form-data",
+				"params": [
+					{
+						"name": "ID_ITEM",
+						"value": "0",
+						"disabled": false
+					},
+					{
+						"name": "NAME",
+						"value": "Stavka Ensar",
+						"disabled": false
+					},
+					{
+						"name": "DESCRIPTION",
+						"value": "nema nikakvog opisa",
+						"disabled": false
+					},
+					{
+						"name": "CV_TABLE_ID_CV",
+						"value": "3",
+						"disabled": false
+					},
+					{
+						"name": "USER_ID_APPROVED",
+						"value": "10",
+						"disabled": false
+					},
+					{
+						"name": "STATUS_ID",
+						"value": "2",
+						"disabled": false
+					},
+					{
+						"name": "files",
+						"value": "",
+						"disabled": false,
+						"type": "file",
+						"fileName": "C:\\Users\\User\\Desktop\\neki.zip"
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "content-type",
+					"value": "multipart/form-data"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1481391290316,
+			"_type": "request"
+		},
+		{
 			"_id": "req_ebf3af94dbff4a678ee40a4fd6798d5b",
 			"parentId": "fld_63f3e08f10144a5fa657619fd51c67b3",
-			"modified": 1482489216537,
+			"modified": 1482505220783,
 			"created": 1482489203274,
 			"url": "http://localhost:26264/api/CVitem/GetProcessedRequests/1",
 			"name": "Get Processed requests",
@@ -251,7 +403,7 @@
 		{
 			"_id": "req_1478357821772",
 			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-			"modified": 1482489061701,
+			"modified": 1482505220783,
 			"created": 1478546162203,
 			"url": "http://localhost:26264/api/Criteria/GetAllCriteria",
 			"name": "get criteria",
@@ -274,7 +426,7 @@
 		{
 			"_id": "req_1478360807022",
 			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-			"modified": 1482489061698,
+			"modified": 1482505220767,
 			"created": 1478546162203,
 			"url": "http://localhost:26264/api/Criteria/PostCriteria",
 			"name": "create criteria",
@@ -297,7 +449,7 @@
 		{
 			"_id": "req_1478363578761",
 			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-			"modified": 1482489061696,
+			"modified": 1482505220757,
 			"created": 1478546162203,
 			"url": "http://localhost:26264/api/Criteria/UpdateCriteria/51",
 			"name": "update criteria",
@@ -320,7 +472,7 @@
 		{
 			"_id": "req_1478363799900",
 			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-			"modified": 1482489061692,
+			"modified": 1482505220741,
 			"created": 1478546162203,
 			"url": "http://localhost:26264/api/Criteria/DeleteCriteria/53",
 			"name": "delete criteria",
@@ -343,7 +495,7 @@
 		{
 			"_id": "req_94f1fd65da92431ea23956b955ba245c",
 			"parentId": "fld_b3c1021d5d454d92a36a758c7079fa51",
-			"modified": 1482498420596,
+			"modified": 1482505220712,
 			"created": 1482498169185,
 			"url": "http://localhost:26264/api/Log/GetAllLogs",
 			"name": "get all logs",
