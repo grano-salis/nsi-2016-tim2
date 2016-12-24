@@ -330,7 +330,7 @@ namespace AngularJSAuthentication.API.Controllers
                 //no new file uploaded => use old file
                 else
                 {
-                    cv.ATTACHMENT_LINK = provider.FormData.GetValues("ATTACHMENT_LINK").ToString();
+                    cv.ATTACHMENT_LINK = currentCV.ATTACHMENT_LINK;
                 }
 
             }

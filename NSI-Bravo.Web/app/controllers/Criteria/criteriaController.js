@@ -15,7 +15,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<i>{{row.branch[expandingProperty.field]}}</i>"
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
     };
 
     $scope.col_defs = [
@@ -35,18 +35,22 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#addCrModal' >Add Subcriteria</button>"+" "+"<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" +" "+"<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
+            cellTemplate: "<button ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>" + " " + "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#addCrModal' >Add Subcriteria</button>" + " " + "<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
             cellTemplateScope: {
                 clickEdit: function (branch) {
                     $log.log(branch);
-                    $scope.editCr = { name: branch.title, points: branch.points, id: branch.id, parent_id : branch.parent_id };
+                    $scope.editCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description };
+                    console.log($scope.editCr.desc);
                 },
                 clickDel: function (branch) {
-                    $scope.editCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id };
+                    $scope.editCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description };
                     //$scope.deleteCriteria(branch.id);
                 },
                 clickAdd: function (branch) {
-                    $scope.addCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id };
+                    $scope.addCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id,desc:branch.description };
+                },
+                clickView: function (branch) {
+                    $scope.viewCr = { title: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description,created:branch.created };
                 }
             }
         }
@@ -54,7 +58,6 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
 
     $scope.my_tree_handler = function (branch) {
         console.log('you clicked on', branch);
-        $scope.getMasterCriteria();
     }
 
     function clearTable(){
@@ -78,12 +81,14 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                 var criterion = {
                     id: "",
                     title: "",
+                    description: "",
                     parent_id: "",
                     created: "",
                     points: ""
                 }
                 criterion.id = data[i].iD_CRITERIA;
                 criterion.title = data[i].name;
+                criterion.description = data[i].description;
                 criterion.parent_id = data[i].parenT_CRITERIA;
                 var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
                 if(date !== null)
@@ -93,7 +98,6 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                     rawTreeData.push(criterion);
                 }
             }
-            console.log(rawTreeData);
             myTreeData = getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
         });
@@ -174,6 +178,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         $log.log(cr);
         var data = {};
         data.NAME = cr.name;
+        console.log(cr.desc);
         data.DESCRIPTION = cr.desc;
         data.POINTS = cr.points;
         data.ID_CRITERIA =  cr.id;
@@ -237,12 +242,16 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
     };
 
     
-    $scope.addCriteria = function (cr) {
+    $scope.addCriteria = function (cr,modal) {
         var data = {};
+        this.hide;
         data.NAME = cr.name;
+        console.log(cr.desc);
         data.DESCRIPTION = cr.desc;
         data.POINTS = cr.points;
-        data.PARENT_CRITERIA =  $scope.addCr.id;
+        if ($scope.addCr != null) {
+            data.PARENT_CRITERIA = $scope.addCr.id;
+        }
         criteriaService.AddCriteria(data).then(function(response) { 
             $log.log(response);
             $scope.clearForm();

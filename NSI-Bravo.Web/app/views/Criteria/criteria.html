@@ -39,7 +39,7 @@
 </div>
 
 <!--Add Criteria Modal -->
-<div id="addCrModal" class="modal fade" role="dialog">
+<div id="addCrModal" name="modal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -48,29 +48,31 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Add criteria</h4>
             </div>
-            <form>
+            <form name="addCrForm" role="form">
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="name" class="col-xs-2 col-form-label">Name</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="text" value="" ng-model="cr.name">
+                            <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="cr.name">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="points" class="col-xs-2 col-form-label">Points</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="number" min="0" value="" ng-model="cr.points">
+                            <input class="form-control" type="number" min="1" value="1" required ng-model="cr.points">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-xs-2 col-form-label">Description</label>
                         <div class="col-xs-10">
-                            <textarea class="form-control" id="description" rows="3" ng-model="cr.desc"></textarea>
+                            <textarea class="form-control" type="text" id="description" rows="3" ng-minlength="20" minlength ="20" required ng-model="cr.desc"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="addCriteria(cr)" data-dismiss="modal">Add</button>
+                    <button type="submit" class="btn btn-success" ng-click="addCriteria(cr);" ng-if="!(addCrForm.$invalid||addCrForm.$error.minlength||addCrForm.$error.required)" data-dismiss="modal">Add</button>
+                    <button type="submit" class="btn btn-warning" ng-click="" ng-if="addCrForm.$invalid||addCrForm.$error.minlength||addCrForm.$error.required">Add</button>
+                    <button class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -88,29 +90,31 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit criteria</h4>
             </div>
-            <form>
+            <form name="editCrForm" role="form">
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="name" class="col-xs-2 col-form-label">Name</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="text" value="" ng-model="editCr.name">
+                            <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="editCr.name">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="points" class="col-xs-2 col-form-label">Points</label>
                         <div class="col-xs-10">
-                            <input class="form-control" type="number" value="" ng-model="editCr.points">
+                            <input class="form-control" type="number" min="1" value="1" required ng-model="editCr.points">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="description" class="col-xs-2 col-form-label">Description</label>
                         <div class="col-xs-10">
-                            <textarea class="form-control" id="description" rows="3" ng-model="editCr.desc"></textarea>
+                            <textarea class="form-control" id="description" rows="3" ng-minlength="20" minlength="20" required ng-model="editCr.desc"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" ng-click="editCriteria(editCr)" data-dismiss="modal">Edit</button>
+                    <button type="submit" class="btn btn-success" ng-click="editCriteria(editCr);" ng-if="!(editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required)" data-dismiss="modal">Edit</button>
+                    <button type="submit" class="btn btn-warning" ng-click="" ng-if="editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required">Edit</button>
+                    <button class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -147,3 +151,47 @@
 
     </div>
 </div>
+
+
+
+<!-- View CV Modal-->
+<div id="viewCrModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View CV Item</h4>
+            </div>
+            <div>
+                <div class="modal-body ">
+
+                    <div class="text-left">
+                        <h4><b>Name</b></h4> {{viewCr.title}}
+                    </div>
+
+                    <div class="text-left" style="word-wrap:break-word">
+                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.desc}}</span>
+                    </div>
+
+
+                    <div class="text-left">
+                        <h4><b>Created</b></h4> {{viewCr.created}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Criteria Points</b></h4> {{viewCr.points}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
