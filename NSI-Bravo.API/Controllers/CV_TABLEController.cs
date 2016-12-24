@@ -155,19 +155,18 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetByDateRange([FromUri()]int id, [FromBody()] JObject dateRange)
         {
-           
-            List<CV_ITEM> items=new List<CV_ITEM>();
+            List<CV_ITEM> items;
             DateTime from = (DateTime) dateRange.GetValue("from");
             DateTime to = (DateTime) dateRange.GetValue("to");
-          
-       
-            foreach (CV_ITEM c in db.CV_ITEM)
-                if (c.CV_TABLE_ID_CV==id && (c.DATE_CREATED.Value.Year >= from.Year && c.DATE_CREATED.Value.Year <= to.Year)&&
-                                            (c.DATE_CREATED.Value.Month >= from.Month && c.DATE_CREATED.Value.Month <= to.Month)&&
-                                            (c.DATE_CREATED.Value.Day >=from.Day && c.DATE_CREATED.Value.Day<=to.Day))
-                    items.Add(c);
+            try {
+                 items = db.CV_ITEM.Where(c => c.CV_TABLE_ID_CV == id && c.DATE_CREATED >= from && c.DATE_CREATED <= to).ToList();
+            }
+            catch(Exception e)
+            {
+                return InternalServerError(e);
+            }
 
-            List<CV_ITEM> cc = items.Except(items).ToList();
+           
             return Ok(items);
         }
 
