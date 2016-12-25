@@ -11,6 +11,7 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
     var _EditCVItem = function (id, data) {
+        console.log(data);
         return Upload.upload({
             url: serviceBase + 'api/CVitem/Update/'+id,
             data: data,
@@ -72,12 +73,21 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     };
 
 
+    var _GetScore = function (id) {
+        return $http.get(serviceBase + 'api/CVtable/Score/' + id).then(function (response) {
+            return response;
+        });
+    };
+
+
+
     criteriaServiceFactory.GetMyCVs = _GetMyCVs;
     criteriaServiceFactory.EditCVItem = _EditCVItem;
     criteriaServiceFactory.DeleteCVItem = _DeleteCVItem;
     criteriaServiceFactory.GetAllCriteria = _GetAllCriteria;
     criteriaServiceFactory.GetCriteria = _GetCriteria;
     criteriaServiceFactory.AddCV = _AddCV;
+    criteriaServiceFactory.GetScore = _GetScore;
 
     return criteriaServiceFactory;
 }]);

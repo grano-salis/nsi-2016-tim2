@@ -60,6 +60,7 @@
   <ItemGroup>
     <Content Include="app\controllers\associateController.js" />
     <Content Include="app\controllers\Criteria\criteriaController.js" />
+    <Content Include="app\controllers\Criteria\histroyController.js" />
     <Content Include="app\controllers\Criteria\myCVController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
@@ -71,13 +72,16 @@
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\Criteria\criteriaService.js" />
+    <Content Include="app\services\Criteria\historyService.js" />
     <Content Include="app\services\Criteria\myCVService.js" />
     <Content Include="app\services\Criteria\requestsService.js" />
     <Content Include="app\services\ordersService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
     <Content Include="app\views\Criteria\criteria.html" />
+    <Content Include="app\views\Criteria\history.html" />
     <Content Include="app\views\Criteria\myCV.html" />
+    <Content Include="app\views\Criteria\myHistory.html" />
     <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />

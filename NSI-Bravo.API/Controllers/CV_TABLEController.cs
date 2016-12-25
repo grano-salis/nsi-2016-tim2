@@ -170,6 +170,48 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(items);
         }
 
+        // Vraca sve profesore
+        [HttpGet]
+        [Route("GetAllProfessors")]
+
+        //Returns a JSON with all criteria entries
+        public IHttpActionResult GetAllProfessors()
+        {
+            List<CV_TABLE> lista;
+            try
+            {
+                lista = db.CV_TABLE.OrderBy(u => u.ID_CV).ToList();
+            }
+            catch (Exception e) {
+                return InternalServerError(e);
+            }
+            return Ok(lista);
+        }
+
+        // Vraca historiju mojih stavki - User sa ID 1 sada HARDCODED
+        [HttpPost]
+        [Route("GetMyHistory")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetMyHistory(HISTORY dateRange)
+        {
+            int id = 1;
+            List<CV_ITEM> items;
+            DateTime from = (DateTime)dateRange.from;
+            DateTime to = (DateTime)dateRange.to;
+            try
+            {
+                items = db.CV_ITEM.Where(c => c.CV_TABLE_ID_CV == id && c.DATE_CREATED >= from && c.DATE_CREATED <= to).ToList();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+
+
+            return Ok(items);
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

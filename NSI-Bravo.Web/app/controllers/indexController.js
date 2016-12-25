@@ -6,6 +6,10 @@ app.controller('indexController', ['$scope', '$location', 'authService', functio
         $location.path('/home');
     }
 
+    $scope.isActive = function (viewLocation) {
+        return viewLocation === $location.path();
+    };
+
     $scope.authentication = authService.authentication;
 
 }]);

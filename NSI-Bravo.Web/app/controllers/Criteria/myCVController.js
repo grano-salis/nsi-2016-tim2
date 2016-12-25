@@ -83,7 +83,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                         $scope.links = [];
                     }
                     else {
-                        $scope.links = [{ DESCRIPTION: '', URL: '' }];
+                        $scope.links = [];
                     }
                     for (var i = 0; i < branch.links.length; i++) {
                         $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
@@ -121,7 +121,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     function GetMyCVs() {
         clearTable();
         // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
-        criteriaService.GetMyCVs(2).then(function (response) {
+        criteriaService.GetMyCVs(1).then(function (response) {
             data = response.data;
             for (var i = 0; i < data.length; i++) {
                 var cv_item = {
@@ -160,20 +160,18 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             myTreeData = rawTreeData;
                 //getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
-            calculatePoints(myTreeData);
+            calculatePoints();
         });
     };
     GetMyCVs();
     // MY CV TABLE END
 
 // Racunanje poena od profesora
-    function calculatePoints(cvs) {
+    function calculatePoints() {
         $scope.currentPoints = 0;
-        for(var i = 0; i < cvs.length;i++){        
-            criteriaService.GetCriteria(cvs[i].criteria_id).then(function (response) {
-               $scope.currentPoints+=response.data.points;
-            });
-        }
+        criteriaService.GetScore(1).then(function (response) {
+            $scope.currentPoints=response.data;
+        });
     }
 
     //MYcv Edit Criteria Choose
@@ -318,7 +316,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.file = file;
 
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 2;
+        data.CV_TABLE_ID_CV = 1;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
         criteriaService.EditCVItem(cr.id,data).then(function (response) {
@@ -355,7 +353,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.CRITERIA_ID_CRITERIA = $scope.editCriteriaFull.iD_CRITERIA;
         $scope.editCriteriaFull = {};
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 2;
+        data.CV_TABLE_ID_CV = 1;
         data.STATUS_ID = 2;
         //Angular COPY za uklanjanje HASH Taga, JSON Stringify da Server moze procesirati
         data.LINKS = JSON.stringify(angular.copy($scope.links));

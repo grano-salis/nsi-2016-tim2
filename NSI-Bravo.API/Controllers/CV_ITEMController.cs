@@ -283,6 +283,7 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
+                cv.DATE_CREATED = currentCV.DATE_CREATED;
                
                 //STATUS=modified
                 cv.STATUS_ID = 3;
