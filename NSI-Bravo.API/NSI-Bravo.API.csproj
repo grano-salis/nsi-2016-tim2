@@ -278,6 +278,7 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ExternalLoginModels.cs" />
+    <Compile Include="Models\HISTORY.cs" />
     <Compile Include="Models\LOG.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>

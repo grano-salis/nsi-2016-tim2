@@ -30,14 +30,12 @@ app.factory('criteriaService', ['$http', '$q', 'localStorageService', 'ngAuthSet
 
     var _AddCriteria = function(data) {
             return $http.post(serviceBase + 'api/Criteria/PostCriteria', data).then(function (response) {
-                console.log(response);
                 return response;
             });
     };
 
     var _UpdateCriteria = function(id, data) {
             return $http.put(serviceBase + 'api/Criteria/UpdateCriteria/' + id, data).then(function (response) {
-                console.log(response);
                 return response;
             });
     };

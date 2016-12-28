@@ -146,6 +146,48 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(temp); ;
         }
 
+        [HttpGet]
+        [Route("GetProcessedRequests/{ID_CV}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetProcessedRequests(long ID_CV)
+        {
+
+            CV_ITEM_STATUS confirmed;
+            CV_ITEM_STATUS rejected;
+            try
+            {
+                confirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "confirmed").Single();
+                rejected = db.CV_ITEM_STATUS.Where(s => s.STATUS == "rejected").Single();
+                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                return Ok(temp);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllUnconfirmedAndModified/{ID_CV}")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetAllUnconfirmedItems(long ID_CV)
+        {
+            
+            CV_ITEM_STATUS unconfirmed;
+            CV_ITEM_STATUS modified;
+            try
+            {
+                unconfirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "unconfirmed").Single();
+                modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
+                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                return Ok(temp);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }  
+        }
+
         //Get CV_ITEM via ID_ITEM
         //Route e.g. : http://localhost:26264/api/CVitem/Get/42
         [HttpGet]
@@ -164,6 +206,40 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(temp);
         }
 
+        [HttpPost]
+        [Route("Update/{cv_item_id}/{status_id}")]
+        [ResponseType(typeof(void))]
+        public IHttpActionResult UpdateStatus(long cv_item_id, int status_id)
+        {
+            try
+            {
+                var status = db.CV_ITEM_STATUS.Where(a => a.ID == status_id).Single();
+                var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
+                result.STATUS_ID = status_id;
+                // treba postaviti user_id
+
+                if (status.STATUS == "confirmed" || status.STATUS == "rejected")
+                {
+                    var log = new LOG();
+                    log.EVENT_CREATED = DateTime.Now;
+                    log.EVENT_TYPE = status.STATUS;
+                    log.DESCRIPTION = cv_item_id.ToString();
+                    // treba postaviti pravi user_id
+                    log.USER_ID = "1";
+                    db.LOG.Add(log);
+                    db.SaveChanges();
+                }
+                
+                //saving to database                   
+                db.Entry(result).State = EntityState.Modified;
+                db.SaveChanges();
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
 
         [HttpPut]
         [Route("Update/{id}")]
@@ -207,6 +283,7 @@ namespace AngularJSAuthentication.API.Controllers
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
+                cv.DATE_CREATED = currentCV.DATE_CREATED;
                
                 //STATUS=modified
                 cv.STATUS_ID = 3;
@@ -254,7 +331,7 @@ namespace AngularJSAuthentication.API.Controllers
                 //no new file uploaded => use old file
                 else
                 {
-                    cv.ATTACHMENT_LINK = provider.FormData.GetValues("ATTACHMENT_LINK").ToString();
+                    cv.ATTACHMENT_LINK = currentCV.ATTACHMENT_LINK;
                 }
 
             }

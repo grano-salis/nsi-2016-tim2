@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
+using Newtonsoft.Json;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -17,12 +18,46 @@ namespace AngularJSAuthentication.API.Controllers
     {
         private MyEntities db = new MyEntities();
 
+        [JsonObject(IsReference = false)]
+        public class LogModel
+        {
+            public long LOG_ID { get; set; }
+            public Nullable<System.DateTime> EVENT_CREATED { get; set; }
+            public string EVENT_TYPE { get; set; }
+            public string DESCRIPTION { get; set; }
+            public CV_TABLE USER { get; set; }
+
+            public LogModel(long id, Nullable<System.DateTime> created, string description, CV_TABLE user,string type)
+            {
+                LOG_ID = id;
+                EVENT_CREATED = created;
+                DESCRIPTION = description;
+                EVENT_TYPE = type;
+                USER = user;
+            }
+        };
+
         // GET: api/LOGs
         [HttpGet]
         [Route("GetAllLogs")]
-        public IQueryable<LOG> GetLOG()
+        public IHttpActionResult GetLOG()
         {
-            return db.LOG;
+            List<LOG> lOGs = db.LOG.ToList();
+            if (lOGs == null)
+            {
+                return NotFound();
+            }
+            CV_TABLE user;
+            List<LogModel> returnData = new List<LogModel>();
+            foreach (LOG log in lOGs) {
+                user = db.CV_TABLE.Where(x => x.USER_ID ==log.USER_ID).FirstOrDefault();
+                returnData.Add(new LogModel(log.LOG_ID,
+                    log.EVENT_CREATED,
+                    log.DESCRIPTION,
+                    user,
+                    log.EVENT_TYPE));
+            }
+            return Ok(returnData);
         }
 
         //TODO: Write the action for get log by date

@@ -59,7 +59,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\associateController.js" />
-    <Content Include="app\controllers\Criteria\**" />
+    <Content Include="app\controllers\Criteria\criteriaController.js" />
+    <Content Include="app\controllers\Criteria\histroyController.js" />
+    <Content Include="app\controllers\Criteria\logController.js" />
+    <Content Include="app\controllers\Criteria\myCVController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
@@ -69,11 +72,20 @@
     <Content Include="app\controllers\tokensManagerController.js" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
-    <Content Include="app\services\Criteria\**" />
+    <Content Include="app\services\Criteria\criteriaService.js" />
+    <Content Include="app\services\Criteria\historyService.js" />
+    <Content Include="app\services\Criteria\logService.js" />
+    <Content Include="app\services\Criteria\myCVService.js" />
+    <Content Include="app\services\Criteria\requestsService.js" />
     <Content Include="app\services\ordersService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
-    <Content Include="app\views\Criteria\**" />
+    <Content Include="app\views\Criteria\criteria.html" />
+    <Content Include="app\views\Criteria\history.html" />
+    <Content Include="app\views\Criteria\log.html" />
+    <Content Include="app\views\Criteria\myCV.html" />
+    <Content Include="app\views\Criteria\myHistory.html" />
+    <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
     <Content Include="app\views\orders.html" />
@@ -95,6 +107,7 @@
     <Content Include="content\fonts\fontawesome-webfont.ttf" />
     <Content Include="content\fonts\fontawesome-webfont.woff" />
     <Content Include="content\fonts\FontAwesome.otf" />
+    <Content Include="content\ui-bootstrap-csp.css" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
@@ -110,6 +123,10 @@
     <Content Include="content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <Content Include="scripts\angular-local-storage.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\FileAPI.flash.swf" />
     <Content Include="scripts\FileAPI.js" />

@@ -1,0 +1,152 @@
+﻿<div class="row">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="content-header">
+            <div class="col-md-10">
+                <div class="content-title">
+                    <h1>Choose Professor</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-search">
+            <div class="quick-search">
+                <form class="form">
+                    <div class="form-group">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="criteria-content">
+            <div class="row">
+                <div ng-show="!showMinDir">
+                    <tree-grid tree-data="tree_dataProf" tree-control="my_treeProf" col-defs="col_defsProf" expand-on="expanding_propertyProf" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Choose Criteria Modal-->
+<div id="selectModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-target="#selectModal" data-toggle="modal" ng-click="clearHistory();" >&times;</button>
+                <h4 class="modal-title">History of {{profName}}</h4>
+            </div>
+            <div class="row">
+                <div class="col-sm-0 col-sm-offset-1 col-md-9 col-md-offset-1 main">
+                    <div class="table-search">
+                        <div class="quick-search">
+                            <form class="form">
+                                <div class="form-group">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <form class="form" ng-submit="GetHistory();">
+                        <div class="form-group row">
+                            <label for="startDate" class="col-xs-2 col-form-label">From Date</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" value="" ng-model="history.from" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="endDate" class="col-xs-2 col-form-label">To Date</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" value="" ng-model="history.to" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Get History</button>
+                    </form>
+                    <div class="criteria-content">
+                        <div class="row">
+                            <div ng-show="!showMinDir">
+                                <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" ng-click="clearHistory();">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- View CV Modal-->
+<div id="viewCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View CV Item</h4>
+            </div>
+            <div>
+                <div class="modal-body ">
+
+                    <div class="text-left">
+                        <h4><b>Name</b></h4> {{viewCr.title}}
+                    </div>
+
+                    <div class="text-left" style="word-wrap:break-word">
+                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.description}}</span>
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Attachment</b></h4>
+
+                        <span ng-switch="viewCr.link"><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href="{{viewCr.link}}">Download</a></span>
+                    </div>
+
+                    <div class="form-group row" data-ng-repeat="link in links">
+                        <h4 ng-show="$first" class="col-xs-2 col-form-label"><b>Links</b></h4>
+                        <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
+                        <div class="col-xs-10">
+                            <h5><b>Link {{$index+1}}</b></h5>
+                            <div class="text-left" style="word-wrap:break-word">
+                                <h6><b>URL</b></h6><span>{{link.URL}}</span>
+                            </div>
+
+                            <div class="text-left" style="word-wrap:break-word">
+                                <h6><b>Description</b></h6><div style="white-space:pre-line;">{{link.DESCRIPTION}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <h4><b>Start Date</b></h4> {{viewCr.start_date}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>End Date</b></h4> {{viewCr.end_date}}
+                    </div>
+
+                    <!--Criteria View/Change-->
+                    <div class="text-left">
+                        <h4><b>Criteria</b></h4> {{viewCriteria}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Criteria Points</b></h4> {{viewCriteriaFull.points}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

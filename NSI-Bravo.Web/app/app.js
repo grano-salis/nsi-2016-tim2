@@ -1,4 +1,4 @@
-﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap']);
 
 app.config(function ($routeProvider) {
 
@@ -42,16 +42,24 @@ app.config(function ($routeProvider) {
         controller: "criteriaController",
         templateUrl: "/app/views/Criteria/criteria.html"
     });
-
-    $routeProvider.when("/myCV/add", {
-        controller: "requestsController",
-        templateUrl: "/app/views/Criteria/requests.html"
-    });
-
-
     $routeProvider.when("/myCV", {
         controller: "myCVController",
         templateUrl: "/app/views/Criteria/myCV.html"
+    });
+
+    $routeProvider.when("/myHistory", {
+        controller: "historyController",
+        templateUrl: "/app/views/Criteria/myHistory.html"
+    });
+
+    $routeProvider.when("/history", {
+        controller: "historyController",
+        templateUrl: "/app/views/Criteria/history.html"
+    });
+
+    $routeProvider.when("/log", {
+        controller: "logController",
+        templateUrl: "/app/views/Criteria/log.html"
     });
     $routeProvider.otherwise({ redirectTo: "/home" });
 
