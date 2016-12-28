@@ -22,10 +22,27 @@ app.factory('requestsService', ['$http', '$q', 'localStorageService', 'ngAuthSet
         });
     };
 
+    var _ConfirmRequest = function (item_id) {
+        console.log('poziva se post')
+        return $http.post(serviceBase + 'api/CVitem/Update/' + item_id + '/2').then(function (response) {
+            console.log('radi post')
+            return response;
+        });
+    };
+
+    var _RejectRequest = function (item_id) {
+        console.log('poziva se post')
+        return $http.post(serviceBase + 'api/CVitem/Update/' + item_id + '/4').then(function (response) {
+            console.log('radi post')
+            return response;
+        });
+    };
 
     requestsServiceFactory.GetCVTable = _GetCVTable;
     requestsServiceFactory.GetProcessedRequests = _GetProcessedRequests;
     requestsServiceFactory.GetUnconfirmedRequests = _GetUnconfirmedRequests;
+    requestsServiceFactory.ConfirmRequest = _ConfirmRequest;
+    requestsServiceFactory.RejectRequest = _RejectRequest;
     
     return requestsServiceFactory;
 }]);

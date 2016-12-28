@@ -232,11 +232,21 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         $scope.cr = {};
         $scope.selectedCr = null;
     };
-    $scope.delCVItem = function (cr) {
-        criteriaService.DeleteCVItem(cr.id).then(function (response) {
+
+    $scope.confirmRequest = function (item_id) {
+        requestsService.ConfirmRequest(item_id).then(function (response) {
+            $log.log('Confirm request');
             $log.log(response);
-            GetMyCVs();
+            GetUnconfirmedRequests();
         });
     };
-    
+
+    $scope.rejectRequest = function (item_id) {
+        requestsService.RejectRequest(item_id).then(function (response) {
+            $log.log('Reject request');
+            $log.log(response);
+            GetUnconfirmedRequests();
+        });
+    };
+
 }]);

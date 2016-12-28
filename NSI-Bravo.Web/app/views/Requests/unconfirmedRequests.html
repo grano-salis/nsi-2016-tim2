@@ -36,7 +36,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit request</h4>
+                <h4 class="modal-title">Review request</h4>
             </div>
             <div>
                 <div class="modal-body ">
@@ -87,10 +87,9 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" ng-click="confirmRequest(viewCr.id);" data-dismiss="modal">Confirm</button>
+                    <button type="submit" class="btn btn-danger" ng-click="rejectRequest(viewCr.id);" data-dismiss="modal">Reject</button>
                     <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>
             </div>
