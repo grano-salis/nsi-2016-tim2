@@ -79,8 +79,6 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         });
     };
 
-
-
     criteriaServiceFactory.GetMyCVs = _GetMyCVs;
     criteriaServiceFactory.EditCVItem = _EditCVItem;
     criteriaServiceFactory.DeleteCVItem = _DeleteCVItem;

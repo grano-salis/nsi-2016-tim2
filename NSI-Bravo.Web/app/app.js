@@ -57,10 +57,21 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/history.html"
     });
 
+    $routeProvider.when("/requests", {
+        controller: "unconfirmedRequestsController",
+        templateUrl: "/app/views/Requests/unconfirmedRequests.html"
+    });
+
+    $routeProvider.when("/processedRequests", {
+        controller: "processedRequestsController",
+        templateUrl: "/app/views/Requests/processedRequests.html"
+    });
+    
     $routeProvider.when("/log", {
         controller: "logController",
         templateUrl: "/app/views/Criteria/log.html"
     });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
