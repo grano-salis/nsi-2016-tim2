@@ -137,7 +137,7 @@ namespace AngularJSAuthentication.API.Controllers
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV).ToList();
+                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
             }
             catch (DBConcurrencyException e)
             {
