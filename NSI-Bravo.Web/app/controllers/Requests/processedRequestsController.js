@@ -1,6 +1,6 @@
-﻿'use strict';
+'use strict';
 
-app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, requestsService, $route) {
+app.controller('processedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, requestsService, $route) {
     // MY CV TABLE
     $scope.data = new Array();
     $scope.tree_data = new Array();
@@ -11,10 +11,20 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
     var myTreeData = new Array();
     $scope.editCriteriaFull = new Array();
 
-    
+    $scope.currentPoints = 0;
     // Linkovi
     $scope.links = [{ DESCRIPTION: '', URL: '' }];
-    
+    $scope.addNewLink = function () {
+        $scope.links.push({ DESCRIPTION: '', URL: '' });
+    };
+    $scope.resetLinks = function () {
+        $scope.links = [{ DESCRIPTION: '', URL: '' }];
+    }
+    $scope.removeLink = function (id) {
+        if ($scope.links.length > 1) {
+            $scope.links.splice(id, 1);
+        }
+    }
     // Pregled stavki Lista
     $scope.expanding_property = {
         field: "title",
@@ -79,12 +89,12 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         console.log('you clicked on', branch);
     }
 
-    function GetUnconfirmedRequests() {
+    function GetProcessedRequests() {
         clearTable();
         requestsService.GetCVTable().then(function (response) {
             var CVTable = response.data;
             for (var i = 0; i < CVTable.length; i++) {
-                requestsService.GetUnconfirmedRequests(CVTable[i].iD_CV).then(function (response) {
+                requestsService.GetProcessedRequests(CVTable[i].iD_CV).then(function (response) {
                     data = response.data;
                     for (var i = 0; i < data.length; i++) {
                         var cv_item = {
@@ -128,9 +138,10 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             
         });
     };
-    GetUnconfirmedRequests();
+    GetProcessedRequests();
+    // MY CV TABLE END
 
-
+    
     //MYcv Edit Criteria Choose
     $scope.tree_dataCrit = new Array();
     var rawTreeDataCrit = new Array();
@@ -176,15 +187,6 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             }
         }
     ];
-    // Ciscenje Criteria vjijednosti
-    function clearTableCrit() {
-        $scope.dataCrit = [];
-        $scope.tree_dataCrit = [];
-        rawTreeDataCrit = [];
-        data = [];
-        $scope.my_treeCrit = tree = {};
-        myTreeDataCrit = [];
-    };
    
     // Zajednicki getTree
     function getTree(data, primaryIdName, parentIdName) {
@@ -225,18 +227,13 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         };
         return tree;
     }
-   
+    
     $scope.selectedCr;
     $scope.clearForm = function () {
         //clear form
         $scope.cr = {};
         $scope.selectedCr = null;
     };
-    $scope.delCVItem = function (cr) {
-        criteriaService.DeleteCVItem(cr.id).then(function (response) {
-            $log.log(response);
-            GetMyCVs();
-        });
-    };
     
+
 }]);
