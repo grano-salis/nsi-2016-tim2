@@ -57,7 +57,6 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/history.html"
     });
 
-<<<<<<< HEAD
     $routeProvider.when("/requests", {
         controller: "unconfirmedRequestsController",
         templateUrl: "/app/views/Requests/unconfirmedRequests.html"
@@ -68,12 +67,11 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Requests/processedRequests.html"
     });
     
-=======
     $routeProvider.when("/log", {
         controller: "logController",
         templateUrl: "/app/views/Criteria/log.html"
     });
->>>>>>> develop
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
