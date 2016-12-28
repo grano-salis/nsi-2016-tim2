@@ -137,7 +137,7 @@ namespace AngularJSAuthentication.API.Controllers
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV).ToList();
+                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
             }
             catch (DBConcurrencyException e)
             {
@@ -374,7 +374,7 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(cv);
         }
 
-   
+
 
         [HttpDelete]
         [Route("Delete/{id}")]
@@ -386,21 +386,17 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return NotFound();
             }
-
-            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(u => u.CV_ITEM_ID == id).ToList());
-
-            if (cV_ITEM.ATTACHMENT_LINK != null)
-            {
-                string a = cV_ITEM.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
-                blobContainer.CreateIfNotExists();
-                CloudBlockBlob blob = blobContainer.GetBlockBlobReference(a);
-
-                //delete file(ATTACHMENT_LINK) from blob storage 
-                blob.DeleteIfExists();
+            //soft delete: change status to "deleted"
+            cV_ITEM.STATUS_ID = 5;
+            try {
+                db.Entry(cV_ITEM).State = EntityState.Modified;
+                db.SaveChanges();
             }
-            db.CV_ITEM.Remove(cV_ITEM);
-            db.SaveChanges();
-
+            catch
+            {
+                return InternalServerError();
+            }
+   
             return Ok("Deleted CV_ITEM: "+cV_ITEM.ID_ITEM);
         }
 

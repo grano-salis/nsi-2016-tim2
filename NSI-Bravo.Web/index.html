@@ -6,17 +6,11 @@
     <meta name="description" content="" />
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
     <title>NSI-Bravo</title>
-    <link href="content/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="content/css/site.css" rel="stylesheet" />
-    <link href="content/css/loading-bar.css" rel="stylesheet" />
-    <link href="content/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="content/css/social-buttons.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-    <script src="https://use.fontawesome.com/76c3dc4fd1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="content/css/site.css" rel="stylesheet" />
     <link href="content/css/treeGrid.css" rel="stylesheet" />
 </head>
 <body>
@@ -50,8 +44,12 @@
                 <li ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
                 <li ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
                 <li ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
+<<<<<<< HEAD
                 <li ng-class="{ active: isActive('/requests')}"><a href="#/requests">Unconfirmed requests <span class="sr-only">(current)</span></a></li>
                 <li ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
+=======
+                <li ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
+>>>>>>> develop
             </ul>
         </div>
     </div>
@@ -85,7 +83,11 @@
         <script src="app/services/Criteria/criteriaService.js"></script>
         <script src="app/services/Criteria/myCVService.js"></script>
         <script src="app/services/Criteria/historyService.js"></script>
+<<<<<<< HEAD
         <script src="app/services/Requests/requestsService.js"></script>
+=======
+        <script src="app/services/Criteria/logService.js"></script>
+>>>>>>> develop
         <!-- Load controllers -->
         <script src="app/controllers/indexController.js?v=2"></script>
         <script src="app/controllers/homeController.js?v=2"></script>
@@ -98,8 +100,12 @@
         <script src="app/controllers/Criteria/criteriaController.js"></script>
         <script src="app/controllers/Criteria/myCVController.js"></script>
         <script src="app/controllers/Criteria/histroyController.js"></script>
+<<<<<<< HEAD
         <script src="app/controllers/Requests/unconfirmedRequestsController.js"></script>
         <script src="app/controllers/Requests/processedRequestsController.js"></script>
+=======
+        <script src="app/controllers/Criteria/logController.js"></script>
+>>>>>>> develop
         <!-- Load custom filters -->
         <!-- Load custom directives -->
 

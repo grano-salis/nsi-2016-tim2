@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
+using Newtonsoft.Json;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -17,12 +18,52 @@ namespace AngularJSAuthentication.API.Controllers
     {
         private MyEntities db = new MyEntities();
 
+        [JsonObject(IsReference = false)]
+        public class LogModel
+        {
+            public long LOG_ID { get; set; }
+            public Nullable<System.DateTime> EVENT_CREATED { get; set; }
+            public string EVENT_TYPE { get; set; }
+            public CV_ITEM DESCRIPTION { get; set; }
+            public string CV_ITEM_ID { get; set; }
+            public CV_TABLE USER { get; set; }
+
+            public LogModel(long id, Nullable<System.DateTime> created, CV_ITEM cvitem, CV_TABLE user,string type,string cv_id)
+            {
+                LOG_ID = id;
+                EVENT_CREATED = created;
+                DESCRIPTION = cvitem;
+                EVENT_TYPE = type;
+                USER = user;
+                CV_ITEM_ID = cv_id;
+            }
+        };
+
         // GET: api/LOGs
         [HttpGet]
         [Route("GetAllLogs")]
-        public IQueryable<LOG> GetLOG()
+        public IHttpActionResult GetLOG()
         {
-            return db.LOG;
+            List<LOG> lOGs = db.LOG.ToList();
+            if (lOGs == null)
+            {
+                return NotFound();
+            }
+            CV_TABLE user;
+            CV_ITEM cvitem;
+            List<LogModel> returnData = new List<LogModel>();
+            foreach (LOG log in lOGs) {
+                user = db.CV_TABLE.Where(x => x.USER_ID ==log.USER_ID).FirstOrDefault();
+                Int64 k = Convert.ToInt64(log.DESCRIPTION);
+                cvitem = db.CV_ITEM.Where(x => x.ID_ITEM == k).FirstOrDefault();
+                returnData.Add(new LogModel(log.LOG_ID,
+                    log.EVENT_CREATED,
+                    cvitem,
+                    user,
+                    log.EVENT_TYPE,
+                    log.DESCRIPTION));
+            }
+            return Ok(returnData);
         }
 
         //TODO: Write the action for get log by date
