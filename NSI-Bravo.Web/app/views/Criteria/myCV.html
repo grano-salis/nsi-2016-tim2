@@ -1,0 +1,387 @@
+﻿<div class="row">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="content-header">
+            <div class="col-md-10">
+                <div class="content-title">
+                    <h1>Manage CV Items</h1>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="col-md-2">
+                    <a class="btn btn-primary criteria-add-btn" role="button" data-toggle='modal' data-target='#addCrModal'>Add New CV Item Request</a>
+                </div>
+            </div>
+        </div>
+        <div class="table-search">
+            <div class="quick-search">
+                <form class="form">
+                    <div class="form-group">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="criteria-content">
+            <div class="row">
+                <div ng-show="!showMinDir">
+                    <h3 class="text-center">Your current score is : {{currentPoints}}</h3>
+                    <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handlerCV(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--Add CV Item Modal -->
+<div id="addCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="resetLinks();">&times;</button>
+                <h4 class="modal-title">Add CV Item</h4>
+            </div>
+            <form name="addCVForm" role="form">
+                <div class="modal-body">
+                    <!--Name-->
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Name</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="cr.name">
+                        </div>
+                    </div>
+                    <!--Description-->
+                    <div class="form-group row">
+                        <label for="description" class="col-xs-2 col-form-label">Description</label>
+                        <div class="col-xs-10">
+                            <textarea class="form-control" id="description" rows="3" ng-minlength="20" minlength="20" required ng-model="cr.desc"></textarea>
+                        </div>
+                    </div>
+
+                    <!--Attachment-->
+                    <div class="form-group row">
+                        <label for="FileUpload" class="col-xs-2 col-form-label">Attachment</label>
+                        <div class="col-xs-10">
+                            <input type="file" ngf-select ng-model="file" name="file" required>
+                        </div>
+                    </div>
+
+                    <!--Links-->
+                    <div class="form-group row" data-ng-repeat="link in links">
+                        <label for="links" ng-show="$first" class="col-xs-2 col-form-label">Links</label>
+                        <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
+                        <div class="col-xs-10">
+                            <label>Link {{$index+1}}</label>
+                            <input type="url" class="form-control" ng-model="link.URL" name="" placeholder="Enter link here">
+                            <input type="text" class="form-control" ng-model="link.DESCRIPTION" name="" ng-required='link.URL' ng-minlength="10" minlength="10" placeholder="Enter description here">
+
+                            <button ng-show="$last" class="glyphicon glyphicon-plus" ng-click="addNewLink()"></button>
+                            <button class="glyphicon glyphicon-minus" ng-click="removeLink($index)"></button>
+                        </div>
+                    </div>
+
+
+
+                    <!--StartDate-->
+                    <div class="form-group row">
+                        <label for="startDate" class="col-xs-2 col-form-label">Start Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="cr.startDate" required>
+                        </div>
+                    </div>
+                    <!--EndDate-->
+                    <div class="form-group row">
+                        <label for="endDate" class="col-xs-2 col-form-label">End Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="cr.endDate" required>
+                        </div>
+                    </div>
+                    <!--Criteria View/Change-->
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Selected criteria</label>
+                        <div class="col-xs-7">
+                            <input class="form-control" type="text" readonly value="" ng-model="editCriteria" required>
+                        </div>
+                        <div class="col-xs-2">
+                            <button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-default btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal'>Change Criteria</button>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" ng-click="addCVItem(cr,file);" ng-if="!(addCVForm.$invalid||addCVForm.$error.minlength||addCVForm.$error.required)" data-dismiss="modal">Add</button>
+                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="addCVForm.$invalid||addCVForm.$error.minlength||addCVForm.$error.required">Add</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Edit CV Modal -->
+<div id="editCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit CV Item</h4>
+            </div>
+            <form name="editCVForm" role="form">
+                <div class="modal-body">
+                    <!--Name-->
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Name</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="editCr.title">
+                        </div>
+                    </div>
+                    <!--Description-->
+                    <div class="form-group row">
+                        <label for="description" class="col-xs-2 col-form-label">Description</label>
+                        <div class="col-xs-10">
+                            <textarea class="form-control" id="description" rows="3" ng-minlength="20" minlength="20" required ng-model="editCr.description"></textarea>
+                        </div>
+                    </div>
+
+                    <!--Attachment to be added here-->
+
+                    <div class="form-group row">
+                        <label for="FileUpload" class="col-xs-2 col-form-label">New Attachment</label>
+                        <div class="col-xs-10">
+                            <input type="file" ngf-select ng-model="file" name="file">
+                        </div>
+                    </div>
+
+
+                    <!--Old Attachment-->
+
+                    <div class="form-group row">
+                        <label for="OldAttachment" class="col-xs-2 col-form-label">Old Attachment</label>
+                        <div class="col-xs-10">
+                            <span ng-switch="editCr.link"><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href="{{editCr.link}}">Download</a></span>
+                        </div>
+                    </div>
+
+                    <!--Links-->
+                    <div class="form-group row" data-ng-repeat="link in links">
+                        <label for="links" ng-show="$first" class="col-xs-2 col-form-label">Links</label>
+                        <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
+                        <div class="col-xs-10">
+                            <label>Link {{$index+1}}</label>
+                            <input type="url" class="form-control" ng-model="link.URL" name="" placeholder="Enter link here">
+                            <input type="text" class="form-control" ng-model="link.DESCRIPTION" name="" ng-required='link.URL' ng-minlength="10" minlength="10" placeholder="Enter description here">
+
+                            <button ng-show="$last" class="glyphicon glyphicon-plus" ng-click="addNewLink()"></button>
+                            <button class="glyphicon glyphicon-minus" ng-click="removeLink($index)"></button>
+                        </div>
+                    </div>
+
+                    <!--StartDate-->
+                    <div class="form-group row">
+                        <label for="startDate" class="col-xs-2 col-form-label">Start Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="editCr.start_date" required>
+                        </div>
+                    </div>
+                    <!--EndDate-->
+                    <div class="form-group row">
+                        <label for="endDate" class="col-xs-2 col-form-label">End Date</label>
+                        <div class="col-xs-10">
+                            <input class="form-control" type="date" value="" ng-model="editCr.end_date" required>
+                        </div>
+                    </div>
+                    <!--Criteria View/Change-->
+                    <div class="form-group row">
+                        <label for="name" class="col-xs-2 col-form-label">Selected criteria</label>
+                        <div class="col-xs-7">
+                            <input class="form-control" type="text" readonly value="" ng-model="editCriteria" required>
+
+                        </div>
+                        <div class="col-xs-2">
+                            <button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-default btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal'>Change Criteria</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" ng-click="editCVItem(editCr,file);" ng-if="!(editCVForm.$invalid||editCVForm.$error.minlength||editCVForm.$error.required)" data-dismiss="modal">Edit</button>
+                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="editCVForm.$invalid||editCVForm.$error.minlength||editCVForm.$error.required">Edit</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Choose Criteria Modal-->
+<div id="criteriaChoiceModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-target="#criteriaChoiceModal" data-toggle="modal">&times;</button>
+                <h4 class="modal-title">Choose Criteria</h4>
+            </div>
+            <div class="row">
+                <div class="col-sm-0 col-sm-offset-1 col-md-9 col-md-offset-1 main">
+                    <div class="table-search">
+                        <div class="quick-search">
+                            <form class="form">
+                                <div class="form-group">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                    <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="criteria-content">
+                        <div class="row">
+                            <div ng-show="!showMinDir">
+                                <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Delete CV Modal-->
+<div id="delCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete CV Item</h4>
+            </div>
+            <div>
+                <div class="modal-body ">
+
+                    <div class="text-left">
+                        <h4><b>Name</b></h4> {{delCr.title}}
+                    </div>
+
+                    <div class="text-left" style="word-wrap:break-word">
+                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{delCr.description}}</span>
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Start Date</b></h4> {{delCr.start_date}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>End Date</b></h4> {{delCr.end_date}}
+                    </div>
+                    <div class="text-center">
+                        <div class="text-danger text-large"><h2>Are you sure you want to proceed with deletion of <span class="text-primary">{{delCr.title}}</span> ?</h2></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" ng-click="delCVItem(delCr);" data-dismiss="modal">Yes</button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- View CV Modal-->
+<div id="viewCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View CV Item</h4>
+            </div>
+            <div>
+                <div class="modal-body ">
+
+                    <div class="text-left">
+                        <h4><b>Name</b></h4> {{viewCr.title}}
+                    </div>
+
+                    <div class="text-left" style="word-wrap:break-word">
+                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.description}}</span>
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Attachment</b></h4> 
+
+                        <span ng-switch="viewCr.link"><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href="{{viewCr.link}}">Download</a></span>
+                    </div>
+
+                    <div class="form-group row" data-ng-repeat="link in links">
+                        <h4 ng-show="$first" class="col-xs-2 col-form-label"><b>Links</b></h4>
+                        <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
+                        <div class="col-xs-10">
+                            <h5><b>Link {{$index+1}}</b></h5>
+                            <div class="text-left" style="word-wrap:break-word">
+                                <h6><b>URL</b></h6><span>{{link.URL}}</span>
+                            </div>
+
+                            <div class="text-left" style="word-wrap:break-word">
+                                <h6><b>Description</b></h6><div style="white-space:pre-line;">{{link.DESCRIPTION}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <h4><b>Start Date</b></h4> {{viewCr.start_date}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>End Date</b></h4> {{viewCr.end_date}}
+                    </div>
+
+                    <!--Criteria View/Change-->
+                    <div class="text-left">
+                        <h4><b>Criteria</b></h4> {{viewCriteria}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Criteria Points</b></h4> {{viewCriteriaFull.points}}
+                    </div>
+                </div>
+
+
+
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
