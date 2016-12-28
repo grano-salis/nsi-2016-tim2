@@ -1,11 +1,17 @@
 ﻿'use strict';
-app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSettings','Upload', function ($http, $q, localStorageService, ngAuthSettings,Upload) {
+app.factory('unconfirmedRequestsService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', 'Upload', function ($http, $q, localStorageService, ngAuthSettings, Upload) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var criteriaServiceFactory = {};
 
+    var _GetCVTable = function () {
+        return $http.get(serviceBase + 'api/CVtable/GetAll').then(function (response) {
+            return response;
+        });
+    };
+
     var _GetMyCVs = function (cv_id) {
-        return $http.get(serviceBase + 'api/CVitem/GetAll/'+cv_id).then(function (response) {
+        return $http.get(serviceBase + 'api/CVitem/GetAllUnconfirmedAndModified/' + cv_id).then(function (response) {
             return response;
         });
     };
@@ -13,7 +19,7 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _EditCVItem = function (id, data) {
         console.log(data);
         return Upload.upload({
-            url: serviceBase + 'api/CVitem/Update/'+id,
+            url: serviceBase + 'api/CVitem/Update/' + id,
             data: data,
             method: 'put'
         });
@@ -79,6 +85,8 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         });
     };
 
+
+    criteriaServiceFactory.GetCVTable = _GetCVTable;
     criteriaServiceFactory.GetMyCVs = _GetMyCVs;
     criteriaServiceFactory.EditCVItem = _EditCVItem;
     criteriaServiceFactory.DeleteCVItem = _DeleteCVItem;

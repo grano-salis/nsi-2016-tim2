@@ -56,7 +56,10 @@ app.config(function ($routeProvider) {
         controller: "historyController",
         templateUrl: "/app/views/Criteria/history.html"
     });
-
+    $routeProvider.when("/requests", {
+        controller: "unconfirmedRequestsController",
+        templateUrl: "/app/views/Requests/unconfirmedRequests.html"
+    });
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });

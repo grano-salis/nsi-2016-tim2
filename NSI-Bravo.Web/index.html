@@ -50,6 +50,7 @@
                 <li ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
                 <li ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
                 <li ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
+                <li ng-class="{ active: isActive('/requests')}"><a href="#/requests">Requests <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
     </div>
@@ -83,6 +84,7 @@
         <script src="app/services/Criteria/criteriaService.js"></script>
         <script src="app/services/Criteria/myCVService.js"></script>
         <script src="app/services/Criteria/historyService.js"></script>
+    <script src="app/services/Requests/unconfirmedRequestsService.js"></script>
         <!-- Load controllers -->
         <script src="app/controllers/indexController.js?v=2"></script>
         <script src="app/controllers/homeController.js?v=2"></script>
@@ -95,6 +97,7 @@
         <script src="app/controllers/Criteria/criteriaController.js"></script>
         <script src="app/controllers/Criteria/myCVController.js"></script>
         <script src="app/controllers/Criteria/histroyController.js"></script>
+        <script src="app/controllers/Requests/unconfirmedRequestsController.js"></script>
         <!-- Load custom filters -->
         <!-- Load custom directives -->
 
