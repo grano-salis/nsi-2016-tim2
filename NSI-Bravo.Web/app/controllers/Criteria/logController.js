@@ -27,16 +27,16 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
             filterable: true
         },
         {
-            field: "description",
-            displayName: "Description",
+            field: "cv_item",
+            displayName: "CV Item",
             sortable: true,
-            sortingType: "number"
+            sortingType: "string"
         },
         {
             field: "fullName",
             displayName: "User",
             sortable: true,
-            sortingType: "number"
+            sortingType: "string"
         }/*,
         {
             field: "Action",
@@ -75,14 +75,30 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
                 var log = {
                     id: "",
                     type: "",
-                    description: "",
+                    cv_item: "",
                     user: "",
                     created: "",
-                    fullName: ""
+                    fullName: "",
+                    cvitemfull: "",
+                    cvitemid: ""
                 }
                 log.id = data[i].loG_ID;
                 log.type = data[i].evenT_TYPE;
-                log.description = data[i].description;
+                var description;
+                if (data[i].description != null) {
+                    log.cvitemfull = data[i].description;
+                    description = log.cvitemfull.name;
+                } else {
+                    description = "DELETED/NULL";
+                }
+                if (data[i].cV_ITEM_ID != null) {
+                    log.cvitemid = data[i].cV_ITEM_ID;
+                } else {
+                    log.cvitemid = "NOT CV ITEM"
+                    description = "NOT CV ITEM";
+                }
+
+                log.cv_item = description;
                 log.user = data[i].user;
                 log.fullName = log.user.firstname + " " + log.user.lastname;
                 var date = moment(data[i].evenT_CREATED).format("YYYY-MM-DD");
