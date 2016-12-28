@@ -57,6 +57,10 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/history.html"
     });
 
+    $routeProvider.when("/log", {
+        controller: "logController",
+        templateUrl: "/app/views/Criteria/log.html"
+    });
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
