@@ -46,6 +46,18 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             filterable: true
         },
         {
+            field: "start_date",
+            displayName: "Start Date",
+            sortable: true,
+            sortingType: "string"
+        },
+        {
+            field: "end_date",
+            displayName: "End Date",
+            sortable: true,
+            sortingType: "string"
+        },
+        {
             field: "Actions",
             displayName: "Actions",
             cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>"+" "+"<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
