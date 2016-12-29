@@ -53,9 +53,13 @@ namespace AngularJSAuthentication.API.Controllers
             CV_ITEM cvitem;
             List<LogModel> returnData = new List<LogModel>();
             foreach (LOG log in lOGs) {
-                user = db.CV_TABLE.Where(x => x.USER_ID ==log.USER_ID).FirstOrDefault();
+
+               
                 Int64 k = Convert.ToInt64(log.DESCRIPTION);
                 cvitem = db.CV_ITEM.Where(x => x.ID_ITEM == k).FirstOrDefault();
+
+                user = db.CV_TABLE.Where(x => x.ID_CV == cvitem.CV_TABLE.ID_CV).FirstOrDefault();
+
                 returnData.Add(new LogModel(log.LOG_ID,
                     log.EVENT_CREATED,
                     cvitem,
