@@ -92,6 +92,7 @@
     <Content Include="app\views\login.html" />
     <Content Include="app\views\orders.html" />
     <Content Include="app\views\refresh.html" />
+    <Content Include="app\views\Requests\processedRequests.html" />
     <Content Include="app\views\Requests\unconfirmedRequests.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tokens.html" />

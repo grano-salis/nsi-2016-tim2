@@ -47,7 +47,7 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Edit</button>" ,
+            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn  btn-xs btn-info' data-toggle='modal' data-target='#viewCrModal' >Details</button>",
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.viewCr = branch;

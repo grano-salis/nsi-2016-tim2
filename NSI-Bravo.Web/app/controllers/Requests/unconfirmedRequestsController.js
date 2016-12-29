@@ -34,10 +34,16 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             sortingType: "number",
             filterable: true
         },
+       {
+           field: "date_created",
+           displayName: "Date requested",
+           sortable: true,
+           sortingType: "string"
+       },
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Edit</button>" ,
+            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Review</button>" ,
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.viewCr = branch;
@@ -58,6 +64,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                 }
             }
         }
+
     ];
     // Clear Tree CV Edit
     function clearTable() {
@@ -94,6 +101,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                             link: "",
                             user_cv_id: "",
                             criteria_id: "",
+                            date_created:"",
                             start_date: "",
                             end_date: "",
                             links: []
@@ -105,7 +113,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                         cv_item.user_cv_id = data[i].cv_item.cV_TABLE_ID_CV;
                         cv_item.criteria_id = data[i].cv_item.criteriA_ID_CRITERIA;
                         cv_item.links = data[i].cv_item.attachment;
-
+                        cv_item.date_created = moment(data[i].cv_item.datE_CREATED).format("YYYY-MM-DD");
 
                         var date = moment(data[i].cv_item.starT_DATE).format("YYYY-MM-DD");
                         cv_item.start_date = date;
