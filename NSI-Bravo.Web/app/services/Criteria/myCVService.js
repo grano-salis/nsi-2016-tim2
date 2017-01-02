@@ -27,9 +27,9 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         });*/
     };
 
-
+    //with credentials-> send cookie to api
     var _DeleteCVItem = function (id) {
-        return $http.delete(serviceBase + 'api/CVItem/Delete/' + id).then(function (response) {
+        return $http.delete(serviceBase + 'api/CVItem/Delete/' + id, { withCredentials: true }).then(function (response) {
             return response;
         });
     };

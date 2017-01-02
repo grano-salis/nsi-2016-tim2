@@ -71,6 +71,8 @@
     <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\tokensManagerController.js" />
+    <Content Include="app\custom-elements\tree-grid-directive.js" />
+    <Content Include="app\custom-elements\treeGrid.css" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\Criteria\criteriaService.js" />
@@ -164,7 +166,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32150/</IISUrl>
+          <IISUrl>http://bravo.mac.ba:32150</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

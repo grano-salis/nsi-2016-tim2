@@ -381,6 +381,8 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CV_ITEM))]
         public IHttpActionResult DeleteCV_ITEM(long id)
         {
+            //check cookies in request
+            var a = HttpContext.Current.Request.Cookies;
             CV_ITEM cV_ITEM = db.CV_ITEM.Find(id);
             if (cV_ITEM == null)
             {

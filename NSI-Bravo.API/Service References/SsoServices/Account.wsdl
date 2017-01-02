@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Account" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" />
+      <xsd:import schemaLocation="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAccount_Login_InputMessage">
+    <wsdl:part name="parameters" element="tns:Login" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Login_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Login_MyFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" name="detail" element="q1:MyFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Register_InputMessage">
+    <wsdl:part name="parameters" element="tns:Register" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Register_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_ChangePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePassword" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_ChangePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_ChangePassword_MyFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" name="detail" element="q2:MyFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Auth_InputMessage">
+    <wsdl:part name="parameters" element="tns:Auth" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Auth_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Auth_MyFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" name="detail" element="q3:MyFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Logout_InputMessage">
+    <wsdl:part name="parameters" element="tns:Logout" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Logout_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_Logout_MyFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" name="detail" element="q4:MyFault" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_GetOptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOptions" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_GetOptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccount_GetOptions_MyFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" name="detail" element="q5:MyFault" />
+  </wsdl:message>
+  <wsdl:portType name="IAccount">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/Login" message="tns:IAccount_Login_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/LoginResponse" message="tns:IAccount_Login_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccount/LoginMyFaultFault" name="MyFaultFault" message="tns:IAccount_Login_MyFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Register">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/Register" message="tns:IAccount_Register_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/RegisterResponse" message="tns:IAccount_Register_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/ChangePassword" message="tns:IAccount_ChangePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/ChangePasswordResponse" message="tns:IAccount_ChangePassword_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccount/ChangePasswordMyFaultFault" name="MyFaultFault" message="tns:IAccount_ChangePassword_MyFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Auth">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/Auth" message="tns:IAccount_Auth_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/AuthResponse" message="tns:IAccount_Auth_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccount/AuthMyFaultFault" name="MyFaultFault" message="tns:IAccount_Auth_MyFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/Logout" message="tns:IAccount_Logout_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/LogoutResponse" message="tns:IAccount_Logout_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccount/LogoutMyFaultFault" name="MyFaultFault" message="tns:IAccount_Logout_MyFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccount/GetOptions" message="tns:IAccount_GetOptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccount/GetOptionsResponse" message="tns:IAccount_GetOptions_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccount/GetOptionsMyFaultFault" name="MyFaultFault" message="tns:IAccount_GetOptions_MyFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IAccount" type="tns:IAccount">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="http://tempuri.org/IAccount/Login" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyFaultFault">
+        <soap:fault use="literal" name="MyFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Register">
+      <soap:operation soapAction="http://tempuri.org/IAccount/Register" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ChangePassword">
+      <soap:operation soapAction="http://tempuri.org/IAccount/ChangePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyFaultFault">
+        <soap:fault use="literal" name="MyFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Auth">
+      <soap:operation soapAction="http://tempuri.org/IAccount/Auth" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyFaultFault">
+        <soap:fault use="literal" name="MyFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap:operation soapAction="http://tempuri.org/IAccount/Logout" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyFaultFault">
+        <soap:fault use="literal" name="MyFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetOptions">
+      <soap:operation soapAction="http://tempuri.org/IAccount/GetOptions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="MyFaultFault">
+        <soap:fault use="literal" name="MyFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Account">
+    <wsdl:port name="BasicHttpBinding_IAccount" binding="tns:BasicHttpBinding_IAccount">
+      <soap:address location="http://do.mac.ba:8888/BusinessLogic/Account.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

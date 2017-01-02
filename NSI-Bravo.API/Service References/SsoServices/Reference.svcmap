@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="220af410-31ea-4bd5-b546-87bed657c102" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://do.mac.ba:8888/BusinessLogic/Account.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Account.xsd" MetadataType="Schema" ID="df2ad895-88de-44f0-ac56-19a104d4208b" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd1" />
+    <MetadataFile FileName="Account1.xsd" MetadataType="Schema" ID="f14161ee-55c8-4e39-8754-81c662e3c079" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd3" />
+    <MetadataFile FileName="Account.wsdl" MetadataType="Wsdl" ID="8c9da4fb-caf5-4faf-9de5-5eb17131b397" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?wsdl" />
+    <MetadataFile FileName="Account.disco" MetadataType="Disco" ID="eca8dc6b-fd45-4817-8411-963a7101bff6" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?disco" />
+    <MetadataFile FileName="Account2.xsd" MetadataType="Schema" ID="4f1ce0bb-cc16-4323-969e-44442dc7a728" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd2" />
+    <MetadataFile FileName="Account3.xsd" MetadataType="Schema" ID="d9b63323-a0c0-479e-a329-6349ba782e8d" SourceId="1" SourceUrl="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
