@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://do.mac.ba:8888/BusinessLogic/Account.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="LoginRequest">
     <xs:sequence>
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
@@ -30,14 +30,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RegisterRequest" nillable="true" type="tns:RegisterRequest" />
-  <xs:complexType name="ChangePasswordRequest">
-    <xs:sequence>
-      <xs:element name="ID" type="xs:int" />
-      <xs:element name="NewPassword" nillable="true" type="xs:string" />
-      <xs:element name="OldPassword" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ChangePasswordRequest" nillable="true" type="tns:ChangePasswordRequest" />
   <xs:complexType name="AuthResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />

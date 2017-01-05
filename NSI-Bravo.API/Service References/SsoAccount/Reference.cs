@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AngularJSAuthentication.API.SsoServices {
+namespace AngularJSAuthentication.API.SsoAccount {
     using System.Runtime.Serialization;
     using System;
     
@@ -270,80 +270,6 @@ namespace AngularJSAuthentication.API.SsoServices {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ChangePasswordRequest", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-    [System.SerializableAttribute()]
-    public partial class ChangePasswordRequest : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        private int IDField;
-        
-        private string NewPasswordField;
-        
-        private string OldPasswordField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public int ID {
-            get {
-                return this.IDField;
-            }
-            set {
-                if ((this.IDField.Equals(value) != true)) {
-                    this.IDField = value;
-                    this.RaisePropertyChanged("ID");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string NewPassword {
-            get {
-                return this.NewPasswordField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.NewPasswordField, value) != true)) {
-                    this.NewPasswordField = value;
-                    this.RaisePropertyChanged("NewPassword");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
-        public string OldPassword {
-            get {
-                return this.OldPasswordField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.OldPasswordField, value) != true)) {
-                    this.OldPasswordField = value;
-                    this.RaisePropertyChanged("OldPassword");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="AuthResponse", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
     [System.SerializableAttribute()]
     public partial class AuthResponse : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
@@ -468,45 +394,45 @@ namespace AngularJSAuthentication.API.SsoServices {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SsoServices.IAccount")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SsoAccount.IAccount")]
     public interface IAccount {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Login", ReplyAction="http://tempuri.org/IAccount/LoginResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoServices.MyFault), Action="http://tempuri.org/IAccount/LoginMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-        AngularJSAuthentication.API.SsoServices.ActionResult Login(AngularJSAuthentication.API.SsoServices.LoginRequest loginModel);
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAccount.MyFault), Action="http://tempuri.org/IAccount/LoginMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        AngularJSAuthentication.API.SsoAccount.ActionResult Login(AngularJSAuthentication.API.SsoAccount.LoginRequest loginModel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Login", ReplyAction="http://tempuri.org/IAccount/LoginResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> LoginAsync(AngularJSAuthentication.API.SsoServices.LoginRequest loginModel);
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> LoginAsync(AngularJSAuthentication.API.SsoAccount.LoginRequest loginModel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Register", ReplyAction="http://tempuri.org/IAccount/RegisterResponse")]
-        AngularJSAuthentication.API.SsoServices.ActionResult Register(AngularJSAuthentication.API.SsoServices.RegisterRequest registerModel);
+        AngularJSAuthentication.API.SsoAccount.ActionResult Register(AngularJSAuthentication.API.SsoAccount.RegisterRequest registerModel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Register", ReplyAction="http://tempuri.org/IAccount/RegisterResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> RegisterAsync(AngularJSAuthentication.API.SsoServices.RegisterRequest registerModel);
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> RegisterAsync(AngularJSAuthentication.API.SsoAccount.RegisterRequest registerModel);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/ChangePassword", ReplyAction="http://tempuri.org/IAccount/ChangePasswordResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoServices.MyFault), Action="http://tempuri.org/IAccount/ChangePasswordMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-        AngularJSAuthentication.API.SsoServices.ActionResult ChangePassword(AngularJSAuthentication.API.SsoServices.ChangePasswordRequest pwModel);
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAccount.MyFault), Action="http://tempuri.org/IAccount/ChangePasswordMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        AngularJSAuthentication.API.SsoAccount.ActionResult ChangePassword();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/ChangePassword", ReplyAction="http://tempuri.org/IAccount/ChangePasswordResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> ChangePasswordAsync(AngularJSAuthentication.API.SsoServices.ChangePasswordRequest pwModel);
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> ChangePasswordAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Auth", ReplyAction="http://tempuri.org/IAccount/AuthResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoServices.MyFault), Action="http://tempuri.org/IAccount/AuthMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-        AngularJSAuthentication.API.SsoServices.AuthResponse Auth();
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAccount.MyFault), Action="http://tempuri.org/IAccount/AuthMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        AngularJSAuthentication.API.SsoAccount.AuthResponse Auth();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Auth", ReplyAction="http://tempuri.org/IAccount/AuthResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.AuthResponse> AuthAsync();
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.AuthResponse> AuthAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Logout", ReplyAction="http://tempuri.org/IAccount/LogoutResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoServices.MyFault), Action="http://tempuri.org/IAccount/LogoutMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-        AngularJSAuthentication.API.SsoServices.ActionResult Logout();
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAccount.MyFault), Action="http://tempuri.org/IAccount/LogoutMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        AngularJSAuthentication.API.SsoAccount.ActionResult Logout();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/Logout", ReplyAction="http://tempuri.org/IAccount/LogoutResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> LogoutAsync();
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> LogoutAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/GetOptions", ReplyAction="http://tempuri.org/IAccount/GetOptionsResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoServices.MyFault), Action="http://tempuri.org/IAccount/GetOptionsMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAccount.MyFault), Action="http://tempuri.org/IAccount/GetOptionsMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
         void GetOptions();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccount/GetOptions", ReplyAction="http://tempuri.org/IAccount/GetOptionsResponse")]
@@ -514,12 +440,12 @@ namespace AngularJSAuthentication.API.SsoServices {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IAccountChannel : AngularJSAuthentication.API.SsoServices.IAccount, System.ServiceModel.IClientChannel {
+    public interface IAccountChannel : AngularJSAuthentication.API.SsoAccount.IAccount, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class AccountClient : System.ServiceModel.ClientBase<AngularJSAuthentication.API.SsoServices.IAccount>, AngularJSAuthentication.API.SsoServices.IAccount {
+    public partial class AccountClient : System.ServiceModel.ClientBase<AngularJSAuthentication.API.SsoAccount.IAccount>, AngularJSAuthentication.API.SsoAccount.IAccount {
         
         public AccountClient() {
         }
@@ -540,43 +466,43 @@ namespace AngularJSAuthentication.API.SsoServices {
                 base(binding, remoteAddress) {
         }
         
-        public AngularJSAuthentication.API.SsoServices.ActionResult Login(AngularJSAuthentication.API.SsoServices.LoginRequest loginModel) {
+        public AngularJSAuthentication.API.SsoAccount.ActionResult Login(AngularJSAuthentication.API.SsoAccount.LoginRequest loginModel) {
             return base.Channel.Login(loginModel);
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> LoginAsync(AngularJSAuthentication.API.SsoServices.LoginRequest loginModel) {
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> LoginAsync(AngularJSAuthentication.API.SsoAccount.LoginRequest loginModel) {
             return base.Channel.LoginAsync(loginModel);
         }
         
-        public AngularJSAuthentication.API.SsoServices.ActionResult Register(AngularJSAuthentication.API.SsoServices.RegisterRequest registerModel) {
+        public AngularJSAuthentication.API.SsoAccount.ActionResult Register(AngularJSAuthentication.API.SsoAccount.RegisterRequest registerModel) {
             return base.Channel.Register(registerModel);
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> RegisterAsync(AngularJSAuthentication.API.SsoServices.RegisterRequest registerModel) {
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> RegisterAsync(AngularJSAuthentication.API.SsoAccount.RegisterRequest registerModel) {
             return base.Channel.RegisterAsync(registerModel);
         }
         
-        public AngularJSAuthentication.API.SsoServices.ActionResult ChangePassword(AngularJSAuthentication.API.SsoServices.ChangePasswordRequest pwModel) {
-            return base.Channel.ChangePassword(pwModel);
+        public AngularJSAuthentication.API.SsoAccount.ActionResult ChangePassword() {
+            return base.Channel.ChangePassword();
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> ChangePasswordAsync(AngularJSAuthentication.API.SsoServices.ChangePasswordRequest pwModel) {
-            return base.Channel.ChangePasswordAsync(pwModel);
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> ChangePasswordAsync() {
+            return base.Channel.ChangePasswordAsync();
         }
         
-        public AngularJSAuthentication.API.SsoServices.AuthResponse Auth() {
+        public AngularJSAuthentication.API.SsoAccount.AuthResponse Auth() {
             return base.Channel.Auth();
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.AuthResponse> AuthAsync() {
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.AuthResponse> AuthAsync() {
             return base.Channel.AuthAsync();
         }
         
-        public AngularJSAuthentication.API.SsoServices.ActionResult Logout() {
+        public AngularJSAuthentication.API.SsoAccount.ActionResult Logout() {
             return base.Channel.Logout();
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoServices.ActionResult> LogoutAsync() {
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAccount.ActionResult> LogoutAsync() {
             return base.Channel.LogoutAsync();
         }
         
