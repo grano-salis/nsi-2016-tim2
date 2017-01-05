@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('homeController', ['$scope', '$http', function ($scope, $http) {
+app.controller('homeController', ['$scope', '$http', 'authService', function ($scope, $http, authService) {
 
 
     $scope.loginModel = {
@@ -34,7 +34,7 @@ app.controller('homeController', ['$scope', '$http', function ($scope, $http) {
 
              console.error(response.data)
          });
-
+    $scope.authentication = authService.authentication;
 
    
 }]);

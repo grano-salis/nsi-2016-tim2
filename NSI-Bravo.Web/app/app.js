@@ -76,7 +76,7 @@ app.config(function ($routeProvider) {
 
 });
 
-var serviceBase = 'http://localhost:26264/';
+var serviceBase = 'http://bravo.mac.ba:26264/';
 //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
@@ -85,9 +85,8 @@ app.constant('ngAuthSettings', {
 /*
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
-});
+});*/
 
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
-*/

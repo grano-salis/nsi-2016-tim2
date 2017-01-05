@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="69ec8585f1e54dcbbccca553845d62fd" Name="Diagram1" DisplayType="false">
+        <EntityTypeShape EntityType="SSOModel.Claim" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSOModel.Log" Width="1.5" PointX="3" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSOModel.ManageRole" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSOModel.Roles" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSOModel.User" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SSOModel.UserInfo" Width="1.5" PointX="3" PointY="12" IsExpanded="true" />
+        <AssociationConnector Association="SSOModel.SYS_C00141052" ManuallyRouted="false" />
+        <AssociationConnector Association="SSOModel.SYS_C00141058" ManuallyRouted="false" />
+        <AssociationConnector Association="SSOModel.SYS_C00141168" ManuallyRouted="false" />
+        <AssociationConnector Association="SSOModel.SYS_C00141169" ManuallyRouted="false" />
+        <AssociationConnector Association="SSOModel.SYS_C00141042" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

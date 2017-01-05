@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3d2b7804-4c0f-4c96-a5ec-0bba268a0dd4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="06b56b07-f486-4c48-a13e-21a4ab2d6eb7" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,12 +22,12 @@
     <MetadataSource Address="http://localhost:48202/BusinessLogic/Account.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Account.disco" MetadataType="Disco" ID="5f9eaf9b-ece2-4598-b7d7-e2adb21c595b" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?disco" />
-    <MetadataFile FileName="Account.wsdl" MetadataType="Wsdl" ID="f8aacd32-7d7f-435a-9029-2b12ba3e6e9b" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?wsdl" />
-    <MetadataFile FileName="Account.xsd" MetadataType="Schema" ID="35d7e196-b64d-4bc4-b19e-f006eeef2019" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd2" />
-    <MetadataFile FileName="Account1.xsd" MetadataType="Schema" ID="31fe7d6b-6ff2-4991-83b7-038c40ed3b1f" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd3" />
-    <MetadataFile FileName="Account2.xsd" MetadataType="Schema" ID="86392a01-459d-4548-8836-d508409ce317" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd0" />
-    <MetadataFile FileName="Account3.xsd" MetadataType="Schema" ID="9acd2cdd-3b08-49e1-b1e4-66b911a54f5d" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd1" />
+    <MetadataFile FileName="Account.disco" MetadataType="Disco" ID="60ea9d36-3715-40b7-9261-bc7d3e5183ea" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?disco" />
+    <MetadataFile FileName="Account.wsdl" MetadataType="Wsdl" ID="e1830f6c-2181-4b38-beaa-1b87ef12b8e1" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?wsdl" />
+    <MetadataFile FileName="Account.xsd" MetadataType="Schema" ID="a1a16bf3-f734-4513-8d6c-cc68e7cdfd98" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd2" />
+    <MetadataFile FileName="Account1.xsd" MetadataType="Schema" ID="4307f870-cac0-40b0-b957-9bd4cb87a9a6" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd3" />
+    <MetadataFile FileName="Account2.xsd" MetadataType="Schema" ID="c49ddbdf-88a2-4502-8598-c8f4e215666e" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd0" />
+    <MetadataFile FileName="Account3.xsd" MetadataType="Schema" ID="cd8b394c-4cdf-4778-be1e-1c853beb98f4" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Account.svc?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

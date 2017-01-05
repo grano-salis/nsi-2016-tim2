@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="SSO.WCFService.BusinessLogic.AccountManagement" CodeBehind="AccountManagement.svc.cs" %>
