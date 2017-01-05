@@ -9,7 +9,11 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
-
+using AngularJSAuthentication.API.Providers;
+using AngularJSAuthentication.API.ViewModels;
+using System.Web;
+using AngularJSAuthentication.API.Attributes;
+using System.Web.Http.Cors;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -23,7 +27,7 @@ namespace AngularJSAuthentication.API.Controllers
         public Nullable<int> POINTS { get; set; }
         public Nullable<System.DateTime> DATE_CREATED { get; set; }
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
-        
+
         public CriteriaModel(long id_criteria, string name, string description, Nullable<int> criteria_level, Nullable<long> parent_criteria, Nullable<int> points,
                                Nullable<System.DateTime> date_created, Nullable<System.DateTime> date_modified)
         {
@@ -43,8 +47,8 @@ namespace AngularJSAuthentication.API.Controllers
     public class CRITERIAController : ApiController
     {
         private MyEntities db = new MyEntities();
+        private AuthProvider _authProvider = new AuthProvider();
 
-       
         // GET: api/CRITERIA/GetCriteria/5
         [HttpGet]
         [Route("GetCriteria/{id}")]
@@ -73,7 +77,7 @@ namespace AngularJSAuthentication.API.Controllers
 
         [HttpGet]
         [Route("GetAllCriteria")]
-        
+
         //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllCriteria()
         {
@@ -104,7 +108,7 @@ namespace AngularJSAuthentication.API.Controllers
             List<CRITERIA> masterlist = db.CRITERIA.Where(u => u.PARENT_CRITERIA == null).ToList();
             List<CriteriaModel> temp = new List<CriteriaModel>();
 
-            foreach(CRITERIA crit in masterlist)
+            foreach (CRITERIA crit in masterlist)
             {
                 temp.Add(new CriteriaModel(crit.ID_CRITERIA,
                                             crit.NAME,
@@ -124,30 +128,49 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateCriteria(long id, CRITERIA cRITERIA)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != cRITERIA.ID_CRITERIA)
-            {
-                return BadRequest("id doesn't match");
-            }
-            cRITERIA.DATE_MODIFIED = DateTime.Now;
-            db.Entry(cRITERIA).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CRITERIAExists(id))
+                if (!ModelState.IsValid)
                 {
-                    return NotFound();
+                    return BadRequest(ModelState);
+                }
+                //if (!HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+                //    return Redirect("http://do.mac.ba:88/sso/dist/");
+
+                UserInfo userInfo = _authProvider.getAuth(HttpContext.Current.Request.Cookies["sid"].Value);
+                int uid = userInfo.UserId;
+                if (!userInfo.Roles.Contains(Role.Administrator) || !userInfo.Roles.Contains(Role.Studentska))
+                    throw new UnauthorizedAccessException("Roles are not correct");
+
+
+                if (id != cRITERIA.ID_CRITERIA)
+                {
+                    return BadRequest("id doesn't match");
+                }
+                cRITERIA.DATE_MODIFIED = DateTime.Now;
+                db.Entry(cRITERIA).State = EntityState.Modified;
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CRITERIAExists(id))
+                    {
+                        return NotFound();
+                    }
                 }
             }
-
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return InternalServerError(e);
+            }
             return Ok(cRITERIA);
         }
 
@@ -157,27 +180,44 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpPost]
         [Route("PostCriteria")]
         [ResponseType(typeof(CRITERIA))]
+        [AuthorizeRoles(Role.Administrator, Role.Studentska)]
         public IHttpActionResult PostCriteria(CRITERIA cRITERIA)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            cRITERIA.DATE_CREATED = DateTime.Now;
-            db.CRITERIA.Add(cRITERIA);
-
             try
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (CRITERIAExists(cRITERIA.ID_CRITERIA))
+                if (!ModelState.IsValid)
                 {
-                    return Conflict();
+                    return BadRequest(ModelState);
+                }
+                UserInfo userInfo = _authProvider.getAuth(HttpContext.Current.Request.Cookies["sid"].Value);
+                int id = userInfo.UserId;
+                if (!userInfo.Roles.Contains(Role.Administrator) || !userInfo.Roles.Contains(Role.Studentska))
+                    throw new UnauthorizedAccessException("Roles are not correct");
+
+
+                cRITERIA.DATE_CREATED = DateTime.Now;
+                db.CRITERIA.Add(cRITERIA);
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    if (CRITERIAExists(cRITERIA.ID_CRITERIA))
+                    {
+                        return Conflict();
+                    }
                 }
             }
-
+            catch (UnauthorizedAccessException e)
+            {
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
             return Ok(cRITERIA);
         }
 
@@ -189,24 +229,40 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CRITERIA))]
         public IHttpActionResult DeleteCRITERIA(long id)
         {
-            CRITERIA cRITERIA = db.CRITERIA.Find(id);
-            foreach(CRITERIA c in db.CRITERIA)
+            try
             {
-                if (c.PARENT_CRITERIA == id)
-                    return BadRequest("Cannot delete because criteria has subcriteria!");
+                UserInfo userInfo = _authProvider.getAuth(HttpContext.Current.Request.Cookies["sid"].Value);
+                int uid = userInfo.UserId;
+                if (!userInfo.Roles.Contains(Role.Administrator) || !userInfo.Roles.Contains(Role.Studentska))
+                    throw new UnauthorizedAccessException("Roles are not correct");
+
+                CRITERIA cRITERIA = db.CRITERIA.Find(id);
+                foreach (CRITERIA c in db.CRITERIA)
+                {
+                    if (c.PARENT_CRITERIA == id)
+                        return BadRequest("Cannot delete because criteria has subcriteria!");
+                }
+                if (cRITERIA == null)
+                {
+                    return NotFound();
+
+                }
+
+                db.CRITERIA.Remove(cRITERIA);
+                db.SaveChanges();
+                return Ok(cRITERIA);
             }
-            if (cRITERIA == null)
+            catch (UnauthorizedAccessException e)
             {
-                return NotFound();
-                
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError();
             }
 
-            db.CRITERIA.Remove(cRITERIA);
-            db.SaveChanges();
-
-            return Ok(cRITERIA);
         }
-        
+
 
         protected override void Dispose(bool disposing)
         {
