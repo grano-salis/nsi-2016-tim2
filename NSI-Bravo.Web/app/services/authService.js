@@ -7,7 +7,6 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _authentication = {
         isAuth: false,
         userName: "",
-        useRefreshTokens: false
     };
 
     var _externalAuthData = {
@@ -26,33 +25,33 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     };
 
-    var _login = function (loginData) {
+    var _login = function (data) {
 
-        var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
-
-        if (loginData.useRefreshTokens) {
-            data = data + "&client_id=" + ngAuthSettings.clientId;
-        }
+        //console.log(data);
 
         var deferred = $q.defer();
 
-        $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-
-            if (loginData.useRefreshTokens) {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
-            }
-            else {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
-            }
+        $http({
+            url: 'http://localhost:48202/BusinessLogic/Account.svc/json/login',
+            method: "POST",
+            data: {
+                loginModel: {
+                    "Username": data.userName,
+                    "Password": data.password
+                }
+            },
+            withCredentials: true
+        }).then(function (response) {
+            //success
+            console.log(response);
             _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
-            _authentication.useRefreshTokens = loginData.useRefreshTokens;
+            _authentication.userName = data.userName;
 
             deferred.resolve(response);
 
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
+        },
+        function (response) {
+            console.log(response.data);
         });
 
         return deferred.promise;
@@ -61,22 +60,36 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     var _logOut = function () {
 
-        localStorageService.remove('authorizationData');
+          return $http({
+              url: 'http://localhost:48202/BusinessLogic/Account.svc/json/logout',
+              method:"POST",
+              withCredentials:true
+          })
+          .then(function (response) {
+              console.log(response.data);
+              _authentication.isAuth = false;
+              _authentication.userName = "";
+          });
 
-        _authentication.isAuth = false;
-        _authentication.userName = "";
-        _authentication.useRefreshTokens = false;
+      
+        
 
     };
 
     var _fillAuthData = function () {
 
-        var authData = localStorageService.get('authorizationData');
-        if (authData) {
-            _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
-            _authentication.useRefreshTokens = authData.useRefreshTokens;
-        }
+        $http.get('http://localhost:48202/BusinessLogic/Account.svc/json/auth', { withCredentials: true })
+         .then(function (response) {
+             console.log(response.data);
+             _authentication.isAuth = true;
+             _authentication.userName = response.data.Username;
+         })
+         .catch(function (response) {
+
+             console.error(response.data)
+         });
+
+       
 
     };
 

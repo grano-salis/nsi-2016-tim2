@@ -17,7 +17,7 @@
 <body>
     <!--When Auth gets enabled this data-ng-hide="!authentication.isAuth", should be removed from  <div class="container-fluid" data-ng-hide="!authentication.isAuth"> -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="indexController">
-        <div class="container-fluid" data-ng-hide="!authentication.isAuth">
+        <div class="container-fluid" >
             <div class="navbar-header" >
                 <button class="btn btn-success navbar-toggle" data-ng-click="navbarExpanded = !navbarExpanded">
                     <span class="glyphicon glyphicon-chevron-down"></span>
@@ -27,8 +27,6 @@
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
                     <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome {{authentication.userName}}</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#/orders">My Orders</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#/refresh">Refresh Token</a></li>
                     <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Logout</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a href="#/login">Login</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a href="#/signup">Sign Up</a></li>
@@ -37,7 +35,7 @@
         </div>
     </div>
     <!--When Auth gets enabled this should be set to data-ng-hide="!authentication.isAuth" -->
-    <div data-ng-hide="authentication.isAuth" class="row" data-ng-controller="indexController">
+    <div data-ng-hide="!authentication.isAuth" class="row" data-ng-controller="indexController">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li ng-class="{ active: isActive('/home')}"><a href="#/home">Home <span class="sr-only">(current)</span></a></li>
