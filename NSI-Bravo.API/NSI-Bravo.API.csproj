@@ -203,19 +203,6 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
       <LastGenOutput>ETFEDModel.cs</LastGenOutput>
     </Content>
-    <None Include="Service References\SsoAccount\Account.disco" />
-    <Content Include="Service References\SsoAccount\AngularJSAuthentication.API.SsoAccount.ActionResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\SsoAccount\AngularJSAuthentication.API.SsoAccount.AuthResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Service References\SsoAccount\configuration91.svcinfo" />
-    <None Include="Service References\SsoAccount\configuration.svcinfo" />
-    <None Include="Service References\SsoAccount\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -303,11 +290,6 @@
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Service References\SsoAccount\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -320,19 +302,6 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\ngAuthenticationAPI.pubxml" />
-    <None Include="Service References\SsoAccount\Account.wsdl" />
-    <None Include="Service References\SsoAccount\Account.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SsoAccount\Account1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SsoAccount\Account2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\SsoAccount\Account3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -353,9 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\SsoAccount\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
