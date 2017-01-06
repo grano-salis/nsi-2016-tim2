@@ -13,7 +13,6 @@ using AngularJSAuthentication.API.Providers;
 using AngularJSAuthentication.API.ViewModels;
 using System.Web;
 using AngularJSAuthentication.API.Attributes;
-using System.Web.Http.Cors;
 
 namespace AngularJSAuthentication.API.Controllers
 {
