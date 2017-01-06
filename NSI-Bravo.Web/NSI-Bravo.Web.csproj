@@ -71,6 +71,7 @@
     <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\tokensManagerController.js" />
+    <Content Include="app\custom-elements\angular-ui-notification.js" />
     <Content Include="app\custom-elements\tree-grid-directive.js" />
     <Content Include="app\custom-elements\treeGrid.css" />
     <Content Include="app\services\authInterceptorService.js" />
@@ -99,6 +100,7 @@
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tokens.html" />
     <Content Include="authComplete.html" />
+    <Content Include="content\css\angular-ui-notification.css" />
     <Content Include="content\css\font-awesome.min.css" />
     <Content Include="content\css\loading-bar.css" />
     <Content Include="content\css\loading-bar.min.css" />
@@ -166,7 +168,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://bravo.mac.ba:32150</IISUrl>
+          <IISUrl>http://localhost:32150</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

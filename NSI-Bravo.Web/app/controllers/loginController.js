@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuthSettings', function ($scope, $location, authService, ngAuthSettings) {
+app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuthSettings', 'Notification', function ($scope, $location, authService, ngAuthSettings, Notification) {
 
     $scope.loginData = {
         userName: "",
@@ -9,14 +9,19 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
     $scope.message = "";
 
     $scope.login = function () {
-
+        if ($scope.loginData.userName == "" || $scope.loginData.password == "") {
+            return;
+        }
+           
         authService.login($scope.loginData).then(function (response) {
-
+            Notification.success('Successfully logged in');
             $location.path('/myCV');
 
         },
-         function (err) {
-             $scope.message = err.error_description;
+         function (response) {
+             console.log(response);
+             Notification.error({ message: 'Wrong username or password', title: 'Failed to log in' });
+             
          });
     };
 

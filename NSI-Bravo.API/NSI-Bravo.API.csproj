@@ -203,12 +203,15 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
       <LastGenOutput>ETFEDModel.cs</LastGenOutput>
     </Content>
-    <None Include="Service References\SsoAuth\configuration.svcinfo" />
-    <None Include="Service References\SsoAuth\configuration91.svcinfo" />
-    <None Include="Service References\SsoAuth\Identity.disco" />
-    <None Include="Service References\SsoAuth\Reference.svcmap">
+    <Content Include="Service References\SSO\AngularJSAuthentication.API.SSO.AuthResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\SSO\Identity.disco" />
+    <None Include="Service References\SSO\configuration91.svcinfo" />
+    <None Include="Service References\SSO\configuration.svcinfo" />
+    <None Include="Service References\SSO\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference1.cs</LastGenOutput>
+      <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -297,8 +300,7 @@
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
-    <Compile Include="Service References\SsoAuth\Reference.cs" />
-    <Compile Include="Service References\SsoAuth\Reference1.cs">
+    <Compile Include="Service References\SSO\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -315,18 +317,17 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\ngAuthenticationAPI.pubxml" />
-    <Content Include="Service References\SsoAuth\AngularJSAuthentication.API.SsoAuth.AuthResponse.datasource" />
-    <None Include="Service References\SsoAuth\Identity.wsdl" />
-    <None Include="Service References\SsoAuth\Identity.xsd">
+    <None Include="Service References\SSO\Identity.wsdl" />
+    <None Include="Service References\SSO\Identity.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SsoAuth\Identity1.xsd">
+    <None Include="Service References\SSO\Identity1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SsoAuth\Identity2.xsd">
+    <None Include="Service References\SSO\Identity2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\SsoAuth\Identity3.xsd">
+    <None Include="Service References\SSO\Identity3.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web.Debug.config">
@@ -350,6 +351,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\SSO\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -365,7 +369,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>26264</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://bravo.mac.ba:26264/</IISUrl>
+          <IISUrl>http://localhost:26264/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

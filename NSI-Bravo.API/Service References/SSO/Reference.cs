@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AngularJSAuthentication.API.SsoAuth {
+namespace AngularJSAuthentication.API.SSO {
     using System.Runtime.Serialization;
     using System;
     
@@ -184,7 +184,7 @@ namespace AngularJSAuthentication.API.SsoAuth {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SsoAuth.IIdentity")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="SSO.IIdentity")]
     public interface IIdentity {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/Logout", ReplyAction="http://tempuri.org/IIdentity/LogoutResponse")]
@@ -194,20 +194,20 @@ namespace AngularJSAuthentication.API.SsoAuth {
         System.Threading.Tasks.Task LogoutAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/Auth", ReplyAction="http://tempuri.org/IIdentity/AuthResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SsoAuth.MyFault), Action="http://tempuri.org/IIdentity/AuthMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
-        AngularJSAuthentication.API.SsoAuth.AuthResponse Auth(string token);
+        [System.ServiceModel.FaultContractAttribute(typeof(AngularJSAuthentication.API.SSO.MyFault), Action="http://tempuri.org/IIdentity/AuthMyFaultFault", Name="MyFault", Namespace="http://schemas.datacontract.org/2004/07/SSO.WCFService.DataContracts")]
+        AngularJSAuthentication.API.SSO.AuthResponse Auth(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IIdentity/Auth", ReplyAction="http://tempuri.org/IIdentity/AuthResponse")]
-        System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAuth.AuthResponse> AuthAsync(string token);
+        System.Threading.Tasks.Task<AngularJSAuthentication.API.SSO.AuthResponse> AuthAsync(string token);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IIdentityChannel : AngularJSAuthentication.API.SsoAuth.IIdentity, System.ServiceModel.IClientChannel {
+    public interface IIdentityChannel : AngularJSAuthentication.API.SSO.IIdentity, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class IdentityClient : System.ServiceModel.ClientBase<AngularJSAuthentication.API.SsoAuth.IIdentity>, AngularJSAuthentication.API.SsoAuth.IIdentity {
+    public partial class IdentityClient : System.ServiceModel.ClientBase<AngularJSAuthentication.API.SSO.IIdentity>, AngularJSAuthentication.API.SSO.IIdentity {
         
         public IdentityClient() {
         }
@@ -236,11 +236,11 @@ namespace AngularJSAuthentication.API.SsoAuth {
             return base.Channel.LogoutAsync(token);
         }
         
-        public AngularJSAuthentication.API.SsoAuth.AuthResponse Auth(string token) {
+        public AngularJSAuthentication.API.SSO.AuthResponse Auth(string token) {
             return base.Channel.Auth(token);
         }
         
-        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SsoAuth.AuthResponse> AuthAsync(string token) {
+        public System.Threading.Tasks.Task<AngularJSAuthentication.API.SSO.AuthResponse> AuthAsync(string token) {
             return base.Channel.AuthAsync(token);
         }
     }

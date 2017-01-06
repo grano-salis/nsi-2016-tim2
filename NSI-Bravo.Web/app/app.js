@@ -1,4 +1,4 @@
-﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap','ui-notification']);
 
 app.config(function ($routeProvider) {
 
@@ -76,7 +76,7 @@ app.config(function ($routeProvider) {
 
 });
 
-var serviceBase = 'http://bravo.mac.ba:26264/';
+var serviceBase = 'http://localhost:26264/';
 //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
@@ -90,3 +90,15 @@ app.config(function ($httpProvider) {
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
+
+/*app.config(function (NotificationProvider) {
+    NotificationProvider.setOptions({
+        
+        startTop: 20,
+        startRight: 10,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'right',
+        positionY: 'top'
+    });
+});*/

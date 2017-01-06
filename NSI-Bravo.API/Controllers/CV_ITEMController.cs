@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
+using AngularJSAuthentication.API.SSO;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -32,12 +33,15 @@ namespace AngularJSAuthentication.API.Controllers
         CloudBlobClient blobClient;
         CloudBlobContainer blobContainer;
         CloudBlockBlob blob;
+        SSO.IdentityClient identity = new SSO.IdentityClient();
+        AuthResponse response = new AuthResponse();
 
         public CV_ITEMController()
         {
             storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
             blobClient = storageAccount.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference("attachment-files");
+        
         }
 
 
@@ -135,6 +139,17 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetAllItems(long ID_CV)
         {
+            /*AuthResponse response = new AuthResponse();
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                 response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+            }
+            else
+            {
+                
+                return BadRequest("Wrong creditentials. Sign in or register!");
+            }*/
+           
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
