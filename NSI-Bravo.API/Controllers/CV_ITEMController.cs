@@ -47,8 +47,7 @@ namespace AngularJSAuthentication.API.Controllers
         [Route("Create")]
         public async Task<IHttpActionResult> PostCV_ITEM()
         {
-            SsoAccount.AccountClient a = new SsoAccount.AccountClient();
-          
+            
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);

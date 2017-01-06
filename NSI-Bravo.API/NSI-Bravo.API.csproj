@@ -203,6 +203,13 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
       <LastGenOutput>ETFEDModel.cs</LastGenOutput>
     </Content>
+    <None Include="Service References\SsoAuth\configuration.svcinfo" />
+    <None Include="Service References\SsoAuth\configuration91.svcinfo" />
+    <None Include="Service References\SsoAuth\Identity.disco" />
+    <None Include="Service References\SsoAuth\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference1.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -290,6 +297,12 @@
     <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Service References\SsoAuth\Reference.cs" />
+    <Compile Include="Service References\SsoAuth\Reference1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +315,20 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\ngAuthenticationAPI.pubxml" />
+    <Content Include="Service References\SsoAuth\AngularJSAuthentication.API.SsoAuth.AuthResponse.datasource" />
+    <None Include="Service References\SsoAuth\Identity.wsdl" />
+    <None Include="Service References\SsoAuth\Identity.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SsoAuth\Identity1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SsoAuth\Identity2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SsoAuth\Identity3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
