@@ -27,10 +27,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">CV Bravo</a>
+                <a class="navbar-brand" href="#/">CV Bravo</a>
             </div>
-            <div data-ng-hide="authentication.isAuth" class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav" style="float:right">
+            <div class="collapse navbar-collapse" data-collapse="!navbarExpanded" id="myNavbar">
+                <ul class="nav navbar-nav" >
                     <li ng-class="{ active: isActive('/home')}"><a href="#/home">Home <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/criteria')}"><a href="#/criteria">Criteria <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
@@ -39,10 +39,10 @@
                     <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/requests')}"><a href="#/requests">Unconfirmed requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome &nbsp<span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome <span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
                     <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
+                    <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/login')}"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+                    <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/signup')}"> <a href="#/signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                 </ul>
                
             </div>

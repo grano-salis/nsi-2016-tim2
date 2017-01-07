@@ -84,6 +84,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
              console.log(response.data);
              _authentication.isAuth = true;
              _authentication.userName = response.data.Username;
+
+             for (var i = 0; i < response.data.Roles.length; i++)
+                 _authentication.roles.push(response.data.Roles[i]);
          })
          .catch(function (response) {
 

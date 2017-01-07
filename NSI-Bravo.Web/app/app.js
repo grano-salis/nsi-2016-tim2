@@ -99,7 +99,7 @@ app.config(function (NotificationProvider) {
         delay: 1500,
         verticalSpacing: 20,
         horizontalSpacing: 20,
-        positionX: 'left',
+        positionX: 'center',
         positionY: 'bottom'
     });
 });
