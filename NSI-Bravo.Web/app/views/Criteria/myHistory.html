@@ -7,18 +7,20 @@
     </div>
 </div>
 
-<form class="well" style="width:315px; margin:0 auto;" ng-submit="GetMyHistory();">
-
-        <div class="input-group"style="padding-bottom:10px; width:100px">
-              <span class="input-group-addon" id="basic-addon3">From date: </span>
-              <input type="date" class="form-control" ng-model="myHistory.from" id="basic-url" aria-describedby="basic-addon3" required>
+<form style="max-width:400px; margin:auto" ng-submit="GetMyHistory();">
+    <div class="well"  display:inline-block">
+        <h4 class="text-left" style="display:inline-block">Select date range:</h4>
+        <div class="input-group" style="padding-bottom:10px; max-width:500px; margin:auto">
+            <span class="input-group-addon" id="basic-addon3">From: </span>
+            <input type="date" class="form-control" ng-model="myHistory.from" id="basic-url" aria-describedby="basic-addon3" required>
         </div>
-        <div class="input-group" style="padding-bottom:10px; width:100px">
-            <span class="input-group-addon" id="basic-addon3">&nbsp &nbsp &nbspTo date:</span>
+        <div class="input-group" style="padding-bottom:10px; max-width:500px;margin:auto">
+            <span class="input-group-addon" id="basic-addon3">&nbsp &nbsp &nbspTo:</span>
             <input type="date" class="form-control" ng-model="myHistory.to" id="basic-url" aria-describedby="basic-addon3" required>
         </div>
-   
-    <button type="submit" class="btn btn-primary">Show history</button>
+
+        <button type="submit" class="btn btn-primary">Show history</button>
+    </div>
 </form> 
 
 <div ng-show="!showMinDir">
