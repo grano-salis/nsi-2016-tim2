@@ -1,37 +1,31 @@
-﻿<div class="row">
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div class="content-header">
-            <div class="col-md-10">
-                <div class="content-title">
-                    <h1>Manage CV Items</h1>
-                </div>
+﻿
+    <div class="page-header">
+        
+            <div class="content-title text-center">
+                <h3 class="text-center">Your current score is : {{currentPoints}}</h3>
+           
+                <a class="btn btn-primary criteria-add-btn" role="button" data-toggle='modal' data-target='#addCrModal'>Add New CV Item</a>
             </div>
-            <div class="col-md-2">
-                <div class="col-md-2">
-                    <a class="btn btn-primary criteria-add-btn" role="button" data-toggle='modal' data-target='#addCrModal'>Add CV Item</a>
-                </div>
-            </div>
-        </div>
-        <div class="table-search">
-            <div class="quick-search">
-                <form class="form">
-                    <div class="form-group">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="criteria-content">
-            <div class="row">
-                <div ng-show="!showMinDir">
-                    <h3 class="text-center">Your current score is : {{currentPoints}}</h3>
-                    <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handlerCV(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
+        <div ng-show="!showMinDir">
+            
+            <div class="table-search main" style="padding:0">
+ 
+                    <form class="form">
+                        <div class="form-group">
+                            <input class="form-control " type="text" data-ng-model="filterString" placeholder="Quick search" />
+                        </div>
+                    </form>
+           
+            </div>
+            <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handlerCV(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+        </div>
+    
+
+    
+
+        
+        
 
 
 

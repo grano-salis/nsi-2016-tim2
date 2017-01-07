@@ -91,14 +91,15 @@ app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
 
-/*app.config(function (NotificationProvider) {
+app.config(function (NotificationProvider) {
     NotificationProvider.setOptions({
         
         startTop: 20,
-        startRight: 10,
+        startRight: 70,
+        delay: 1500,
         verticalSpacing: 20,
         horizontalSpacing: 20,
-        positionX: 'right',
-        positionY: 'top'
+        positionX: 'left',
+        positionY: 'bottom'
     });
-});*/
+});

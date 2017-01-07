@@ -1,31 +1,24 @@
-﻿<div class="row">
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <div class="content-header">
-            <div class="col-md-10">
-                <div class="content-title">
-                    <h1>Log History</h1>
-                </div>
-            </div>
-        </div>
-        <div class="table-search">
-            <div class="quick-search">
-                <form class="form">
-                    <div class="form-group">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="criteria-content">
-            <div class="row">
-                <div ng-show="!showMinDir">
-                    <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
-                </div>
-            </div>
-        </div>
+﻿<div class="page-header">
+
+    <div class="content-title text-center">
+        <h3 class="text-center">Processed requests</h3>
     </div>
 </div>
+<div ng-show="!showMinDir">
+
+    <div class="table-search main" style="padding:0">
+
+        <form class="form">
+            <div class="form-group">
+                <input class="form-control " type="text" data-ng-model="filterString" placeholder="Quick search" />
+            </div>
+        </form>
+
+    </div>
+    <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+
+</div>
+
 
 
 

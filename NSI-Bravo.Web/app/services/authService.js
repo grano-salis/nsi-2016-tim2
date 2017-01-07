@@ -51,6 +51,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
         },
         function (response) {
+
             deferred.reject(response);
         });
 

@@ -2,15 +2,19 @@
 -------------------------------------------------- */
 html {
     position: relative;
-    min-height: 100%;
-}
+    height: 100%;
+    background-color:#EEF1F4;
+}   
 
 body {
-  padding-top: 50px;
+  padding-top: 0px;
   font-family: 'Open Sans', sans-serif !important;
   font-weight: 400;
-  background-color: #fff;
+  background-color: #ffffff;
   color: #313646;
+  width: 90%;
+  margin:0 auto;
+    min-height: 100%;
 }
 
 a, a:hover, a:focus{
@@ -188,12 +192,16 @@ input.form-search:focus{
  */
 
 .main {
-  padding: 20px;
+  
+  padding-left:10%;
+  padding-right:10%;
+  margin: 0 auto;
+  
 }
 @media (min-width: 768px) {
   .main {
-    padding-right: 40px;
-    padding-left: 40px;
+    padding-right: 5%;
+    padding-left:5%;
   }
 }
 .main .page-header {
