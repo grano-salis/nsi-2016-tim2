@@ -96,7 +96,7 @@ app.config(function (NotificationProvider) {
         
         startTop: 20,
         startRight: 70,
-        delay: 1500,
+        delay: 2000,
         verticalSpacing: 20,
         horizontalSpacing: 20,
         positionX: 'center',

@@ -1,8 +1,11 @@
 ﻿'use strict';
 
-app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route) {
+app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', 'authService', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route, authService) {
+
+   
     // MY CV TABLE
-//Inicijalni podaci
+    //Inicijalni podaci
+
     $scope.data = new Array();
     $scope.tree_data = new Array();
     var rawTreeData = new Array();
