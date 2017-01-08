@@ -15,16 +15,9 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         return Upload.upload({
             url: serviceBase + 'api/CVitem/Update/'+id,
             data: data,
-            method: 'put'
+            method: 'put',
+            withCredentials: true
         });
-
-
-
-        /*
-        return $http.put(serviceBase + 'api/CVitem/Update/' + id, data).then(function (response) {
-            console.log(response);
-            return response;
-        });*/
     };
 
     //with credentials-> send cookie to api
@@ -54,7 +47,8 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _AddCV = function (data) {
         return Upload.upload({
             url: serviceBase + 'api/CVitem/Create',
-            data: data
+            data: data,
+            withCredentials: true
         }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.status);
         }, function (resp) {
@@ -74,7 +68,7 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
 
     var _GetScore = function (id) {
-        return $http.get(serviceBase + 'api/CVtable/Score/' + id).then(function (response) {
+        return $http.get(serviceBase + 'api/CVtable/Score/' + id, { withCredentials: true }).then(function (response) {
             return response;
         });
     };
