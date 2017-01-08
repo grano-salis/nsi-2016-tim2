@@ -67,6 +67,33 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     };
 
+
+    var _register= function (registerData) {
+
+        console.log(registerData);
+
+        var deferred = $q.defer();
+
+        $http({
+            url: 'http://localhost:48202/BusinessLogic/Account.svc/json/register',
+            method: "POST",
+            data: registerData,
+            withCredentials: true
+        }).then(function (response) {
+            //success
+            console.log(response);
+            deferred.resolve(response);
+
+        },
+        function (response) {
+
+            deferred.reject(response);
+        });
+
+        return deferred.promise;
+
+    };
+
     var _fillAuthData = function () {
         if (_authentication.isAuth == true) {
             console.log("tru je");
@@ -98,6 +125,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     authServiceFactory.login = _login;
     authServiceFactory.logOut = _logOut;
+    authServiceFactory.register = _register;
     authServiceFactory.fillAuthData = _fillAuthData;
     authServiceFactory.authentication = _authentication;
     return authServiceFactory;
