@@ -2,7 +2,7 @@
 
 app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', 'authService', function ($scope, $location, $timeout, $routeParams, $log, myCvService, $route, authService) {
 
-   
+    //$scope.authentication = authService.authentication;
     // MY CV TABLE
     //Inicijalni podaci
 
@@ -136,7 +136,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     function GetMyCVs() {
         clearTable();
         // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
-        myCvService.GetMyCVs(142).then(function (response) {
+        myCvService.GetMyCVItems().then(function (response) {
             data = response.data;
             for (var i = 0; i < data.length; i++) {
                 var cv_item = {
@@ -184,7 +184,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
 // Racunanje poena od profesora
     function calculatePoints() {
         $scope.currentPoints = 0;
-        myCvService.GetScore(142).then(function (response) {
+        myCvService.GetScore(authService.authentication.UserId).then(function (response) {
             $scope.currentPoints=response.data;
         });
     }

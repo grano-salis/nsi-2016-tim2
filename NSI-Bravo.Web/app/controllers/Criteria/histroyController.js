@@ -109,7 +109,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         {
             field: "Action",
             displayName: "Action",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>" ,
+            cellTemplate: "<button id='viewMe{{row.branch.UserId}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>" ,
             cellTemplateScope: {
              clickView: function (branch) {
                     $scope.viewCr = branch;
@@ -146,24 +146,26 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         clearTableProf();
 
         historyService.GetAllProfessors().then(function (response) {
+            console.log(response.data);
             var data = response.data;
             if (data.length == 0) {
                 var prof = {
                     id: "0",
-                    firstname: "No Professors",
-                    lastname: "No Professors"
+                    username: "No Professors",
+                    
                 }
                 rawTreeDataProf.push(cv);
             }
+            console.log(data);
             for (var i = 0; i < data.length; i++) {
                 var prof = {
                     id: "",
-                    firstname: "",
-                    lastname: ""
+                    username: ""
                 }
-                prof.id = data[i].iD_CV;
-                prof.firstname = data[i].firstname;
-                prof.lastname = data[i].lastname;
+                prof.id = data[i].id;
+               
+                prof.username = data[i].username;
+               
                 rawTreeDataProf.push(prof);
             }
             $scope.tree_dataProf = rawTreeDataProf;
@@ -178,8 +180,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
     }
 
     $scope.expanding_propertyProf = {
-        field: "firstname",
-        displayName: "First Name",
+        field: "username",
+        displayName: "Username",
         sortable: true,
         filterable: true,
         cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
@@ -187,23 +189,16 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
 
 
     $scope.col_defsProf = [
-        {
-            field: "lastname",
-            displayName: "Last Name",
-            sortable: true,
-            sortingType: "number",
-            filterable: true
-        },
-        {
+           {
             field: "Action",
             displayName: "Action",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#selectModal' >Select</button>",
+            cellTemplate: "<button id='viewMe{{row.branch.UserId}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#selectModal' >Select</button>",
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.profID = 0;
                     $scope.profID = branch.id;
                     $scope.profName = "";
-                    $scope.profName = branch.firstname + " "+ branch.lastname;
+                    $scope.profName = branch.username;
                 }
             }
         }
@@ -229,6 +224,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         };
         data.from = dateFrom;
         data.to = dateTo;
+        console.log($scope.profID);
         historyService.GetHistory($scope.profID,data).then(function (response) {
             var data = response.data;
             if (data.length == 0) {
@@ -305,7 +301,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         {
             field: "Action",
             displayName: "Action",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>",
+            cellTemplate: "<button id='viewMe{{row.branch.}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>",
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.viewCr = branch;

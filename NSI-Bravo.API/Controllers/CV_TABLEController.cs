@@ -11,6 +11,8 @@ using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
+using AngularJSAuthentication.API.SSO;
+using System.Web;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -19,6 +21,8 @@ namespace AngularJSAuthentication.API.Controllers
     public class CV_TABLEController : ApiController
     {
         private MyEntities db = new MyEntities();
+        SSO.IdentityClient identity = new SSO.IdentityClient();
+        AuthResponse response = new AuthResponse();
 
         //Route: http://localhost:26264/api/CVtable/GetAll
         [HttpGet]
@@ -135,8 +139,27 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpGet]
         [Route("Score/{id}")]
         [ResponseType(typeof(int))]
-        public IHttpActionResult GetScore(long id=142)
+        public IHttpActionResult GetScore(long id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                //if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                   // return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             int score;
             try {
                 //first find all CV_ITEMs with CV_TABLE_ID_CV==id, than sum points of criteria in all CV_ITEMs
@@ -175,6 +198,8 @@ namespace AngularJSAuthentication.API.Controllers
         [Route("GetAllProfessors")]
 
         //Returns a JSON with all criteria entries
+        //it returns all users on system
+
         public IHttpActionResult GetAllProfessors()
         {
             List<CV_USER> lista;

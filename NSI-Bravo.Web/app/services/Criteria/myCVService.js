@@ -4,8 +4,8 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var criteriaServiceFactory = {};
 
-    var _GetMyCVs = function (cv_id) {
-        return $http.get(serviceBase + 'api/CVitem/GetAll/'+cv_id,{ withCredentials: true }).then(function (response) {
+    var _GetMyCVItems = function () {
+        return $http.get(serviceBase + 'api/CVitem/GetMy/',{ withCredentials: true }).then(function (response) {
             return response;
         });
     };
@@ -73,7 +73,7 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         });
     };
 
-    criteriaServiceFactory.GetMyCVs = _GetMyCVs;
+    criteriaServiceFactory.GetMyCVItems = _GetMyCVItems;
     criteriaServiceFactory.EditCVItem = _EditCVItem;
     criteriaServiceFactory.DeleteCVItem = _DeleteCVItem;
     criteriaServiceFactory.GetAllCriteria = _GetAllCriteria;

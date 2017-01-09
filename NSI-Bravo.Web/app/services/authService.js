@@ -7,6 +7,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _authentication = {
         isAuth: false,
         userName: "",
+        UserId :null,
         roles: new Array()
     };
 
@@ -96,10 +97,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     var _fillAuthData = function () {
         if (_authentication.isAuth == true) {
-            console.log("tru je");
+            
             return;
         }
-        console.log(_authentication);
+       
         var deferred = $q.defer();
         
         $http.get('http://localhost:48202/BusinessLogic/Account.svc/json/auth', { withCredentials: true })
@@ -108,8 +109,10 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
              _authentication.isAuth = true;
              _authentication.userName = response.data.Username;
              _authentication.roles = new Array();
+             _authentication.UserId = response.data.UserId;
              for (var i = 0; i < response.data.Roles.length; i++)
                  _authentication.roles.push(response.data.Roles[i]);
+             console.log(_authentication);
              deferred.resolve(response);
              if($location.url()=='/login')
                  $location.path('/myCV');

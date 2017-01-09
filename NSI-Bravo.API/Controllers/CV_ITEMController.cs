@@ -136,25 +136,31 @@ namespace AngularJSAuthentication.API.Controllers
         //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
         //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
         [HttpGet]
-        [Route("GetAll/{ID_CV}")]
+        [Route("GetAll")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetAllItems(long ID_CV)
+        public IHttpActionResult GetAllItems()
         {
-            /*AuthResponse response = new AuthResponse();
+            //currently available without authentification
+            /* 
             if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
             {
-                 response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
             }
             else
             {
-                
-                return BadRequest("Wrong creditentials. Sign in or register!");
+
+                return BadRequest("You are not logged in. Please login and try again.");
             }*/
-           
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                //temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
                 temp = db.CV_ITEM.Where(a => a.STATUS_ID == 2).ToList();
             }
             catch (DBConcurrencyException e)
@@ -163,6 +169,47 @@ namespace AngularJSAuthentication.API.Controllers
             }
             return Ok(temp); ;
         }
+
+        //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
+        //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
+        [HttpGet]
+        [Route("GetMy")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+        public IHttpActionResult GetMy()
+        {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+            List<CV_ITEM> temp = new List<CV_ITEM>();
+            try
+            {
+                //temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
+                temp = db.CV_ITEM.Where(a =>a.CV_TABLE_ID_CV ==response.UserId && a.STATUS_ID == 2).ToList();
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp); ;
+        }
+
+
 
         [HttpGet]
         [Route("GetProcessedRequests")]
