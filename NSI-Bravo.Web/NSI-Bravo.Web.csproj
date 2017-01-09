@@ -68,6 +68,7 @@
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\ordersController.js" />
     <Content Include="app\controllers\refreshController.js" />
+    <Content Include="app\controllers\Requests\processedRequestsController.js" />
     <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\tokensManagerController.js" />
