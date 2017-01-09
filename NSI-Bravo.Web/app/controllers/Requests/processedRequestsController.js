@@ -91,52 +91,55 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
 
     function GetProcessedRequests() {
         clearTable();
-        requestsService.GetCVTable().then(function (response) {
-            var CVTable = response.data;
-            for (var i = 0; i < CVTable.length; i++) {
-                requestsService.GetProcessedRequests(CVTable[i].iD_CV).then(function (response) {
-                    data = response.data;
-                    for (var i = 0; i < data.length; i++) {
-                        var cv_item = {
-                            id: "",
-                            title: "",
-                            description: "",
-                            link: "",
-                            user_cv_id: "",
-                            criteria_id: "",
-                            start_date: "",
-                            end_date: "",
-                            links: []
-                        }
-                        cv_item.id = data[i].cv_item.iD_ITEM;
-                        cv_item.title = data[i].cv_item.name;
-                        cv_item.description = data[i].cv_item.description;
-                        cv_item.link = data[i].cv_item.attachmenT_LINK;
-                        cv_item.user_cv_id = data[i].cv_item.cV_TABLE_ID_CV;
-                        cv_item.criteria_id = data[i].cv_item.criteriA_ID_CRITERIA;
-                        cv_item.links = data[i].cv_item.attachment;
 
+        requestsService.GetProcessedRequests().then(function (response) {
+            var data = response.data;
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
 
-                        var date = moment(data[i].cv_item.starT_DATE).format("YYYY-MM-DD");
-                        cv_item.start_date = date;
-                        date = moment(data[i].cv_item.enD_DATE).format("YYYY-MM-DD");
-                        cv_item.end_date = date;
-                        /*
-                            var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
-                            if (date !== null)
-                                criterion.created = date;
-                        */
-                        if (cv_item.title != null) {
-                            rawTreeData.push(cv_item);
-                        }
-                    }
-                    myTreeData = rawTreeData;
-                    //getTree(rawTreeData, 'id', 'parent_id');
-                    $scope.tree_data = myTreeData;
-                });
+                var cv_item = {
+                    id: "",
+                    title: "",
+                    description: "",
+                    link: "",
+                    user_cv_id: "",
+                    criteria_id: "",
+                    date_created: "",
+                    start_date: "",
+                    end_date: "",
+                    links: []
+                }
+
+                cv_item.id = data[i].iD_ITEM;
+                cv_item.title = data[i].name;
+                cv_item.description = data[i].description;
+                cv_item.link = data[i].cV_ITEM_LINK_LINK;
+                cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
+                cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
+                cv_item.links = data[i].cV_ITEM_LINK;
+                cv_item.date_created = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+
+                var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
+                cv_item.start_date = date;
+                date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
+                cv_item.end_date = date;
+                /*
+                    var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                    if (date !== null)
+                        criterion.created = date;
+                */
+                if (cv_item.title != null) {
+                    rawTreeData.push(cv_item);
+                }
             }
-            
-        });
+            myTreeData = rawTreeData;
+            //getTree(rawTreeData, 'id', 'parent_id');
+            $scope.tree_data = myTreeData;
+        }), function (response) {
+            console.log(response.data);
+        };
+
+
     };
     GetProcessedRequests();
     // MY CV TABLE END

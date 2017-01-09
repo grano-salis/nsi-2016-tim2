@@ -10,21 +10,21 @@ app.factory('requestsService', ['$http', '$q', 'localStorageService', 'ngAuthSet
         });
     };
 
-    var _GetUnconfirmedRequests = function (cv_id) {
-        return $http.get(serviceBase + 'api/CVitem/GetAllUnconfirmedAndModified/' + cv_id).then(function (response) {
+    var _GetUnconfirmedRequests = function () {
+        return $http.get(serviceBase + 'api/CVitem/GetAllUnconfirmedAndModified/').then(function (response) {
             return response;
         });
     };
 
     var _GetProcessedRequests = function (cv_id) {
-        return $http.get(serviceBase + 'api/CVitem/GetProcessedRequests/' + cv_id).then(function (response) {
+        return $http.get(serviceBase + 'api/CVitem/GetProcessedRequests/').then(function (response) {
             return response;
         });
     };
 
     var _ConfirmRequest = function (item_id) {
         console.log('poziva se post')
-        return $http.post(serviceBase + 'api/CVitem/Update/' + item_id + '/2').then(function (response) {
+        return $http.post(serviceBase + 'api/CVitem/UpdateStatus/' + item_id + '/2').then(function (response) {
             console.log('radi post')
             return response;
         });
@@ -32,7 +32,7 @@ app.factory('requestsService', ['$http', '$q', 'localStorageService', 'ngAuthSet
 
     var _RejectRequest = function (item_id) {
         console.log('poziva se post')
-        return $http.post(serviceBase + 'api/CVitem/Update/' + item_id + '/4').then(function (response) {
+        return $http.post(serviceBase + 'api/CVitem/UpdateStatus/' + item_id + '/4').then(function (response) {
             console.log('radi post')
             return response;
         });

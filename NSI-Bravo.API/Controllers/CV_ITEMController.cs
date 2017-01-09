@@ -165,21 +165,18 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetProcessedRequests/{ID_CV}")]
+        [Route("GetProcessedRequests")]
         [ResponseType(typeof(List<CV_ITEM>))]
                                                         //ispravka bilo je samo ID_CV
-        public IHttpActionResult GetProcessedRequests(long ID_CV = 101)
+        public IHttpActionResult GetProcessedRequests()
         {
 
-            CV_ITEM_STATUS confirmed;
-            CV_ITEM_STATUS rejected;
+            List<CV_ITEM> confirmedRejected = new List<CV_ITEM>();
+          
             try
             {
-                confirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "confirmed").Single();
-                rejected = db.CV_ITEM_STATUS.Where(s => s.STATUS == "rejected").Single();
-                //ispravka CV_USER je bilo CV_TABLE, sa.ID je bilo sa.ID_CV
-                var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
-                return Ok(temp);
+                confirmedRejected = db.CV_ITEM.Where(s => s.CV_ITEM_STATUS.STATUS == "confirmed" || s.CV_ITEM_STATUS.STATUS == "rejected").ToList();
+                return Ok(confirmedRejected);
             }
             catch (Exception)
             {
@@ -188,22 +185,22 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllUnconfirmedAndModified/{ID_CV}")]
+        [Route("GetAllUnconfirmedAndModified")]
         [ResponseType(typeof(List<CV_ITEM>))]
-                                                         //ispravka bilo je samo ID_CV
-        public IHttpActionResult GetAllUnconfirmedItems(long ID_CV = 142)
+                                                       
+        public IHttpActionResult GetAllUnconfirmedItems()
         {
-            ID_CV = 101;
-            CV_ITEM_STATUS unconfirmed;
-            CV_ITEM_STATUS modified;
+           
+            List<CV_ITEM> unconfirmedModified=new List<CV_ITEM>();
+            //CV_ITEM_STATUS modified;
             try
             {
-                unconfirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "unconfirmed").Single();
-                modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
+                unconfirmedModified = db.CV_ITEM.Where(s => s.CV_ITEM_STATUS.STATUS == "unconfirmed" || s.CV_ITEM_STATUS.STATUS =="modified").ToList();
+                //modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
                 //ispravka CV_USER je bilo CV_TABLE, sa.ID je bilo sa.ID_CV
-                var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                //var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
                 //var temp = db.CV_ITEM.Where(c => c.CV_USER.ID == 101);
-                return Ok(temp);
+                return Ok(unconfirmedModified);
             }
             catch (Exception)
             {
@@ -230,7 +227,7 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpPost]
-        [Route("Update/{cv_item_id}/{status_id}")]
+        [Route("UpdateStatus/{cv_item_id}/{status_id}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateStatus(long cv_item_id, int status_id)
         {

@@ -82,7 +82,6 @@
     <Content Include="app\services\Criteria\myCVService.js" />
     <Content Include="app\services\Criteria\requestsService.js" />
     <Content Include="app\services\ordersService.js" />
-    <Content Include="app\services\Requests\unconfirmedRequestsService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
     <Content Include="app\views\Criteria\criteria.html" />
@@ -152,7 +151,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="app\services\Requests\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
