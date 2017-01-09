@@ -12,7 +12,7 @@ namespace AngularJSAuthentication.API.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-
+    
     public partial class CRITERIA
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

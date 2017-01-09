@@ -25,15 +25,11 @@ namespace AngularJSAuthentication.API.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<ATTACHMENT> ATTACHMENT { get; set; }
         public virtual DbSet<CRITERIA> CRITERIA { get; set; }
         public virtual DbSet<CV_ITEM> CV_ITEM { get; set; }
+        public virtual DbSet<CV_ITEM_LINK> CV_ITEM_LINK { get; set; }
         public virtual DbSet<CV_ITEM_STATUS> CV_ITEM_STATUS { get; set; }
-        public virtual DbSet<CV_TABLE> CV_TABLE { get; set; }
+        public virtual DbSet<CV_USER> CV_USER { get; set; }
         public virtual DbSet<LOG> LOG { get; set; }
     }
 }

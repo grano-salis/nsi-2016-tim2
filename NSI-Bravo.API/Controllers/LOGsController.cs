@@ -26,9 +26,9 @@ namespace AngularJSAuthentication.API.Controllers
             public string EVENT_TYPE { get; set; }
             public CV_ITEM DESCRIPTION { get; set; }
             public string CV_ITEM_ID { get; set; }
-            public CV_TABLE USER { get; set; }
+            public CV_USER USER { get; set; }
 
-            public LogModel(long id, Nullable<System.DateTime> created, CV_ITEM cvitem, CV_TABLE user,string type,string cv_id)
+            public LogModel(long id, Nullable<System.DateTime> created, CV_ITEM cvitem, CV_USER user,string type,string cv_id)
             {
                 LOG_ID = id;
                 EVENT_CREATED = created;
@@ -49,7 +49,7 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 return NotFound();
             }
-            CV_TABLE user;
+            CV_USER user;
             CV_ITEM cvitem;
             List<LogModel> returnData = new List<LogModel>();
             foreach (LOG log in lOGs) {
@@ -58,7 +58,9 @@ namespace AngularJSAuthentication.API.Controllers
                 Int64 k = Convert.ToInt64(log.DESCRIPTION);
                 cvitem = db.CV_ITEM.Where(x => x.ID_ITEM == k).FirstOrDefault();
 
-                user = db.CV_TABLE.Where(x => x.ID_CV == cvitem.CV_TABLE.ID_CV).FirstOrDefault();
+                //user = db.CV_TABLE.Where(x => x.ID_CV == cvitem.CV_TABLE.ID_CV).FirstOrDefault();
+                //popraviti
+                user = db.CV_USER.Where(x => x.ID == cvitem.CV_USER.ID).FirstOrDefault();
 
                 returnData.Add(new LogModel(log.LOG_ID,
                     log.EVENT_CREATED,
@@ -154,21 +156,21 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         //This action will reset all tables with initial data (seed)
-        [HttpDelete]
-        [Route("ResetAllTables")]
-        [ResponseType(typeof(void))]
-        public IHttpActionResult ResetAllTables()
-        {
-            db.Database.ExecuteSqlCommand("delete from NSI02.log");
-            db.SaveChanges();
+        //[HttpDelete]
+        //[Route("ResetAllTables")]
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult ResetAllTables()
+        //{
+        //    db.Database.ExecuteSqlCommand("delete from NSI02.log");
+        //    db.SaveChanges();
 
-            LOG log = new LOG();
-            log.LOG_ID = 1; log.EVENT_CREATED = System.DateTime.Now; log.EVENT_TYPE = "ResetAllTables"; log.DESCRIPTION = ""; log.USER_ID = "1";
-            db.LOG.Add(log);
-            db.SaveChanges();
+        //    LOG log = new LOG();
+        //    log.LOG_ID = 1; log.EVENT_CREATED = System.DateTime.Now; log.EVENT_TYPE = "ResetAllTables"; log.DESCRIPTION = ""; log.USER_ID = 1;
+        //    db.LOG.Add(log);
+        //    db.SaveChanges();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         protected override void Dispose(bool disposing)
         {

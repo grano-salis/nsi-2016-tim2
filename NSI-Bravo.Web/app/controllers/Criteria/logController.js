@@ -100,7 +100,8 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
 
                 log.cv_item = description;
                 log.user = data[i].user;
-                log.fullName = log.user.firstname + " " + log.user.lastname;
+                //ispravka log.fullName = log.user.firstname + " " + log.user.lastname;
+                log.fullName = log.user.username;
                 var date = moment(data[i].evenT_CREATED).format("YYYY-MM-DD");
                 if (date !== null)
                     log.created = date;

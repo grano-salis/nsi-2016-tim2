@@ -58,7 +58,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
 
             CV_ITEM cv = new CV_ITEM();
-            List<ATTACHMENT> links= new List<ATTACHMENT>();
+            List<CV_ITEM_LINK> links= new List<CV_ITEM_LINK>();
             try {
                 string root = HttpContext.Current.Server.MapPath("~/App_Data");
                 var provider = new MultipartFormDataStreamProvider(root);
@@ -72,10 +72,11 @@ namespace AngularJSAuthentication.API.Controllers
                      {
                      }
                  }*/
-                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
+                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>( provider.FormData.GetValues("LINKS").First());
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
-                cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                //ispravka ToInt32 je bilo ToInt64
+                cv.CV_TABLE_ID_CV=Convert.ToInt32(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
@@ -110,7 +111,7 @@ namespace AngularJSAuthentication.API.Controllers
                     blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
                     blob.UploadFromFile(localfilename);
-                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
                 }
             }
             catch (Exception e)
@@ -123,10 +124,10 @@ namespace AngularJSAuthentication.API.Controllers
             db.SaveChanges();
 
             //now update CV_ITEM_ID in every link
-            foreach (ATTACHMENT link in links)
+            foreach (CV_ITEM_LINK link in links)
                 link.CV_ITEM_ID = cv.ID_ITEM;
 
-            db.ATTACHMENT.AddRange(links);
+            db.CV_ITEM_LINK.AddRange(links);
             db.SaveChanges();
            //returns cv_item atributes incuding list of ATTACHMENTS
             return Ok(cv);
@@ -153,7 +154,8 @@ namespace AngularJSAuthentication.API.Controllers
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
+                //temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
+                temp = db.CV_ITEM.Where(a => a.STATUS_ID == 2).ToList();
             }
             catch (DBConcurrencyException e)
             {
@@ -165,7 +167,8 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpGet]
         [Route("GetProcessedRequests/{ID_CV}")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetProcessedRequests(long ID_CV)
+                                                        //ispravka bilo je samo ID_CV
+        public IHttpActionResult GetProcessedRequests(long ID_CV = 101)
         {
 
             CV_ITEM_STATUS confirmed;
@@ -174,7 +177,8 @@ namespace AngularJSAuthentication.API.Controllers
             {
                 confirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "confirmed").Single();
                 rejected = db.CV_ITEM_STATUS.Where(s => s.STATUS == "rejected").Single();
-                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                //ispravka CV_USER je bilo CV_TABLE, sa.ID je bilo sa.ID_CV
+                var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
                 return Ok(temp);
             }
             catch (Exception)
@@ -186,16 +190,19 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpGet]
         [Route("GetAllUnconfirmedAndModified/{ID_CV}")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetAllUnconfirmedItems(long ID_CV)
+                                                         //ispravka bilo je samo ID_CV
+        public IHttpActionResult GetAllUnconfirmedItems(long ID_CV = 142)
         {
-            
+            ID_CV = 101;
             CV_ITEM_STATUS unconfirmed;
             CV_ITEM_STATUS modified;
             try
             {
                 unconfirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "unconfirmed").Single();
                 modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
-                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                //ispravka CV_USER je bilo CV_TABLE, sa.ID je bilo sa.ID_CV
+                var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
+                //var temp = db.CV_ITEM.Where(c => c.CV_USER.ID == 101);
                 return Ok(temp);
             }
             catch (Exception)
@@ -241,7 +248,7 @@ namespace AngularJSAuthentication.API.Controllers
                     log.EVENT_TYPE = status.STATUS;
                     log.DESCRIPTION = cv_item_id.ToString();
                     // treba postaviti pravi user_id
-                    log.USER_ID = "1";
+                    log.USER_ID = 101;
                     db.LOG.Add(log);
                     db.SaveChanges();
                 }
@@ -273,7 +280,7 @@ namespace AngularJSAuthentication.API.Controllers
             }*/
             CV_ITEM cv = new CV_ITEM();
             CV_ITEM currentCV = new CV_ITEM();
-            List<ATTACHMENT> links = new List<ATTACHMENT>();
+            List<CV_ITEM_LINK> links = new List<CV_ITEM_LINK>();
             try
             {
                 //AsNOTracking(): no caching of in DBcontext or ObjectContext. 
@@ -291,11 +298,12 @@ namespace AngularJSAuthentication.API.Controllers
                 string root = HttpContext.Current.Server.MapPath("~/App_Data");
                 var provider = new MultipartFormDataStreamProvider(root);
                 await Request.Content.ReadAsMultipartAsync(provider);
-                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>(provider.FormData.GetValues("LINKS").First());
+                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>(provider.FormData.GetValues("LINKS").First());
                 cv.ID_ITEM = id;
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION = provider.FormData.GetValues("DESCRIPTION").First();
-                cv.CV_TABLE_ID_CV = Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                //ispravka ToInt32 je bilo 64
+                cv.CV_TABLE_ID_CV = Convert.ToInt32(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
@@ -308,10 +316,10 @@ namespace AngularJSAuthentication.API.Controllers
                 //current file is deleted only if new is provided
                 if (provider.FileData.Count > 0)
                 {
-                    if (currentCV.ATTACHMENT_LINK != null)
+                    if (currentCV.CV_ITEM_LINK_LINK != null)
                     {
                         //delete old ATTACHMENT_LINK from blob storage 
-                        string a = currentCV.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                        string a = currentCV.CV_ITEM_LINK_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
                         blobContainer.CreateIfNotExists();
                         blob = blobContainer.GetBlockBlobReference(a);
                         blob.DeleteIfExists();
@@ -342,12 +350,12 @@ namespace AngularJSAuthentication.API.Controllers
                     blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
                     blob.UploadFromFile(localfilename);
-                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
                 }
                 //no new file uploaded => use old file
                 else
                 {
-                    cv.ATTACHMENT_LINK = currentCV.ATTACHMENT_LINK;
+                    cv.CV_ITEM_LINK_LINK = currentCV.CV_ITEM_LINK_LINK;
                 }
 
             }
@@ -375,14 +383,14 @@ namespace AngularJSAuthentication.API.Controllers
                 }
             }
             //remove all current links from database
-            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
+            db.CV_ITEM_LINK.RemoveRange(db.CV_ITEM_LINK.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
            
             //update CV_ITEM_ID in every link; In case that CV_ITEM_ID field in links is not set
-            foreach (ATTACHMENT link in links)
+            foreach (CV_ITEM_LINK link in links)
                 link.CV_ITEM_ID = id;
 
             //add new links to database
-            db.ATTACHMENT.AddRange(links);     
+            db.CV_ITEM_LINK.AddRange(links);    
 
             //db.ATTACHMENT.AddRange(links);
             db.SaveChanges();

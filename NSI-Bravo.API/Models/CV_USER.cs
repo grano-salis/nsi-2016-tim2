@@ -12,31 +12,26 @@ namespace AngularJSAuthentication.API.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    [JsonObject(IsReference = false)]
-    public partial class CV_TABLE
+    
+    public partial class CV_USER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CV_TABLE()
+        public CV_USER()
         {
             this.CV_ITEM = new HashSet<CV_ITEM>();
+            this.LOG = new HashSet<LOG>();
         }
     
-        public long ID_CV { get; set; }
-        public string FIRSTNAME { get; set; }
-        public string LASTNAME { get; set; }
-        public string ADDRESS { get; set; }
-        public string PHONE { get; set; }
-        public string MOBILEPHONE { get; set; }
-        public string EMAIL { get; set; }
-        public Nullable<System.DateTime> BIRTH_DATE { get; set; }
-        public string USER_ID { get; set; }
-
-        [JsonIgnore]
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public int ID { get; set; }
+        public string USERNAME { get; set; }
+        public string PASSWORD { get; set; }
+        public string SALT { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [JsonIgnore]
+        public virtual ICollection<LOG> LOG { get; set; }
     }
 }

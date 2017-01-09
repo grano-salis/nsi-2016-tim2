@@ -23,18 +23,18 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVtable/GetAll
         [HttpGet]
         [Route("GetAll")]
-        public IQueryable<CV_TABLE> GetCV_TABLE()
+        public IQueryable<CV_USER> GetCV_TABLE()
         {
-            return db.CV_TABLE;
+            return db.CV_USER;
         }
 
         //Route: http://localhost:26264/api/CVtable/Get/5
         [HttpGet]
         [Route("Get/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
+        [ResponseType(typeof(CV_USER))]
         public IHttpActionResult GetCV_TABLE(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
+            CV_USER cV_TABLE = db.CV_USER.Find(id);
             if (cV_TABLE == null)
             {
                 return NotFound();
@@ -47,14 +47,14 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpPut]
         [Route("Update/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCV_TABLE(long id, CV_TABLE cV_TABLE)
+        public IHttpActionResult PutCV_TABLE(long id, CV_USER cV_TABLE)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cV_TABLE.ID_CV)
+            if (id != cV_TABLE.ID)
             {
                 return BadRequest();
             }
@@ -83,15 +83,15 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVtable/Create
         [HttpPost]
         [Route("Create")]
-        [ResponseType(typeof(CV_TABLE))]
-        public IHttpActionResult PostCV_TABLE(CV_TABLE cV_TABLE)
+        [ResponseType(typeof(CV_USER))]
+        public IHttpActionResult PostCV_TABLE(CV_USER cV_TABLE)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.CV_TABLE.Add(cV_TABLE);
+            db.CV_USER.Add(cV_TABLE);
 
             try
             {
@@ -99,7 +99,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CV_TABLEExists(cV_TABLE.ID_CV))
+                if (CV_TABLEExists(cV_TABLE.ID))
                 {
                     return Conflict();
                 }
@@ -116,16 +116,16 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVtable/Delete/5
         [HttpDelete]
         [Route("Delete/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
+        [ResponseType(typeof(CV_USER))]
         public IHttpActionResult DeleteCV_TABLE(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
+            CV_USER cV_TABLE = db.CV_USER.Find(id);
             if (cV_TABLE == null)
             {
                 return NotFound();
             }
 
-            db.CV_TABLE.Remove(cV_TABLE);
+            db.CV_USER.Remove(cV_TABLE);
             db.SaveChanges();
 
             return Ok(cV_TABLE);
@@ -135,7 +135,7 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpGet]
         [Route("Score/{id}")]
         [ResponseType(typeof(int))]
-        public IHttpActionResult GetScore(long id)
+        public IHttpActionResult GetScore(long id=142)
         {
             int score;
             try {
@@ -166,7 +166,7 @@ namespace AngularJSAuthentication.API.Controllers
                 return InternalServerError(e);
             }
 
-           
+         
             return Ok(items);
         }
 
@@ -177,10 +177,10 @@ namespace AngularJSAuthentication.API.Controllers
         //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllProfessors()
         {
-            List<CV_TABLE> lista;
+            List<CV_USER> lista;
             try
             {
-                lista = db.CV_TABLE.OrderBy(u => u.ID_CV).ToList();
+                lista = db.CV_USER.OrderBy(u => u.ID).ToList();
             }
             catch (Exception e) {
                 return InternalServerError(e);
@@ -194,7 +194,7 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetMyHistory(HISTORY dateRange)
         {
-            int id = 1;
+            int id = 142;
             List<CV_ITEM> items;
             DateTime from = (DateTime)dateRange.from;
             DateTime to = (DateTime)dateRange.to;
@@ -224,7 +224,7 @@ namespace AngularJSAuthentication.API.Controllers
 
         private bool CV_TABLEExists(long id)
         {
-            return db.CV_TABLE.Count(e => e.ID_CV == id) > 0;
+            return db.CV_USER.Count(e => e.ID == id) > 0;
         }
     }
 }

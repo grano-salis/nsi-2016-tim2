@@ -161,38 +161,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\AspNetRoles.cs" />
-    <Content Include="Models\AspNetUserClaims.cs" />
-    <Content Include="Models\AspNetUserLogins.cs" />
-    <Content Include="Models\AspNetUsers.cs" />
-    <Content Include="Models\ATTACHMENT.cs" />
-    <Content Include="Models\CRITERIA.cs" />
-    <Content Include="Models\CV_ITEM.cs" />
-    <Content Include="Models\CV_ITEM_STATUS.cs" />
-    <Content Include="Models\CV_TABLE.cs" />
     <Content Include="Models\Enums.cs" />
-    <Content Include="Models\ETFEDModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Content>
-    <Content Include="Models\ETFEDModel.Context.tt" />
-    <Content Include="Models\ETFEDModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Content>
-    <Content Include="Models\ETFEDModel.Designer.cs" />
-    <Content Include="Models\ETFEDModel.edmx" />
-    <Content Include="Models\ETFEDModel.edmx.diagram" />
-    <Content Include="Models\ETFEDModel.tt" />
-    <Content Include="Models\ETFEDModel1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ETFEDModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\ExternalLoginModels.cs" />
-    <Content Include="Models\LOG.cs" />
-    <Content Include="Models\UserModel.cs" />
     <Content Include="Models\ETFEDModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
@@ -203,8 +172,17 @@
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
       <LastGenOutput>ETFEDModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ExternalLoginModels.cs" />
+    <Content Include="Models\UserModel.cs" />
     <Content Include="Service References\SSO\AngularJSAuthentication.API.SSO.AuthResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ETFEDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ETFEDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ETFEDModel.edmx.diagram">
+      <DependentUpon>ETFEDModel.edmx</DependentUpon>
     </Content>
     <None Include="Service References\SSO\Identity.disco" />
     <None Include="Service References\SSO\configuration91.svcinfo" />
@@ -222,13 +200,12 @@
     <Compile Include="AuthContext.cs" />
     <Compile Include="AuthRepository.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\AspNetRolesController.cs" />
-    <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\ATTACHMENTsController.cs" />
     <Compile Include="Controllers\CRITERIAController.cs" />
     <Compile Include="Controllers\CV_ITEMController.cs" />
     <Compile Include="Controllers\CV_ITEM_STATUSController.cs" />
     <Compile Include="Controllers\CV_TABLEController.cs" />
+    <Compile Include="Controllers\CV_USERController.cs" />
     <Compile Include="Controllers\LOGsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\RefreshTokensController.cs" />
@@ -240,31 +217,19 @@
       <DependentUpon>201407121205456_AddClientsAndRefreshTokenTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AspNetRoles.cs">
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserClaims.cs">
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogins.cs">
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUsers.cs">
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ATTACHMENT.cs">
-      <DependentUpon>ETFEDModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\CRITERIA.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CV_ITEM.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CV_ITEM_LINK.cs">
+      <DependentUpon>ETFEDModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CV_ITEM_STATUS.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CV_TABLE.cs">
+    <Compile Include="Models\CV_USER.cs">
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Enums.cs" />
@@ -279,11 +244,6 @@
       <DependentUpon>ETFEDModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ETFEDModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ETFEDModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ETFEDModel1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ETFEDModel.edmx</DependentUpon>
@@ -309,13 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\ETFEDModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ETFEDModel1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ETFEDModel.edmx.diagram">
-      <DependentUpon>ETFEDModel.edmx</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\ngAuthenticationAPI.pubxml" />
     <None Include="Service References\SSO\Identity.wsdl" />
     <None Include="Service References\SSO\Identity.xsd">

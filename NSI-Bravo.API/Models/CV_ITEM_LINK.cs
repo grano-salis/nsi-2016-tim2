@@ -12,13 +12,14 @@ namespace AngularJSAuthentication.API.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-
-    public partial class ATTACHMENT
+    
+    public partial class CV_ITEM_LINK
     {
         public long ID { get; set; }
         public string DESCRIPTION { get; set; }
         public string URL { get; set; }
         public long CV_ITEM_ID { get; set; }
+
         [JsonIgnore]
         public virtual CV_ITEM CV_ITEM { get; set; }
     }

@@ -5,66 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="Name" Type="nvarchar2" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="number" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar2" MaxLength="256" />
-          <Property Name="ClaimValue" Type="nvarchar2" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar2" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserRoles">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="UserId" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar2" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar2" MaxLength="128" Nullable="false" />
-          <Property Name="Email" Type="nvarchar2" MaxLength="256" />
-          <Property Name="EmailConfirmed" Type="number" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar2" MaxLength="256" />
-          <Property Name="SecurityStamp" Type="nvarchar2" MaxLength="256" />
-          <Property Name="PhoneNumber" Type="nvarchar2" MaxLength="256" />
-          <Property Name="PhoneNumberConfirmed" Type="number" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="number" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="timestamp" Precision="6" />
-          <Property Name="LockoutEnabled" Type="number" Precision="1" Scale="0" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="number" Precision="10" Scale="0" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar2" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ATTACHMENT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="1000" />
-          <Property Name="URL" Type="varchar2" MaxLength="1000" />
-          <Property Name="CV_ITEM_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
-        </EntityType>
         <EntityType Name="CRITERIA">
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
@@ -89,13 +29,22 @@
           <Property Name="DATE_MODIFIED" Type="timestamp" Precision="6" />
           <Property Name="DATE_CONFIRMED" Type="timestamp" Precision="6" />
           <Property Name="OLD_ITEM_ID" Type="number" Precision="19" Scale="0" />
-          <Property Name="CV_TABLE_ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="CV_TABLE_ID_CV" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="number" Precision="19" Scale="0" />
-          <Property Name="USER_ID_APPROVED" Type="nvarchar2" MaxLength="128" />
+          <Property Name="USER_ID_APPROVED" Type="number" Precision="10" Scale="0" />
           <Property Name="START_DATE" Type="date" />
           <Property Name="END_DATE" Type="date" />
-          <Property Name="ATTACHMENT_LINK" Type="varchar2" MaxLength="1000" />
+          <Property Name="CV_ITEM_LINK_LINK" Type="varchar2" MaxLength="1000" />
           <Property Name="STATUS_ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CV_ITEM_LINK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPTION" Type="varchar2" MaxLength="1000" />
+          <Property Name="URL" Type="varchar2" MaxLength="1000" />
+          <Property Name="CV_ITEM_ID" Type="number" Precision="19" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="CV_ITEM_STATUS">
           <Key>
@@ -104,19 +53,14 @@
           <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="STATUS" Type="varchar2" MaxLength="45" Nullable="false" />
         </EntityType>
-        <EntityType Name="CV_TABLE">
+        <EntityType Name="CV_USER">
           <Key>
-            <PropertyRef Name="ID_CV" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID_CV" Type="number" Precision="19" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FIRSTNAME" Type="varchar2" MaxLength="45" />
-          <Property Name="LASTNAME" Type="varchar2" MaxLength="45" />
-          <Property Name="ADDRESS" Type="varchar2" MaxLength="1000" />
-          <Property Name="PHONE" Type="varchar2" MaxLength="45" />
-          <Property Name="MOBILEPHONE" Type="varchar2" MaxLength="45" />
-          <Property Name="EMAIL" Type="varchar2" MaxLength="45" />
-          <Property Name="BIRTH_DATE" Type="date" />
-          <Property Name="USER_ID" Type="nvarchar2" MaxLength="128" Nullable="false" />
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="varchar2" MaxLength="30" Nullable="false" />
+          <Property Name="PASSWORD" Type="char" MaxLength="128" Nullable="false" />
+          <Property Name="SALT" Type="char" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="LOG">
           <Key>
@@ -126,21 +70,9 @@
           <Property Name="EVENT_CREATED" Type="timestamp" Precision="6" />
           <Property Name="EVENT_TYPE" Type="varchar2" MaxLength="1000" />
           <Property Name="DESCRIPTION" Type="varchar2" MaxLength="4000" />
-          <Property Name="USER_ID" Type="nvarchar2" MaxLength="128" Nullable="false" />
+          <Property Name="USER_ID" Type="number" Precision="10" Scale="0" Nullable="false" />
         </EntityType>
-        <Association Name="FK_ATTACHMENT_CV_ITEM">
-          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
-          <End Role="ATTACHMENT" Type="Self.ATTACHMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CV_ITEM">
-              <PropertyRef Name="ID_ITEM" />
-            </Principal>
-            <Dependent Role="ATTACHMENT">
-              <PropertyRef Name="CV_ITEM_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CRITERIA_CRITERIA1">
+        <Association Name="FK_CRITERIA_PARENT_CRITERIA">
           <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
           <End Role="CRITERIA1" Type="Self.CRITERIA" Multiplicity="*" />
           <ReferentialConstraint>
@@ -149,18 +81,6 @@
             </Principal>
             <Dependent Role="CRITERIA1">
               <PropertyRef Name="PARENT_CRITERIA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CV_ITEM_CRITERIA1">
-          <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
-          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CRITERIA">
-              <PropertyRef Name="ID_CRITERIA" />
-            </Principal>
-            <Dependent Role="CV_ITEM">
-              <PropertyRef Name="CRITERIA_ID_CRITERIA" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -176,7 +96,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CV_ITEM_CV_ITEM1">
+        <Association Name="FK_CV_ITEM_CV_USER">
+          <End Role="CV_USER" Type="Self.CV_USER" Multiplicity="1" />
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV_ITEM">
+              <PropertyRef Name="CV_TABLE_ID_CV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_ID_CRITERIA">
+          <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CRITERIA">
+              <PropertyRef Name="ID_CRITERIA" />
+            </Principal>
+            <Dependent Role="CV_ITEM">
+              <PropertyRef Name="CRITERIA_ID_CRITERIA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_LINK_CV_ITEM">
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
+          <End Role="CV_ITEM_LINK" Type="Self.CV_ITEM_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="CV_ITEM_LINK">
+              <PropertyRef Name="CV_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_OLD_ITEM_ID">
           <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="0..1" />
           <End Role="CV_ITEM1" Type="Self.CV_ITEM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -188,157 +144,52 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CV_ITEM_CV_TABLE1">
-          <End Role="CV_TABLE" Type="Self.CV_TABLE" Multiplicity="1" />
-          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CV_TABLE">
-              <PropertyRef Name="ID_CV" />
-            </Principal>
-            <Dependent Role="CV_ITEM">
-              <PropertyRef Name="CV_TABLE_ID_CV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CV_TABLE_ASP_NET_USER">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="CV_TABLE" Type="Self.CV_TABLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CV_TABLE">
-              <PropertyRef Name="USER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LOG_ASP_NET_USER">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+        <Association Name="FK_LOG_CV_USER">
+          <End Role="CV_USER" Type="Self.CV_USER" Multiplicity="1" />
           <End Role="LOG" Type="Self.LOG" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="CV_USER">
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="LOG">
               <PropertyRef Name="USER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UserClaims_Users">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserLogins_Users">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRoles_Roles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRoles_Users">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="ATTACHMENT" EntityType="Self.ATTACHMENT" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="CV_TABLE" EntityType="Self.CV_TABLE" Schema="NSI02" store:Type="Tables" />
-          <EntitySet Name="LOG" EntityType="Self.LOG" Schema="NSI02" store:Type="Tables" />
-          <AssociationSet Name="FK_ATTACHMENT_CV_ITEM" Association="Self.FK_ATTACHMENT_CV_ITEM">
-            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
-            <End Role="ATTACHMENT" EntitySet="ATTACHMENT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CRITERIA_CRITERIA1" Association="Self.FK_CRITERIA_CRITERIA1">
+          <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" Schema="NSI09" store:Type="Tables" />
+          <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" Schema="NSI09" store:Type="Tables" />
+          <EntitySet Name="CV_ITEM_LINK" EntityType="Self.CV_ITEM_LINK" Schema="NSI09" store:Type="Tables" />
+          <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" Schema="NSI09" store:Type="Tables" />
+          <EntitySet Name="CV_USER" EntityType="Self.CV_USER" Schema="NSI09" store:Type="Tables" />
+          <EntitySet Name="LOG" EntityType="Self.LOG" Schema="NSI09" store:Type="Tables" />
+          <AssociationSet Name="FK_CRITERIA_PARENT_CRITERIA" Association="Self.FK_CRITERIA_PARENT_CRITERIA">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
             <End Role="CRITERIA1" EntitySet="CRITERIA" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CRITERIA1" Association="Self.FK_CV_ITEM_CRITERIA1">
-            <End Role="CRITERIA" EntitySet="CRITERIA" />
-            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
           <AssociationSet Name="FK_CV_ITEM_CV_ITEM_STATUS" Association="Self.FK_CV_ITEM_CV_ITEM_STATUS">
             <End Role="CV_ITEM_STATUS" EntitySet="CV_ITEM_STATUS" />
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CV_ITEM1" Association="Self.FK_CV_ITEM_CV_ITEM1">
+          <AssociationSet Name="FK_CV_ITEM_CV_USER" Association="Self.FK_CV_ITEM_CV_USER">
+            <End Role="CV_USER" EntitySet="CV_USER" />
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_ID_CRITERIA" Association="Self.FK_CV_ITEM_ID_CRITERIA">
+            <End Role="CRITERIA" EntitySet="CRITERIA" />
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_LINK_CV_ITEM" Association="Self.FK_CV_ITEM_LINK_CV_ITEM">
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+            <End Role="CV_ITEM_LINK" EntitySet="CV_ITEM_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_OLD_ITEM_ID" Association="Self.FK_CV_ITEM_OLD_ITEM_ID">
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
             <End Role="CV_ITEM1" EntitySet="CV_ITEM" />
           </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CV_TABLE1" Association="Self.FK_CV_ITEM_CV_TABLE1">
-            <End Role="CV_TABLE" EntitySet="CV_TABLE" />
-            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CV_TABLE_ASP_NET_USER" Association="Self.FK_CV_TABLE_ASP_NET_USER">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="CV_TABLE" EntitySet="CV_TABLE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LOG_ASP_NET_USER" Association="Self.FK_LOG_ASP_NET_USER">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_LOG_CV_USER" Association="Self.FK_LOG_CV_USER">
+            <End Role="CV_USER" EntitySet="CV_USER" />
             <End Role="LOG" EntitySet="LOG" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserClaims_Users" Association="Self.FK_UserClaims_Users">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserLogins_Users" Association="Self.FK_UserLogins_Users">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Roles" Association="Self.FK_UserRoles_Roles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRoles_Users" Association="Self.FK_UserRoles_Users">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -346,67 +197,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_UserClaims_Users" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_UserLogins_Users" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="6" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_UserClaims_Users" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_UserLogins_Users" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="CV_TABLE" Relationship="Self.FK_CV_TABLE_ASP_NET_USER" FromRole="AspNetUsers" ToRole="CV_TABLE" />
-          <NavigationProperty Name="LOG" Relationship="Self.FK_LOG_ASP_NET_USER" FromRole="AspNetUsers" ToRole="LOG" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-        </EntityType>
-        <EntityType Name="ATTACHMENT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="CV_ITEM_ID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_ATTACHMENT_CV_ITEM" FromRole="ATTACHMENT" ToRole="CV_ITEM" />
-        </EntityType>
         <EntityType Name="CRITERIA">
           <Key>
             <PropertyRef Name="ID_CRITERIA" />
@@ -419,9 +209,9 @@
           <Property Name="DATE_CREATED" Type="DateTime" Precision="6" />
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="6" />
           <Property Name="POINTS" Type="Int32" />
-          <NavigationProperty Name="CRITERIA1" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA" ToRole="CRITERIA1" />
-          <NavigationProperty Name="CRITERIA2" Relationship="Self.FK_CRITERIA_CRITERIA1" FromRole="CRITERIA1" ToRole="CRITERIA" />
-          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CRITERIA" ToRole="CV_ITEM" />
+          <NavigationProperty Name="CRITERIA1" Relationship="Self.FK_CRITERIA_PARENT_CRITERIA" FromRole="CRITERIA" ToRole="CRITERIA1" />
+          <NavigationProperty Name="CRITERIA2" Relationship="Self.FK_CRITERIA_PARENT_CRITERIA" FromRole="CRITERIA1" ToRole="CRITERIA" />
+          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_ID_CRITERIA" FromRole="CRITERIA" ToRole="CV_ITEM" />
         </EntityType>
         <EntityType Name="CV_ITEM">
           <Key>
@@ -434,19 +224,29 @@
           <Property Name="DATE_MODIFIED" Type="DateTime" Precision="6" />
           <Property Name="DATE_CONFIRMED" Type="DateTime" Precision="6" />
           <Property Name="OLD_ITEM_ID" Type="Int64" />
-          <Property Name="CV_TABLE_ID_CV" Type="Int64" Nullable="false" />
+          <Property Name="CV_TABLE_ID_CV" Type="Int32" Nullable="false" />
           <Property Name="CRITERIA_ID_CRITERIA" Type="Int64" />
-          <Property Name="USER_ID_APPROVED" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="USER_ID_APPROVED" Type="Int32" />
           <Property Name="START_DATE" Type="DateTime" />
           <Property Name="END_DATE" Type="DateTime" />
-          <Property Name="ATTACHMENT_LINK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CV_ITEM_LINK_LINK" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="STATUS_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ATTACHMENT" Relationship="Self.FK_ATTACHMENT_CV_ITEM" FromRole="CV_ITEM" ToRole="ATTACHMENT" />
-          <NavigationProperty Name="CRITERIA" Relationship="Self.FK_CV_ITEM_CRITERIA1" FromRole="CV_ITEM" ToRole="CRITERIA" />
+          <NavigationProperty Name="CRITERIA" Relationship="Self.FK_CV_ITEM_ID_CRITERIA" FromRole="CV_ITEM" ToRole="CRITERIA" />
           <NavigationProperty Name="CV_ITEM_STATUS" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM" ToRole="CV_ITEM_STATUS" />
-          <NavigationProperty Name="CV_ITEM1" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM" ToRole="CV_ITEM1" />
-          <NavigationProperty Name="CV_ITEM2" Relationship="Self.FK_CV_ITEM_CV_ITEM1" FromRole="CV_ITEM1" ToRole="CV_ITEM" />
-          <NavigationProperty Name="CV_TABLE" Relationship="Self.FK_CV_ITEM_CV_TABLE1" FromRole="CV_ITEM" ToRole="CV_TABLE" />
+          <NavigationProperty Name="CV_USER" Relationship="Self.FK_CV_ITEM_CV_USER" FromRole="CV_ITEM" ToRole="CV_USER" />
+          <NavigationProperty Name="CV_ITEM_LINK" Relationship="Self.FK_CV_ITEM_LINK_CV_ITEM" FromRole="CV_ITEM" ToRole="CV_ITEM_LINK" />
+          <NavigationProperty Name="CV_ITEM1" Relationship="Self.FK_CV_ITEM_OLD_ITEM_ID" FromRole="CV_ITEM" ToRole="CV_ITEM1" />
+          <NavigationProperty Name="CV_ITEM2" Relationship="Self.FK_CV_ITEM_OLD_ITEM_ID" FromRole="CV_ITEM1" ToRole="CV_ITEM" />
+        </EntityType>
+        <EntityType Name="CV_ITEM_LINK">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="URL" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="CV_ITEM_ID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_LINK_CV_ITEM" FromRole="CV_ITEM_LINK" ToRole="CV_ITEM" />
         </EntityType>
         <EntityType Name="CV_ITEM_STATUS">
           <Key>
@@ -456,21 +256,16 @@
           <Property Name="STATUS" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CV_ITEM_STATUS" FromRole="CV_ITEM_STATUS" ToRole="CV_ITEM" />
         </EntityType>
-        <EntityType Name="CV_TABLE">
+        <EntityType Name="CV_USER">
           <Key>
-            <PropertyRef Name="ID_CV" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID_CV" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FIRSTNAME" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="LASTNAME" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="ADDRESS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="PHONE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="MOBILEPHONE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="EMAIL" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="BIRTH_DATE" Type="DateTime" />
-          <Property Name="USER_ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_CV_TABLE_ASP_NET_USER" FromRole="CV_TABLE" ToRole="AspNetUsers" />
-          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CV_TABLE1" FromRole="CV_TABLE" ToRole="CV_ITEM" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="128" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SALT" Type="String" MaxLength="128" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CV_ITEM" Relationship="Self.FK_CV_ITEM_CV_USER" FromRole="CV_USER" ToRole="CV_ITEM" />
+          <NavigationProperty Name="LOG" Relationship="Self.FK_LOG_CV_USER" FromRole="CV_USER" ToRole="LOG" />
         </EntityType>
         <EntityType Name="LOG">
           <Key>
@@ -480,74 +275,10 @@
           <Property Name="EVENT_CREATED" Type="DateTime" Precision="6" />
           <Property Name="EVENT_TYPE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
-          <Property Name="USER_ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_LOG_ASP_NET_USER" FromRole="LOG" ToRole="AspNetUsers" />
+          <Property Name="USER_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CV_USER" Relationship="Self.FK_LOG_CV_USER" FromRole="LOG" ToRole="CV_USER" />
         </EntityType>
-        <Association Name="FK_UserClaims_Users">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserLogins_Users">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CV_TABLE_ASP_NET_USER">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="CV_TABLE" Type="Self.CV_TABLE" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="CV_TABLE">
-              <PropertyRef Name="USER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_LOG_ASP_NET_USER">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="LOG" Type="Self.LOG" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="LOG">
-              <PropertyRef Name="USER_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ATTACHMENT_CV_ITEM">
-          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
-          <End Role="ATTACHMENT" Type="Self.ATTACHMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CV_ITEM">
-              <PropertyRef Name="ID_ITEM" />
-            </Principal>
-            <Dependent Role="ATTACHMENT">
-              <PropertyRef Name="CV_ITEM_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CRITERIA_CRITERIA1">
+        <Association Name="FK_CRITERIA_PARENT_CRITERIA">
           <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
           <End Role="CRITERIA1" Type="Self.CRITERIA" Multiplicity="*" />
           <ReferentialConstraint>
@@ -559,7 +290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CV_ITEM_CRITERIA1">
+        <Association Name="FK_CV_ITEM_ID_CRITERIA">
           <End Role="CRITERIA" Type="Self.CRITERIA" Multiplicity="0..1" />
           <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -583,7 +314,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CV_ITEM_CV_ITEM1">
+        <Association Name="FK_CV_ITEM_CV_USER">
+          <End Role="CV_USER" Type="Self.CV_USER" Multiplicity="1" />
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CV_ITEM">
+              <PropertyRef Name="CV_TABLE_ID_CV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_LINK_CV_ITEM">
+          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="1" />
+          <End Role="CV_ITEM_LINK" Type="Self.CV_ITEM_LINK" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CV_ITEM">
+              <PropertyRef Name="ID_ITEM" />
+            </Principal>
+            <Dependent Role="CV_ITEM_LINK">
+              <PropertyRef Name="CV_ITEM_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CV_ITEM_OLD_ITEM_ID">
           <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="0..1" />
           <End Role="CV_ITEM1" Type="Self.CV_ITEM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -595,58 +350,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CV_ITEM_CV_TABLE1">
-          <End Role="CV_TABLE" Type="Self.CV_TABLE" Multiplicity="1" />
-          <End Role="CV_ITEM" Type="Self.CV_ITEM" Multiplicity="*" />
+        <Association Name="FK_LOG_CV_USER">
+          <End Role="CV_USER" Type="Self.CV_USER" Multiplicity="1" />
+          <End Role="LOG" Type="Self.LOG" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="CV_TABLE">
-              <PropertyRef Name="ID_CV" />
+            <Principal Role="CV_USER">
+              <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="CV_ITEM">
-              <PropertyRef Name="CV_TABLE_ID_CV" />
+            <Dependent Role="LOG">
+              <PropertyRef Name="USER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="MyEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
-          <EntitySet Name="ATTACHMENT" EntityType="Self.ATTACHMENT" />
           <EntitySet Name="CRITERIA" EntityType="Self.CRITERIA" />
           <EntitySet Name="CV_ITEM" EntityType="Self.CV_ITEM" />
+          <EntitySet Name="CV_ITEM_LINK" EntityType="Self.CV_ITEM_LINK" />
           <EntitySet Name="CV_ITEM_STATUS" EntityType="Self.CV_ITEM_STATUS" />
-          <EntitySet Name="CV_TABLE" EntityType="Self.CV_TABLE" />
+          <EntitySet Name="CV_USER" EntityType="Self.CV_USER" />
           <EntitySet Name="LOG" EntityType="Self.LOG" />
-          <AssociationSet Name="FK_UserClaims_Users" Association="Self.FK_UserClaims_Users">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserLogins_Users" Association="Self.FK_UserLogins_Users">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CV_TABLE_ASP_NET_USER" Association="Self.FK_CV_TABLE_ASP_NET_USER">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="CV_TABLE" EntitySet="CV_TABLE" />
-          </AssociationSet>
-          <AssociationSet Name="FK_LOG_ASP_NET_USER" Association="Self.FK_LOG_ASP_NET_USER">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="LOG" EntitySet="LOG" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ATTACHMENT_CV_ITEM" Association="Self.FK_ATTACHMENT_CV_ITEM">
-            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
-            <End Role="ATTACHMENT" EntitySet="ATTACHMENT" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CRITERIA_CRITERIA1" Association="Self.FK_CRITERIA_CRITERIA1">
+          <AssociationSet Name="FK_CRITERIA_PARENT_CRITERIA" Association="Self.FK_CRITERIA_PARENT_CRITERIA">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
             <End Role="CRITERIA1" EntitySet="CRITERIA" />
           </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CRITERIA1" Association="Self.FK_CV_ITEM_CRITERIA1">
+          <AssociationSet Name="FK_CV_ITEM_ID_CRITERIA" Association="Self.FK_CV_ITEM_ID_CRITERIA">
             <End Role="CRITERIA" EntitySet="CRITERIA" />
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
@@ -654,17 +381,21 @@
             <End Role="CV_ITEM_STATUS" EntitySet="CV_ITEM_STATUS" />
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
           </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CV_ITEM1" Association="Self.FK_CV_ITEM_CV_ITEM1">
+          <AssociationSet Name="FK_CV_ITEM_CV_USER" Association="Self.FK_CV_ITEM_CV_USER">
+            <End Role="CV_USER" EntitySet="CV_USER" />
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_LINK_CV_ITEM" Association="Self.FK_CV_ITEM_LINK_CV_ITEM">
+            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
+            <End Role="CV_ITEM_LINK" EntitySet="CV_ITEM_LINK" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CV_ITEM_OLD_ITEM_ID" Association="Self.FK_CV_ITEM_OLD_ITEM_ID">
             <End Role="CV_ITEM" EntitySet="CV_ITEM" />
             <End Role="CV_ITEM1" EntitySet="CV_ITEM" />
           </AssociationSet>
-          <AssociationSet Name="FK_CV_ITEM_CV_TABLE1" Association="Self.FK_CV_ITEM_CV_TABLE1">
-            <End Role="CV_TABLE" EntitySet="CV_TABLE" />
-            <End Role="CV_ITEM" EntitySet="CV_ITEM" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_LOG_CV_USER" Association="Self.FK_LOG_CV_USER">
+            <End Role="CV_USER" EntitySet="CV_USER" />
+            <End Role="LOG" EntitySet="LOG" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -673,61 +404,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="MyEntities">
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="Model.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="Model.AspNetUserClaims">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="Model.AspNetUserLogins">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="Model.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ATTACHMENT">
-            <EntityTypeMapping TypeName="Model.ATTACHMENT">
-              <MappingFragment StoreEntitySet="ATTACHMENT">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="CV_ITEM_ID" ColumnName="CV_ITEM_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CRITERIA">
             <EntityTypeMapping TypeName="Model.CRITERIA">
               <MappingFragment StoreEntitySet="CRITERIA">
@@ -757,8 +433,18 @@
                 <ScalarProperty Name="USER_ID_APPROVED" ColumnName="USER_ID_APPROVED" />
                 <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
                 <ScalarProperty Name="END_DATE" ColumnName="END_DATE" />
-                <ScalarProperty Name="ATTACHMENT_LINK" ColumnName="ATTACHMENT_LINK" />
+                <ScalarProperty Name="CV_ITEM_LINK_LINK" ColumnName="CV_ITEM_LINK_LINK" />
                 <ScalarProperty Name="STATUS_ID" ColumnName="STATUS_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CV_ITEM_LINK">
+            <EntityTypeMapping TypeName="Model.CV_ITEM_LINK">
+              <MappingFragment StoreEntitySet="CV_ITEM_LINK">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="CV_ITEM_ID" ColumnName="CV_ITEM_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -770,18 +456,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="CV_TABLE">
-            <EntityTypeMapping TypeName="Model.CV_TABLE">
-              <MappingFragment StoreEntitySet="CV_TABLE">
-                <ScalarProperty Name="ID_CV" ColumnName="ID_CV" />
-                <ScalarProperty Name="FIRSTNAME" ColumnName="FIRSTNAME" />
-                <ScalarProperty Name="LASTNAME" ColumnName="LASTNAME" />
-                <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
-                <ScalarProperty Name="PHONE" ColumnName="PHONE" />
-                <ScalarProperty Name="MOBILEPHONE" ColumnName="MOBILEPHONE" />
-                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
-                <ScalarProperty Name="BIRTH_DATE" ColumnName="BIRTH_DATE" />
-                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+          <EntitySetMapping Name="CV_USER">
+            <EntityTypeMapping TypeName="Model.CV_USER">
+              <MappingFragment StoreEntitySet="CV_USER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="SALT" ColumnName="SALT" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -796,14 +477,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
