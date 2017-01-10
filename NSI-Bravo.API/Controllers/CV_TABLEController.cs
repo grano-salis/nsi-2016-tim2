@@ -196,10 +196,6 @@ namespace AngularJSAuthentication.API.Controllers
         // Vraca sve profesore
         [HttpGet]
         [Route("GetAllProfessors")]
-
-        //Returns a JSON with all criteria entries
-        //it returns all users on system
-
         public IHttpActionResult GetAllProfessors()
         {
             List<CV_USER> lista;
@@ -213,13 +209,29 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(lista);
         }
 
-        // Vraca historiju mojih stavki - User sa ID 1 sada HARDCODED
         [HttpPost]
         [Route("GetMyHistory")]
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetMyHistory(HISTORY dateRange)
         {
-            int id = 142;
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+            var id = response.UserId;
             List<CV_ITEM> items;
             DateTime from = (DateTime)dateRange.from;
             DateTime to = (DateTime)dateRange.to;

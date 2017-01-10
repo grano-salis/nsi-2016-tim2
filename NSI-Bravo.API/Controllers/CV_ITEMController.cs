@@ -115,7 +115,7 @@ namespace AngularJSAuthentication.API.Controllers
                         uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
                         localfilename = file.LocalFileName;
                     }
-                    var userId = 10;
+                    var userId = response.UserId;
                     string identifier = Guid.NewGuid().ToString();
                     var extension = Path.GetExtension(uploadedFile);
                     string path = userId + "-" + identifier + extension;
@@ -219,7 +219,6 @@ namespace AngularJSAuthentication.API.Controllers
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                //temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
                 temp = db.CV_ITEM.Where(a =>a.CV_TABLE_ID_CV ==response.UserId && a.STATUS_ID == 2).ToList();
             }
             catch (DBConcurrencyException e)
@@ -234,7 +233,7 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpGet]
         [Route("GetProcessedRequests")]
         [ResponseType(typeof(List<CV_ITEM>))]
-                                                        //ispravka bilo je samo ID_CV
+                                                       
         public IHttpActionResult GetProcessedRequests()
         {
 
@@ -259,14 +258,9 @@ namespace AngularJSAuthentication.API.Controllers
         {
            
             List<CV_ITEM> unconfirmedModified=new List<CV_ITEM>();
-            //CV_ITEM_STATUS modified;
             try
             {
                 unconfirmedModified = db.CV_ITEM.Where(s => s.CV_ITEM_STATUS.STATUS == "unconfirmed" || s.CV_ITEM_STATUS.STATUS =="modified").ToList();
-                //modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
-                //ispravka CV_USER je bilo CV_TABLE, sa.ID je bilo sa.ID_CV
-                //var temp = db.CV_ITEM.Join(db.CV_USER, s => s.CV_TABLE_ID_CV, sa => sa.ID, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
-                //var temp = db.CV_ITEM.Where(c => c.CV_USER.ID == 101);
                 return Ok(unconfirmedModified);
             }
             catch (Exception)
@@ -506,9 +500,30 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CV_ITEM))]
         public IHttpActionResult DeleteCV_ITEM(long id)
         {
-            //check cookies in request
-            var a = HttpContext.Current.Request.Cookies;
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
             CV_ITEM cV_ITEM = db.CV_ITEM.Find(id);
+            if (cV_ITEM.CV_TABLE_ID_CV != response.UserId)
+                return BadRequest("You cannot delete item from other user!");
+
             if (cV_ITEM == null)
             {
                 return NotFound();
@@ -540,34 +555,6 @@ namespace AngularJSAuthentication.API.Controllers
         {
             return db.CV_ITEM.Count(e => e.ID_ITEM == id) > 0;
         }
-
-        private void UploadToBlobStorage()
-        {
-
-            var cvItemId = 23;
-            var fileExtension = ".zip";
-            var fileName = Path.GetFileName("attachment-" + cvItemId+fileExtension);
-            
-            // string directoryPath = string.Format(@"{0}\{1}", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "attachments");
-            //var directoryPath = Server.MapPath("~/Resources/Attachments/NotificationRuns");
-            string directoryPath = string.Format(@"{0}\{1}", @"C:\", "attachments");
-
-            if (!System.IO.Directory.Exists(directoryPath))
-                System.IO.Directory.CreateDirectory(directoryPath);
-            var path = Path.Combine(directoryPath, fileName);
-            //  model.File.SaveAs(path);
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
-            blobContainer.CreateIfNotExists();
-            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
-            blob.UploadFromFile(path);
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-
-        }
-
     }
     
     

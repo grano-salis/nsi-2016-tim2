@@ -34,6 +34,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         data.from = dateFrom;
         data.to = dateTo;
         historyService.GetMyHistory(data).then(function (response) {
+           
             var data = response.data;
             if (data.length == 0) {
                 var cv = {
@@ -65,10 +66,10 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
                 cv_item.description = data[i].description;
-                cv_item.link = data[i].attachmenT_LINK;
+                cv_item.link = data[i].cV_ITEM_LINK_LINK;
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
-                cv_item.links = data[i].attachment;
+                cv_item.links = data[i].cV_ITEM_LINK;
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
                 date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
@@ -224,9 +225,9 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         };
         data.from = dateFrom;
         data.to = dateTo;
-        console.log($scope.profID);
         historyService.GetHistory($scope.profID,data).then(function (response) {
             var data = response.data;
+            
             if (data.length == 0) {
                 var cv = {
                     id: "0",
@@ -243,6 +244,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
 
             }
             for (var i = 0; i < data.length; i++) {
+               
                 var cv_item = {
                     id: "",
                     title: "",
@@ -257,10 +259,10 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
                 cv_item.description = data[i].description;
-                cv_item.link = data[i].attachmenT_LINK;
+                cv_item.link = data[i].cV_ITEM_LINK_LINK;
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
-                cv_item.links = data[i].attachment;
+                cv_item.links = data[i].cV_ITEM_LINK;
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
                 date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
