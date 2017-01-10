@@ -60,7 +60,7 @@ namespace AngularJSAuthentication.API.Controllers
 
                 //user = db.CV_TABLE.Where(x => x.ID_CV == cvitem.CV_TABLE.ID_CV).FirstOrDefault();
                 //popraviti
-                user = db.CV_USER.Where(x => x.ID == cvitem.CV_USER.ID).FirstOrDefault();
+                user = db.CV_USER.Where(o => o.ID == log.USER_ID).FirstOrDefault();
 
                 returnData.Add(new LogModel(log.LOG_ID,
                     log.EVENT_CREATED,

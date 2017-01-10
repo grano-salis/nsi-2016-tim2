@@ -57,6 +57,25 @@ namespace AngularJSAuthentication.API.Controllers
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             CV_ITEM cv = new CV_ITEM();
             List<CV_ITEM_LINK> links= new List<CV_ITEM_LINK>();
             try {
@@ -72,11 +91,12 @@ namespace AngularJSAuthentication.API.Controllers
                      {
                      }
                  }*/
-                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>( provider.FormData.GetValues("LINKS").First());
+                cv.CV_TABLE_ID_CV = response.UserId;
+
+                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>( provider.FormData.GetValues("LINKS").First());
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
-                //ispravka ToInt32 je bilo ToInt64
-                cv.CV_TABLE_ID_CV=Convert.ToInt32(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
@@ -278,12 +298,32 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateStatus(long cv_item_id, int status_id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("ADMIN") || response.Roles.Contains("STUDENTSKA")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
+
             try
             {
                 var status = db.CV_ITEM_STATUS.Where(a => a.ID == status_id).Single();
                 var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
                 result.STATUS_ID = status_id;
-                // treba postaviti user_id
 
                 if (status.STATUS == "confirmed" || status.STATUS == "rejected")
                 {
@@ -291,8 +331,7 @@ namespace AngularJSAuthentication.API.Controllers
                     log.EVENT_CREATED = DateTime.Now;
                     log.EVENT_TYPE = status.STATUS;
                     log.DESCRIPTION = cv_item_id.ToString();
-                    // treba postaviti pravi user_id
-                    log.USER_ID = 101;
+                    log.USER_ID = response.UserId;
                     db.LOG.Add(log);
                     db.SaveChanges();
                 }
@@ -318,10 +357,27 @@ namespace AngularJSAuthentication.API.Controllers
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            /* if (id != item.ID_ITEM)
+
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
             {
-                return BadRequest("id doesn't match");
-            }*/
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
             CV_ITEM cv = new CV_ITEM();
             CV_ITEM currentCV = new CV_ITEM();
             List<CV_ITEM_LINK> links = new List<CV_ITEM_LINK>();
@@ -343,11 +399,12 @@ namespace AngularJSAuthentication.API.Controllers
                 var provider = new MultipartFormDataStreamProvider(root);
                 await Request.Content.ReadAsMultipartAsync(provider);
                 links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>(provider.FormData.GetValues("LINKS").First());
+
+                cv.CV_TABLE_ID_CV = response.UserId;
                 cv.ID_ITEM = id;
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION = provider.FormData.GetValues("DESCRIPTION").First();
                 //ispravka ToInt32 je bilo 64
-                cv.CV_TABLE_ID_CV = Convert.ToInt32(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());

@@ -331,7 +331,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.file = file;
 
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 142;
+        //data.CV_TABLE_ID_CV = 142;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
         myCvService.EditCVItem(cr.id,data).then(function (response) {
@@ -367,8 +367,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.END_DATE = cr.endDate;
         data.CRITERIA_ID_CRITERIA = $scope.editCriteriaFull.iD_CRITERIA;
         $scope.editCriteriaFull = {};
-        // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 142;
+        // FORCED FOR THE MOMENT | not more
+        //data.CV_TABLE_ID_CV = 142;
         data.STATUS_ID = 2;
         //Angular COPY za uklanjanje HASH Taga, JSON Stringify da Server moze procesirati
         data.LINKS = JSON.stringify(angular.copy($scope.links));
