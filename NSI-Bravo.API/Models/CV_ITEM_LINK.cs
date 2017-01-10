@@ -12,7 +12,8 @@ namespace AngularJSAuthentication.API.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+
+    [JsonObject(IsReference = false)]
     public partial class CV_ITEM_LINK
     {
         public long ID { get; set; }

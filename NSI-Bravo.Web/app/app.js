@@ -103,3 +103,7 @@ app.config(function (NotificationProvider) {
         positionY: 'bottom'
     });
 });
+
+app.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+}])
