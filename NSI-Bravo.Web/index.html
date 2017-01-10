@@ -32,13 +32,13 @@
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li ng-class="{ active: isActive('/home')}"><a href="#/home">Home <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/criteria')}"><a href="#/criteria">Criteria <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/requests')}"><a href="#/requests">Unconfirmed requests <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdmin()" ng-class="{ active: isActive('/criteria')}"><a href="#/criteria">Criteria <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/requests')}"><a href="#/requests">Unconfirmed requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome <span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
                     <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
                     <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/login')}"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
