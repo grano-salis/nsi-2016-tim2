@@ -114,8 +114,14 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                  _authentication.roles.push(response.data.Roles[i]);
              console.log(_authentication);
              deferred.resolve(response);
-             if($location.url()=='/login')
-                 $location.path('/myCV');
+             if ($location.url() == '/login') {
+                 if (_authentication.roles.lastIndexOf("CV_ADMIN") != -1)
+                     $location.path('/myCV');
+                 if (_authentication.roles.lastIndexOf("ADMIN") != -1)
+                     $location.path('/criteria');
+                 if (_authentication.roles.lastIndexOf("STUDENTSKA") != -1)
+                     $location.path('/requests');
+             }
 
              
          }, function (response) {
