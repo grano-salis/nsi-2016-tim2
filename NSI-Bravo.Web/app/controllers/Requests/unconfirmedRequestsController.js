@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, myCvService, requestsService, $route) {
+app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, myCvService, requestsService, $route, Notification) {
     // MY CV TABLE
     $scope.data = new Array();
     $scope.tree_data = new Array();
@@ -251,6 +251,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             $log.log('Confirm request');
             $log.log(response);
             GetUnconfirmedRequests();
+            Notification.success('Request approved.');
         });
     };
 
@@ -259,6 +260,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             $log.log('Reject request');
             $log.log(response);
             GetUnconfirmedRequests();
+            Notification.success('Request rejected.');
         });
     };
 

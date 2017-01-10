@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', 'authService', function ($scope, $location, $timeout, $routeParams, $log, myCvService, $route, authService) {
+app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', 'authService', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, myCvService, $route, authService, Notification) {
 
     //$scope.authentication = authService.authentication;
     // MY CV TABLE
@@ -341,6 +341,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             $scope.clearForm();
             GetAllCriteria();
             GetMyCVs();
+            $location.path('/myRequests');
+            Notification.success({ message: 'Please wait for review.', title: 'Request sent' });
         });
     };
     $scope.selectedCr;
@@ -353,6 +355,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         myCvService.DeleteCVItem(cr.id).then(function (response) {
             $log.log(response);
             GetMyCVs();
+            Notification.success('Deleted from your CV');
         });
     };
     //END DeleteCriteria
@@ -381,6 +384,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             $scope.clearForm();
             GetAllCriteria();
             GetMyCVs();
+            $location.path('/myRequests');
+            Notification.success({ message: 'Please wait for review.', title: 'Request sent' });
         });
     };
 
