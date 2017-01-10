@@ -17,8 +17,8 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
 
     // Pregled stavki Lista
     $scope.expanding_property = {
-        field: "title",
-        displayName: "Name",
+        field: "owner",
+        displayName: "Owner",
         sortable: true,
         filterable: true,
         cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
@@ -26,6 +26,12 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
 
 
     $scope.col_defs = [
+        {
+            field: "title",
+            displayName: "Title",
+            sortable: true,
+            sortingType: "string"
+        },
         {
             field: "link",
             displayName: "Attachment link",
@@ -40,6 +46,12 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
            sortable: true,
            sortingType: "string"
        },
+        {
+            field: "status",
+            displayName: "Status",
+            sortable: true,
+            sortingType: "string"
+        },
         {
             field: "Actions",
             displayName: "Actions",
@@ -105,7 +117,9 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                     date_created: "",
                     start_date: "",
                     end_date: "",
-                    links: []
+                    links: [],
+                    status: "",
+                    owner:""
                 }
                
                 cv_item.id = data[i].iD_ITEM;
@@ -116,6 +130,13 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
                 cv_item.links = data[i].cV_ITEM_LINK;
                 cv_item.date_created = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+
+                cv_item.owner = data[i].cV_USER.username;
+
+                if (data[i].statuS_ID == 3)
+                    cv_item.status = "Modified";
+                else if (data[i].statuS_ID == 1)
+                    cv_item.status = "Added";
 
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;

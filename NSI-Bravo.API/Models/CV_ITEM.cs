@@ -42,7 +42,7 @@ namespace AngularJSAuthentication.API.Models
         public virtual CRITERIA CRITERIA { get; set; }
         [JsonIgnore]
         public virtual CV_ITEM_STATUS CV_ITEM_STATUS { get; set; }
-        [JsonIgnore]
+      
         public virtual CV_USER CV_USER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //JsonIgnore? ATTACHMENT

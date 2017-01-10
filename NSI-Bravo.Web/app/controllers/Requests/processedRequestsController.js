@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('processedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, requestsService, $route) {
+app.controller('processedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, myCvService, requestsService, $route, Notification) {
     // MY CV TABLE
     $scope.data = new Array();
     $scope.tree_data = new Array();
@@ -11,24 +11,14 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
     var myTreeData = new Array();
     $scope.editCriteriaFull = new Array();
 
-    $scope.currentPoints = 0;
+
     // Linkovi
     $scope.links = [{ DESCRIPTION: '', URL: '' }];
-    $scope.addNewLink = function () {
-        $scope.links.push({ DESCRIPTION: '', URL: '' });
-    };
-    $scope.resetLinks = function () {
-        $scope.links = [{ DESCRIPTION: '', URL: '' }];
-    }
-    $scope.removeLink = function (id) {
-        if ($scope.links.length > 1) {
-            $scope.links.splice(id, 1);
-        }
-    }
+
     // Pregled stavki Lista
     $scope.expanding_property = {
-        field: "title",
-        displayName: "Name",
+        field: "owner",
+        displayName: "Owner",
         sortable: true,
         filterable: true,
         cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
@@ -37,6 +27,12 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
 
     $scope.col_defs = [
         {
+            field: "title",
+            displayName: "Title",
+            sortable: true,
+            sortingType: "string"
+        },
+        {
             field: "link",
             displayName: "Attachment link",
             sortable: true,
@@ -44,13 +40,26 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
             sortingType: "number",
             filterable: true
         },
+       {
+           field: "date_created",
+           displayName: "Date requested",
+           sortable: true,
+           sortingType: "string"
+       },
+       {
+           field: "status",
+           displayName: "Status",
+           sortable: true,
+           sortingType: "string"
+       },
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn  btn-xs btn-info' data-toggle='modal' data-target='#viewCrModal' >Details</button>",
+            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Review</button>",
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.viewCr = branch;
+                    console.log(branch);
                     if (branch.links.length > 0) {
                         $scope.links = [];
                     }
@@ -60,7 +69,7 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
                     for (var i = 0; i < branch.links.length; i++) {
                         $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
                     }
-                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                    myCvService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.viewCriteriaFull = response.data;
                         $scope.viewCriteria = $scope.viewCriteriaFull.name;
                         console.log($scope.viewCriteriaFull.name);
@@ -68,6 +77,7 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
                 }
             }
         }
+
     ];
     // Clear Tree CV Edit
     function clearTable() {
@@ -107,7 +117,9 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
                     date_created: "",
                     start_date: "",
                     end_date: "",
-                    links: []
+                    links: [],
+                    status: "",
+                    owner:""
                 }
 
                 cv_item.id = data[i].iD_ITEM;
@@ -118,7 +130,12 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
                 cv_item.links = data[i].cV_ITEM_LINK;
                 cv_item.date_created = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+                cv_item.owner = data[i].cV_USER.username;
 
+                if (data[i].statuS_ID == 2)
+                    cv_item.status = "Confirmed";
+                else if (data[i].statuS_ID == 4)
+                    cv_item.status = "Rejected";
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
                 date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
@@ -137,14 +154,15 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
             $scope.tree_data = myTreeData;
         }), function (response) {
             console.log(response.data);
-        };
+        }
+        ;
+
 
 
     };
     GetProcessedRequests();
-    // MY CV TABLE END
 
-    
+
     //MYcv Edit Criteria Choose
     $scope.tree_dataCrit = new Array();
     var rawTreeDataCrit = new Array();
@@ -181,7 +199,7 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
             cellTemplate: "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal' >Select</button>",
             cellTemplateScope: {
                 clickAdd: function (branch) {
-                    criteriaService.GetCriteria(branch.id).then(function (response) {
+                    myCvService.GetCriteria(branch.id).then(function (response) {
                         $scope.editCriteriaFull = response.data;
                         $scope.editCriteria = $scope.editCriteriaFull.name;
                         console.log($scope.editCriteriaFull.name);
@@ -190,7 +208,16 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
             }
         }
     ];
-   
+    // Ciscenje Criteria vjijednosti
+    function clearTableCrit() {
+        $scope.dataCrit = [];
+        $scope.tree_dataCrit = [];
+        rawTreeDataCrit = [];
+        data = [];
+        $scope.my_treeCrit = tree = {};
+        myTreeDataCrit = [];
+    };
+
     // Zajednicki getTree
     function getTree(data, primaryIdName, parentIdName) {
 
@@ -230,13 +257,30 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
         };
         return tree;
     }
-    
+
     $scope.selectedCr;
     $scope.clearForm = function () {
         //clear form
         $scope.cr = {};
         $scope.selectedCr = null;
     };
-    
+
+    $scope.confirmRequest = function (item_id) {
+        requestsService.ConfirmRequest(item_id).then(function (response) {
+            $log.log('Confirm request');
+            $log.log(response);
+            GetProcessedRequests();
+            Notification.success('Request approved.');
+        });
+    };
+
+    $scope.rejectRequest = function (item_id) {
+        requestsService.RejectRequest(item_id).then(function (response) {
+            $log.log('Reject request');
+            $log.log(response);
+            GetProcessedRequests();
+            Notification.success('Request rejected.');
+        });
+    };
 
 }]);
