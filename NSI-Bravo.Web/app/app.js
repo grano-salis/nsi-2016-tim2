@@ -66,7 +66,11 @@ app.config(function ($routeProvider) {
         controller: "processedRequestsController",
         templateUrl: "/app/views/Requests/processedRequests.html"
     });
-    
+    $routeProvider.when("/myRequests", {
+        controller: "myUnconfirmedRequestsController",
+        templateUrl: "/app/views/myRequests.html"
+    });
+
     $routeProvider.when("/log", {
         controller: "logController",
         templateUrl: "/app/views/Criteria/log.html"

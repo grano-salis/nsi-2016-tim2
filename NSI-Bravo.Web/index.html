@@ -19,28 +19,27 @@
 <body>
  
 
-    <nav class="navbar navbar-inverse"   data-ng-controller="indexController">
-        <div class="container-fluid" >
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <nav class="navbar navbar-inverse "  data-ng-controller="indexController">
+        <div class="container-fluid" style="margin:0;padding-left:0px; padding-right:0px" >
+            <div class="navbar-header" >
+                <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/">CV Bravo</a>
             </div>
-            <div class="collapse navbar-collapse" data-collapse="!navbarExpanded" id="myNavbar">
-                <ul class="nav navbar-nav">
-                    <li ng-class="{ active: isActive('/home')}"><a href="#/home">Home <span class="sr-only">(current)</span></a></li>
+            <div class="collapse navbar-collapse" style="margin:0;padding-left:0px; padding-right:0px"  data-collapse="!navbarExpanded" id="myNavbar">
+                <ul class="nav navbar-nav" style="font-size:14px;">
+                    <li data-ng-hide="!authentication.isAuth" style="background-color:#424242;"><a style="color:white" href="#">Welcome <span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth" style="background-color:#424242;"><a style="color:white;" id="navigationItems" href="" data-ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
                     <li data-ng-hide="!isAdmin()" ng-class="{ active: isActive('/criteria')}"><a href="#/criteria">Criteria <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myRequests')}"><a href="#/myRequests">My Requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/requests')}"><a href="#/requests">Unconfirmed requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome <span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
                     <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/login')}"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
                     <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/signup')}"> <a href="#/signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                 </ul>
@@ -97,6 +96,7 @@
             <script src="app/controllers/Criteria/myCVController.js"></script>
             <script src="app/controllers/Criteria/histroyController.js"></script>
             <script src="app/controllers/Requests/unconfirmedRequestsController.js"></script>
+            <script src="app/controllers/Requests/myUnconfirmedRequestsController.js"></script>
             <script src="app/controllers/Requests/processedRequestsController.js"></script>
             <script src="app/controllers/Criteria/logController.js"></script>
             <!-- Load custom filters -->

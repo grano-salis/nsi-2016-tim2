@@ -8,7 +8,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
     var data = new Array();
     var tree;
     $scope.my_tree = tree = {};
-    $scope.my_tree.expanded = true;
+   
     var myTreeData = new Array();
    // $scope.row.branch.expanded = true;
     $scope.expanding_property = {

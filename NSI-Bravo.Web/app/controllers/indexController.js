@@ -1,9 +1,10 @@
 ﻿'use strict';
-app.controller('indexController', ['$scope', '$location', 'authService', function ($scope, $location, authService) {
+app.controller('indexController', ['$scope', '$location', 'authService', '$route','$window', function ($scope, $location, authService,$route,$window) {
 
     $scope.logOut = function () {
         authService.logOut();
-        $location.path('/home');
+        $window.location.reload();
+        $location.path('/login');
     }
     $scope.authentication = authService.authentication;
 

@@ -269,6 +269,44 @@ namespace AngularJSAuthentication.API.Controllers
             }  
         }
 
+        [HttpGet]
+        [Route("GetMyUnconfirmedRequests")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+
+        public IHttpActionResult GetMyUnconfirmedRequests()
+        {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
+            List<CV_ITEM> unconfirmedModified = new List<CV_ITEM>();
+            try
+            {
+                unconfirmedModified = db.CV_ITEM.Where(s =>( s.CV_ITEM_STATUS.STATUS == "unconfirmed" || s.CV_ITEM_STATUS.STATUS == "modified") && s.CV_TABLE_ID_CV==response.UserId).ToList();
+                return Ok(unconfirmedModified);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
         //Get CV_ITEM via ID_ITEM
         //Route e.g. : http://localhost:26264/api/CVitem/Get/42
         [HttpGet]

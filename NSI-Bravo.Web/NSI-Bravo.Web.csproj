@@ -68,6 +68,7 @@
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\ordersController.js" />
     <Content Include="app\controllers\refreshController.js" />
+    <Content Include="app\controllers\Requests\myUnconfirmedRequestsController.js" />
     <Content Include="app\controllers\Requests\processedRequestsController.js" />
     <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
@@ -90,6 +91,7 @@
     <Content Include="app\views\Criteria\log.html" />
     <Content Include="app\views\Criteria\myCV.html" />
     <Content Include="app\views\Criteria\myHistory.html" />
+    <Content Include="app\views\myRequests.html" />
     <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />

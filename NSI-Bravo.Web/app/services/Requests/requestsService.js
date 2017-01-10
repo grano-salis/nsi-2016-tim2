@@ -16,6 +16,12 @@ app.factory('requestsService', ['$http', '$q', 'localStorageService', 'ngAuthSet
         });
     };
 
+    var _GetMyUnconfirmedRequests = function () {
+        return $http.get(serviceBase + 'api/CVitem/GetMyUnconfirmedRequests/', { withCredentials: true }).then(function (response) {
+            return response;
+        });
+    };
+
     var _GetProcessedRequests = function (cv_id) {
         return $http.get(serviceBase + 'api/CVitem/GetProcessedRequests/', {withCredentials: true}).then(function (response) {
             return response;
@@ -41,6 +47,7 @@ app.factory('requestsService', ['$http', '$q', 'localStorageService', 'ngAuthSet
     requestsServiceFactory.GetCVTable = _GetCVTable;
     requestsServiceFactory.GetProcessedRequests = _GetProcessedRequests;
     requestsServiceFactory.GetUnconfirmedRequests = _GetUnconfirmedRequests;
+    requestsServiceFactory.GetMyUnconfirmedRequests = _GetMyUnconfirmedRequests
     requestsServiceFactory.ConfirmRequest = _ConfirmRequest;
     requestsServiceFactory.RejectRequest = _RejectRequest;
     
