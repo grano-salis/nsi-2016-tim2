@@ -8,14 +8,17 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
     var data = new Array();
     var tree;
     $scope.my_tree = tree = {};
+    $scope.my_tree.expanded = true;
     var myTreeData = new Array();
-
+   // $scope.row.branch.expanded = true;
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        expanded: true
+
     };
 
     $scope.col_defs = [

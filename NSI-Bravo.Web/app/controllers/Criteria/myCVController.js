@@ -67,6 +67,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             cellTemplateScope: {
                 clickEdit: function (branch) {
                     $scope.editCr = branch;
+                    $scope.filterString = "";
                     console.log(branch.links);
                     if (branch.links.length > 0) {
                         $scope.links = [];
@@ -93,6 +94,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     });
                 },
                 clickView: function (branch) {
+                    
                     $scope.viewCr = branch;
                     if (branch.links.length > 0) {
                         $scope.links = [];
@@ -381,5 +383,9 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             GetMyCVs();
         });
     };
+
+    $scope.resetSearch = function () {
+        $scope.filterString = "";
+    }
 
 }]);

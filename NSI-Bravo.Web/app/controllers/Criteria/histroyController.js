@@ -200,6 +200,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     $scope.profID = branch.id;
                     $scope.profName = "";
                     $scope.profName = branch.username;
+                    $scope.filterString = "";
                 }
             }
         }
@@ -352,6 +353,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
     }
     onload();
 
-
+    $scope.resetSearch = function () {
+        $scope.filterString = "";
+    }
 
 }]);

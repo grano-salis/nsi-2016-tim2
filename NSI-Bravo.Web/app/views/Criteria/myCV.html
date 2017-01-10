@@ -247,14 +247,14 @@
                     <div class="criteria-content">
                         <div class="row">
                             <div ng-show="!showMinDir">
-                                <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+                                <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="20" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" ng-click="resetSearch();" data-dismiss="modal">Close</button>
             </div>
         </div>
 
