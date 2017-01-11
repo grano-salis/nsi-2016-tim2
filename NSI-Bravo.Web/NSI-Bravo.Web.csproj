@@ -68,18 +68,22 @@
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\ordersController.js" />
     <Content Include="app\controllers\refreshController.js" />
+    <Content Include="app\controllers\Requests\myUnconfirmedRequestsController.js" />
+    <Content Include="app\controllers\Requests\processedRequestsController.js" />
     <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\tokensManagerController.js" />
+    <Content Include="app\custom-elements\angular-ui-notification.js" />
+    <Content Include="app\custom-elements\tree-grid-directive.js" />
+    <Content Include="app\custom-elements\treeGrid.css" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\services\Criteria\criteriaService.js" />
     <Content Include="app\services\Criteria\historyService.js" />
     <Content Include="app\services\Criteria\logService.js" />
     <Content Include="app\services\Criteria\myCVService.js" />
-    <Content Include="app\services\Criteria\requestsService.js" />
     <Content Include="app\services\ordersService.js" />
-    <Content Include="app\services\Requests\unconfirmedRequestsService.js" />
+    <Content Include="app\services\Requests\requestsService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
     <Content Include="app\views\Criteria\criteria.html" />
@@ -87,6 +91,7 @@
     <Content Include="app\views\Criteria\log.html" />
     <Content Include="app\views\Criteria\myCV.html" />
     <Content Include="app\views\Criteria\myHistory.html" />
+    <Content Include="app\views\myRequests.html" />
     <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
@@ -97,6 +102,7 @@
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tokens.html" />
     <Content Include="authComplete.html" />
+    <Content Include="content\css\angular-ui-notification.css" />
     <Content Include="content\css\font-awesome.min.css" />
     <Content Include="content\css\loading-bar.css" />
     <Content Include="content\css\loading-bar.min.css" />
@@ -164,7 +170,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32150/</IISUrl>
+          <IISUrl>http://localhost:32150</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

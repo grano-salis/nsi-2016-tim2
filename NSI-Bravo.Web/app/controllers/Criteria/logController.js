@@ -68,7 +68,7 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
         clearTable();
 
         logService.GetLogs().then(function (response) {
-
+           
             data = response.data;
             for (var i = 0; i < data.length; i++) {
 
@@ -100,8 +100,9 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
 
                 log.cv_item = description;
                 log.user = data[i].user;
-                log.fullName = log.user.firstname + " " + log.user.lastname;
-                var date = moment(data[i].evenT_CREATED).format("YYYY-MM-DD");
+                //ispravka log.fullName = log.user.username + " " + log.user.lastname;
+                log.fullName = log.user.username;
+                var date = moment(data[i].evenT_CREATED).format("YYYY-MM-DD HH:mm:ss");
                 if (date !== null)
                     log.created = date;
                 if (log.type != null) {

@@ -9,7 +9,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
-
+using AngularJSAuthentication.API.SSO;
+using System.Web;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -43,31 +44,25 @@ namespace AngularJSAuthentication.API.Controllers
     public class CRITERIAController : ApiController
     {
         private MyEntities db = new MyEntities();
+        SSO.IdentityClient identity= new SSO.IdentityClient();
+        AuthResponse response = new AuthResponse();
 
-       
         // GET: api/CRITERIA/GetCriteria/5
         [HttpGet]
         [Route("GetCriteria/{id}")]
         [ResponseType(typeof(CRITERIA))]
         //Returns a JSON with requested criteria but also returns other parent or child criteria. R
         // Requested criteria is always at the end of JSON
+
         public IHttpActionResult GetCriteria(long id)
         {
+            
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
             if (cRITERIA == null)
             {
                 return NotFound();
             }
-            /*var returnData = new
-            {
-                id_criteria = cRITERIA.ID_CRITERIA,
-                name = cRITERIA.NAME,
-                description = cRITERIA.DESCRIPTION,
-                parent_criteria=cRITERIA.PARENT_CRITERIA,
-                points=cRITERIA.POINTS,
-                date_created=cRITERIA.DATE_CREATED,
-                date_modified=cRITERIA.DATE_MODIFIED,
-            };*/
+         
             return Ok(cRITERIA);
         }
 
@@ -124,6 +119,23 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateCriteria(long id, CRITERIA cRITERIA)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch{
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!response.Roles.Contains("ADMIN"))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -159,6 +171,26 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CRITERIA))]
         public IHttpActionResult PostCriteria(CRITERIA cRITERIA)
         {
+
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!response.Roles.Contains("ADMIN"))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -189,6 +221,25 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CRITERIA))]
         public IHttpActionResult DeleteCRITERIA(long id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!response.Roles.Contains("ADMIN"))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             CRITERIA cRITERIA = db.CRITERIA.Find(id);
             foreach(CRITERIA c in db.CRITERIA)
             {

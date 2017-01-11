@@ -5,7 +5,8 @@ app.factory('historyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     var historyServiceFactory = {};
 
     var _GetMyHistory = function (data) {
-        return $http.post(serviceBase + 'api/CVtable/GetMyHistory',data).then(function (response) {
+        return $http.post(serviceBase + 'api/CVtable/GetMyHistory', data).then(function (response) {
+            console.log(response);
             return response;
         });
     };

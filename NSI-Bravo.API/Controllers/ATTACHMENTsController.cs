@@ -20,18 +20,18 @@ namespace AngularJSAuthentication.API.Controllers
         // GET: api/ATTACHMENTs
         [HttpGet]
         [Route("GetAllAttachment")]
-        public IQueryable<ATTACHMENT> GetATTACHMENT()
+        public IQueryable<CV_ITEM_LINK> GetATTACHMENT()
         {
-            return db.ATTACHMENT;
+            return db.CV_ITEM_LINK;
         }
 
         // GET: api/ATTACHMENTs/5
         [HttpGet]
         [Route("GetAttachment/{id}")]
-        [ResponseType(typeof(ATTACHMENT))]
+        [ResponseType(typeof(CV_ITEM_LINK))]
         public IHttpActionResult GetATTACHMENT(long id)
         {
-            ATTACHMENT aTTACHMENT = db.ATTACHMENT.Find(id);
+            CV_ITEM_LINK aTTACHMENT = db.CV_ITEM_LINK.Find(id);
             if (aTTACHMENT == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpPut]
         [Route("UpdateAttachment/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutATTACHMENT(long id, ATTACHMENT aTTACHMENT)
+        public IHttpActionResult PutATTACHMENT(long id, CV_ITEM_LINK aTTACHMENT)
         {
             if (!ModelState.IsValid)
             {
@@ -80,15 +80,15 @@ namespace AngularJSAuthentication.API.Controllers
         // POST: api/ATTACHMENTs
         [HttpPost]
         [Route("PostAttachment")]
-        [ResponseType(typeof(ATTACHMENT))]
-        public IHttpActionResult PostATTACHMENT(ATTACHMENT aTTACHMENT)
+        [ResponseType(typeof(CV_ITEM_LINK))]
+        public IHttpActionResult PostATTACHMENT(CV_ITEM_LINK aTTACHMENT)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.ATTACHMENT.Add(aTTACHMENT);
+            db.CV_ITEM_LINK.Add(aTTACHMENT);
 
             try
             {
@@ -113,16 +113,16 @@ namespace AngularJSAuthentication.API.Controllers
         // DELETE: api/ATTACHMENTs/5
         [HttpDelete]
         [Route("DeleteAttachment/{id}")]
-        [ResponseType(typeof(ATTACHMENT))]
+        [ResponseType(typeof(CV_ITEM_LINK))]
         public IHttpActionResult DeleteATTACHMENT(long id)
         {
-            ATTACHMENT aTTACHMENT = db.ATTACHMENT.Find(id);
+            CV_ITEM_LINK aTTACHMENT = db.CV_ITEM_LINK.Find(id);
             if (aTTACHMENT == null)
             {
                 return NotFound();
             }
 
-            db.ATTACHMENT.Remove(aTTACHMENT);
+            db.CV_ITEM_LINK.Remove(aTTACHMENT);
             db.SaveChanges();
 
             return Ok(aTTACHMENT);
@@ -139,7 +139,7 @@ namespace AngularJSAuthentication.API.Controllers
 
         private bool ATTACHMENTExists(long id)
         {
-            return db.ATTACHMENT.Count(e => e.ID == id) > 0;
+            return db.CV_ITEM_LINK.Count(e => e.ID == id) > 0;
         }
     }
 }

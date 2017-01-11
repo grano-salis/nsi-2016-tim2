@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('criteriaController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'criteriaService','$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService,$route) {
+app.controller('criteriaController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'criteriaService', '$route','Notification', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route, Notification) {
 //START DeleteCriteria
     $scope.data = new Array();
     $scope.tree_data = new Array();
@@ -8,14 +8,17 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
     var data = new Array();
     var tree;
     $scope.my_tree = tree = {};
+   
     var myTreeData = new Array();
-
+   // $scope.row.branch.expanded = true;
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        expanded: true
+
     };
 
     $scope.col_defs = [
@@ -157,12 +160,15 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
 
             $scope.deletedSuccessfully = true;
             //$scope.deleteMessage = "Uspjesno ste izbrisali dati kriterij.";
+            Notification.success('Successfully deleted');
             GetAllCriteria();
             
         },
          function (response) {
-             $scope.deleteMessage = "Failed to delete:" + response.data.message;
-             startTimerX();
+             Notification.error({ message: response.data.message, title: 'Failed to delete' });
+
+             //Notification.error('Failed to delete:'+response.data.message);
+             
          });
     };
 
@@ -185,9 +191,15 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         data.PARENT_CRITERIA = cr.parent_id;
 
         criteriaService.UpdateCriteria(cr.id,data).then(function(response) { 
-            $log.log(response); 
+            $log.log(response);
+            Notification.success('Successfully edited');
             GetAllCriteria();
-        });
+        },
+        function(response){
+            Notification.error({ message: response.data.message, title: 'Failed to Edit' });
+
+        }
+        );
     };
 
     $scope.first = "Criteria";
@@ -254,8 +266,12 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         }
         criteriaService.AddCriteria(data).then(function(response) { 
             $log.log(response);
+            Notification.success('Successfully added');
             $scope.clearForm();
             GetAllCriteria();
+        },
+        function (response) {
+            Notification.error({ message: response.data.message, title: 'Failed to Add Criteria' });
         });
     };
 

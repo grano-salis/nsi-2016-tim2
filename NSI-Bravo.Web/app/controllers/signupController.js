@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', function ($scope, $location, $timeout, authService) {
+app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', 'Notification', function ($scope, $location, $timeout, authService, Notification) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -11,11 +11,13 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     };
 
     $scope.signUp = function () {
-
-        authService.saveRegistration($scope.registration).then(function (response) {
+        //validation needed: password must have minimum 8 characters ,at least one lowercase & uppercase,
+        //username must be unique
+        //email must be unique
+        authService.register($scope.registration).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "User has been registered successfully, you will be redicted to login page in 2 seconds.";
+            Notification.success({message:'User has been registered successfully, you will be redicted to login page in 2 seconds.',delay:2000});
             startTimer();
 
         },
@@ -26,7 +28,7 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
                      errors.push(response.data.modelState[key][i]);
                  }
              }
-             $scope.message = "Failed to register user due to:" + errors.join(' ');
+             Notification.error({ message: 'Error', title: 'Failed to register' });
          });
     };
 

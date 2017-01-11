@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, requestsService, $route) {
+app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', 'requestsService', '$route', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, myCvService, requestsService, $route, Notification) {
     // MY CV TABLE
     $scope.data = new Array();
     $scope.tree_data = new Array();
@@ -11,14 +11,14 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
     var myTreeData = new Array();
     $scope.editCriteriaFull = new Array();
 
-    
+
     // Linkovi
     $scope.links = [{ DESCRIPTION: '', URL: '' }];
-    
+
     // Pregled stavki Lista
     $scope.expanding_property = {
-        field: "title",
-        displayName: "Name",
+        field: "owner",
+        displayName: "Owner",
         sortable: true,
         filterable: true,
         cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
@@ -26,6 +26,12 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
 
 
     $scope.col_defs = [
+        {
+            field: "title",
+            displayName: "Title",
+            sortable: true,
+            sortingType: "string"
+        },
         {
             field: "link",
             displayName: "Attachment link",
@@ -41,12 +47,19 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
            sortingType: "string"
        },
         {
+            field: "status",
+            displayName: "Status",
+            sortable: true,
+            sortingType: "string"
+        },
+        {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Review</button>" ,
+            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#viewCrModal' >Review</button>",
             cellTemplateScope: {
                 clickView: function (branch) {
                     $scope.viewCr = branch;
+                    console.log(branch);
                     if (branch.links.length > 0) {
                         $scope.links = [];
                     }
@@ -56,7 +69,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                     for (var i = 0; i < branch.links.length; i++) {
                         $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
                     }
-                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                    myCvService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.viewCriteriaFull = response.data;
                         $scope.viewCriteria = $scope.viewCriteriaFull.name;
                         console.log($scope.viewCriteriaFull.name);
@@ -88,53 +101,66 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
 
     function GetUnconfirmedRequests() {
         clearTable();
-        requestsService.GetCVTable().then(function (response) {
-            var CVTable = response.data;
-            for (var i = 0; i < CVTable.length; i++) {
-                requestsService.GetUnconfirmedRequests(CVTable[i].iD_CV).then(function (response) {
-                    data = response.data;
-                    for (var i = 0; i < data.length; i++) {
-                        var cv_item = {
-                            id: "",
-                            title: "",
-                            description: "",
-                            link: "",
-                            user_cv_id: "",
-                            criteria_id: "",
-                            date_created:"",
-                            start_date: "",
-                            end_date: "",
-                            links: []
-                        }
-                        cv_item.id = data[i].cv_item.iD_ITEM;
-                        cv_item.title = data[i].cv_item.name;
-                        cv_item.description = data[i].cv_item.description;
-                        cv_item.link = data[i].cv_item.attachmenT_LINK;
-                        cv_item.user_cv_id = data[i].cv_item.cV_TABLE_ID_CV;
-                        cv_item.criteria_id = data[i].cv_item.criteriA_ID_CRITERIA;
-                        cv_item.links = data[i].cv_item.attachment;
-                        cv_item.date_created = moment(data[i].cv_item.datE_CREATED).format("YYYY-MM-DD");
+     
+        requestsService.GetUnconfirmedRequests().then(function (response) {
+            var data = response.data;
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
 
-                        var date = moment(data[i].cv_item.starT_DATE).format("YYYY-MM-DD");
-                        cv_item.start_date = date;
-                        date = moment(data[i].cv_item.enD_DATE).format("YYYY-MM-DD");
-                        cv_item.end_date = date;
-                        /*
-                            var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
-                            if (date !== null)
-                                criterion.created = date;
-                        */
-                        if (cv_item.title != null) {
-                            rawTreeData.push(cv_item);
-                        }
-                    }
-                    myTreeData = rawTreeData;
-                    //getTree(rawTreeData, 'id', 'parent_id');
-                    $scope.tree_data = myTreeData;
-                });
+                var cv_item = {
+                    id: "",
+                    title: "",
+                    description: "",
+                    link: "",
+                    user_cv_id: "",
+                    criteria_id: "",
+                    date_created: "",
+                    start_date: "",
+                    end_date: "",
+                    links: [],
+                    status: "",
+                    owner:""
+                }
+               
+                cv_item.id = data[i].iD_ITEM;
+                cv_item.title = data[i].name;
+                cv_item.description = data[i].description;
+                cv_item.link = data[i].cV_ITEM_LINK_LINK;
+                cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
+                cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
+                cv_item.links = data[i].cV_ITEM_LINK;
+                cv_item.date_created = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+
+                cv_item.owner = data[i].cV_USER.username;
+
+                if (data[i].statuS_ID == 3)
+                    cv_item.status = "Modified";
+                else if (data[i].statuS_ID == 1)
+                    cv_item.status = "Added";
+
+                var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
+                cv_item.start_date = date;
+                date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
+                cv_item.end_date = date;
+                /*
+                    var date = moment(data[i].datE_CREATED).format("DD-MM-YYYY");
+                    if (date !== null)
+                        criterion.created = date;
+                */
+                if (cv_item.title != null) {
+                    rawTreeData.push(cv_item);
+                }
             }
-            
-        });
+            myTreeData = rawTreeData;
+            //getTree(rawTreeData, 'id', 'parent_id');
+            $scope.tree_data = myTreeData;
+        }), function (response) {
+            console.log(response.data);
+        }
+        ;
+
+
+
     };
     GetUnconfirmedRequests();
 
@@ -175,7 +201,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             cellTemplate: "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal' >Select</button>",
             cellTemplateScope: {
                 clickAdd: function (branch) {
-                    criteriaService.GetCriteria(branch.id).then(function (response) {
+                    myCvService.GetCriteria(branch.id).then(function (response) {
                         $scope.editCriteriaFull = response.data;
                         $scope.editCriteria = $scope.editCriteriaFull.name;
                         console.log($scope.editCriteriaFull.name);
@@ -193,7 +219,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         $scope.my_treeCrit = tree = {};
         myTreeDataCrit = [];
     };
-   
+
     // Zajednicki getTree
     function getTree(data, primaryIdName, parentIdName) {
 
@@ -233,7 +259,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         };
         return tree;
     }
-   
+
     $scope.selectedCr;
     $scope.clearForm = function () {
         //clear form
@@ -246,6 +272,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             $log.log('Confirm request');
             $log.log(response);
             GetUnconfirmedRequests();
+            Notification.success('Request approved.');
         });
     };
 
@@ -254,6 +281,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             $log.log('Reject request');
             $log.log(response);
             GetUnconfirmedRequests();
+            Notification.success('Request rejected.');
         });
     };
 

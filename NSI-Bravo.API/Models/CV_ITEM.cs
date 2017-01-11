@@ -19,7 +19,7 @@ namespace AngularJSAuthentication.API.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CV_ITEM()
         {
-            this.ATTACHMENT = new HashSet<ATTACHMENT>();
+            this.CV_ITEM_LINK = new HashSet<CV_ITEM_LINK>();
             this.CV_ITEM1 = new HashSet<CV_ITEM>();
         }
     
@@ -30,27 +30,27 @@ namespace AngularJSAuthentication.API.Models
         public Nullable<System.DateTime> DATE_MODIFIED { get; set; }
         public Nullable<System.DateTime> DATE_CONFIRMED { get; set; }
         public Nullable<long> OLD_ITEM_ID { get; set; }
-        public long CV_TABLE_ID_CV { get; set; }
+        public int CV_TABLE_ID_CV { get; set; }
         public Nullable<long> CRITERIA_ID_CRITERIA { get; set; }
-        public string USER_ID_APPROVED { get; set; }
+        public Nullable<int> USER_ID_APPROVED { get; set; }
         public Nullable<System.DateTime> START_DATE { get; set; }
         public Nullable<System.DateTime> END_DATE { get; set; }
-        public string ATTACHMENT_LINK { get; set; }
+        public string CV_ITEM_LINK_LINK { get; set; }
         public int STATUS_ID { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    
-        public virtual ICollection<ATTACHMENT> ATTACHMENT { get; set; }
+
         [JsonIgnore]
         public virtual CRITERIA CRITERIA { get; set; }
         [JsonIgnore]
         public virtual CV_ITEM_STATUS CV_ITEM_STATUS { get; set; }
+      
+        public virtual CV_USER CV_USER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //JsonIgnore? ATTACHMENT
+        public virtual ICollection<CV_ITEM_LINK> CV_ITEM_LINK { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         [JsonIgnore]
         public virtual ICollection<CV_ITEM> CV_ITEM1 { get; set; }
         [JsonIgnore]
         public virtual CV_ITEM CV_ITEM2 { get; set; }
-        [JsonIgnore]
-        public virtual CV_TABLE CV_TABLE { get; set; }
     }
 }

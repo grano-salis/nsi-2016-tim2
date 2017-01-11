@@ -1,4 +1,4 @@
-﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap','ui-notification']);
 
 app.config(function ($routeProvider) {
 
@@ -66,7 +66,11 @@ app.config(function ($routeProvider) {
         controller: "processedRequestsController",
         templateUrl: "/app/views/Requests/processedRequests.html"
     });
-    
+    $routeProvider.when("/myRequests", {
+        controller: "myUnconfirmedRequestsController",
+        templateUrl: "/app/views/myRequests.html"
+    });
+
     $routeProvider.when("/log", {
         controller: "logController",
         templateUrl: "/app/views/Criteria/log.html"
@@ -85,9 +89,25 @@ app.constant('ngAuthSettings', {
 /*
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
-});
+});*/
 
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
-*/
+
+app.config(function (NotificationProvider) {
+    NotificationProvider.setOptions({
+        
+        startTop: 20,
+        startRight: 70,
+        delay: 5000,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'center',
+        positionY: 'bottom'
+    });
+});
+
+app.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+}])

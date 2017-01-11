@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Oracle.ManagedDataAccess.Client;
+using AngularJSAuthentication.API.SSO;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -32,12 +33,15 @@ namespace AngularJSAuthentication.API.Controllers
         CloudBlobClient blobClient;
         CloudBlobContainer blobContainer;
         CloudBlockBlob blob;
+        SSO.IdentityClient identity = new SSO.IdentityClient();
+        AuthResponse response = new AuthResponse();
 
         public CV_ITEMController()
         {
             storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
             blobClient = storageAccount.CreateCloudBlobClient();
             blobContainer = blobClient.GetContainerReference("attachment-files");
+        
         }
 
 
@@ -47,13 +51,33 @@ namespace AngularJSAuthentication.API.Controllers
         [Route("Create")]
         public async Task<IHttpActionResult> PostCV_ITEM()
         {
+            
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             CV_ITEM cv = new CV_ITEM();
-            List<ATTACHMENT> links= new List<ATTACHMENT>();
+            List<CV_ITEM_LINK> links= new List<CV_ITEM_LINK>();
             try {
                 string root = HttpContext.Current.Server.MapPath("~/App_Data");
                 var provider = new MultipartFormDataStreamProvider(root);
@@ -67,10 +91,12 @@ namespace AngularJSAuthentication.API.Controllers
                      {
                      }
                  }*/
-                links= Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>( provider.FormData.GetValues("LINKS").First());
+                cv.CV_TABLE_ID_CV = response.UserId;
+
+                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>( provider.FormData.GetValues("LINKS").First());
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION= provider.FormData.GetValues("DESCRIPTION").First();
-                cv.CV_TABLE_ID_CV=Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE= Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE= Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
@@ -89,7 +115,7 @@ namespace AngularJSAuthentication.API.Controllers
                         uploadedFile = JsonConvert.DeserializeObject(file.Headers.ContentDisposition.FileName).ToString();
                         localfilename = file.LocalFileName;
                     }
-                    var userId = 10;
+                    var userId = response.UserId;
                     string identifier = Guid.NewGuid().ToString();
                     var extension = Path.GetExtension(uploadedFile);
                     string path = userId + "-" + identifier + extension;
@@ -105,7 +131,7 @@ namespace AngularJSAuthentication.API.Controllers
                     blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
                     blob.UploadFromFile(localfilename);
-                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
                 }
             }
             catch (Exception e)
@@ -118,10 +144,10 @@ namespace AngularJSAuthentication.API.Controllers
             db.SaveChanges();
 
             //now update CV_ITEM_ID in every link
-            foreach (ATTACHMENT link in links)
+            foreach (CV_ITEM_LINK link in links)
                 link.CV_ITEM_ID = cv.ID_ITEM;
 
-            db.ATTACHMENT.AddRange(links);
+            db.CV_ITEM_LINK.AddRange(links);
             db.SaveChanges();
            //returns cv_item atributes incuding list of ATTACHMENTS
             return Ok(cv);
@@ -130,14 +156,32 @@ namespace AngularJSAuthentication.API.Controllers
         //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
         //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
         [HttpGet]
-        [Route("GetAll/{ID_CV}")]
+        [Route("GetAll")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetAllItems(long ID_CV)
+        public IHttpActionResult GetAllItems()
         {
+            //currently available without authentification
+            /* 
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }*/
             List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                temp = db.CV_ITEM.Where(a => a.CV_TABLE_ID_CV == ID_CV && a.STATUS_ID==2).ToList();
+                temp = db.CV_ITEM.Where(a => a.STATUS_ID == 2).ToList();
             }
             catch (DBConcurrencyException e)
             {
@@ -146,20 +190,59 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(temp); ;
         }
 
+        //Get CV_ITEM list via ID_CV (CV_TABLE primary key)
+        //Route e.g. : http://localhost:26264/api/CVitem/GetAll/3
         [HttpGet]
-        [Route("GetProcessedRequests/{ID_CV}")]
+        [Route("GetMy")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetProcessedRequests(long ID_CV)
+        public IHttpActionResult GetMy()
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
 
-            CV_ITEM_STATUS confirmed;
-            CV_ITEM_STATUS rejected;
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+            List<CV_ITEM> temp = new List<CV_ITEM>();
             try
             {
-                confirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "confirmed").Single();
-                rejected = db.CV_ITEM_STATUS.Where(s => s.STATUS == "rejected").Single();
-                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == confirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == rejected.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
-                return Ok(temp);
+                temp = db.CV_ITEM.Where(a =>a.CV_TABLE_ID_CV ==response.UserId && a.STATUS_ID == 2).ToList();
+            }
+            catch (DBConcurrencyException e)
+            {
+                return NotFound();
+            }
+            return Ok(temp); ;
+        }
+
+
+
+        [HttpGet]
+        [Route("GetProcessedRequests")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+                                                       
+        public IHttpActionResult GetProcessedRequests()
+        {
+
+            List<CV_ITEM> confirmedRejected = new List<CV_ITEM>();
+          
+            try
+            {
+                confirmedRejected = db.CV_ITEM.Where(s => s.CV_ITEM_STATUS.STATUS == "confirmed" || s.CV_ITEM_STATUS.STATUS == "rejected").ToList();
+                return Ok(confirmedRejected);
             }
             catch (Exception)
             {
@@ -168,24 +251,60 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllUnconfirmedAndModified/{ID_CV}")]
+        [Route("GetAllUnconfirmedAndModified")]
         [ResponseType(typeof(List<CV_ITEM>))]
-        public IHttpActionResult GetAllUnconfirmedItems(long ID_CV)
+                                                       
+        public IHttpActionResult GetAllUnconfirmedItems()
         {
-            
-            CV_ITEM_STATUS unconfirmed;
-            CV_ITEM_STATUS modified;
+           
+            List<CV_ITEM> unconfirmedModified=new List<CV_ITEM>();
             try
             {
-                unconfirmed = db.CV_ITEM_STATUS.Where(s => s.STATUS == "unconfirmed").Single();
-                modified = db.CV_ITEM_STATUS.Where(s => s.STATUS == "modified").Single();
-                var temp = db.CV_ITEM.Join(db.CV_TABLE, s => s.CV_TABLE_ID_CV, sa => sa.ID_CV, (s, sa) => new { cv_item = s, cv = sa }).Where(a => a.cv_item.CV_TABLE_ID_CV == ID_CV && (a.cv_item.CV_ITEM_STATUS.ID == unconfirmed.ID || a.cv_item.CV_ITEM_STATUS.ID == modified.ID)).Select(a => new { a.cv_item, a.cv }).ToList();
-                return Ok(temp);
+                unconfirmedModified = db.CV_ITEM.Where(s => s.CV_ITEM_STATUS.STATUS == "unconfirmed" || s.CV_ITEM_STATUS.STATUS =="modified").ToList();
+                return Ok(unconfirmedModified);
             }
             catch (Exception)
             {
                 return NotFound();
             }  
+        }
+
+        [HttpGet]
+        [Route("GetMyUnconfirmedRequests")]
+        [ResponseType(typeof(List<CV_ITEM>))]
+
+        public IHttpActionResult GetMyUnconfirmedRequests()
+        {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
+            List<CV_ITEM> unconfirmedModified = new List<CV_ITEM>();
+            try
+            {
+                unconfirmedModified = db.CV_ITEM.Where(s =>( s.CV_ITEM_STATUS.STATUS == "unconfirmed" || s.CV_ITEM_STATUS.STATUS == "modified") && s.CV_TABLE_ID_CV==response.UserId).ToList();
+                return Ok(unconfirmedModified);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         //Get CV_ITEM via ID_ITEM
@@ -207,16 +326,36 @@ namespace AngularJSAuthentication.API.Controllers
         }
 
         [HttpPost]
-        [Route("Update/{cv_item_id}/{status_id}")]
+        [Route("UpdateStatus/{cv_item_id}/{status_id}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult UpdateStatus(long cv_item_id, int status_id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("ADMIN") || response.Roles.Contains("STUDENTSKA")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
+
             try
             {
                 var status = db.CV_ITEM_STATUS.Where(a => a.ID == status_id).Single();
                 var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
                 result.STATUS_ID = status_id;
-                // treba postaviti user_id
 
                 if (status.STATUS == "confirmed" || status.STATUS == "rejected")
                 {
@@ -224,8 +363,7 @@ namespace AngularJSAuthentication.API.Controllers
                     log.EVENT_CREATED = DateTime.Now;
                     log.EVENT_TYPE = status.STATUS;
                     log.DESCRIPTION = cv_item_id.ToString();
-                    // treba postaviti pravi user_id
-                    log.USER_ID = "1";
+                    log.USER_ID = response.UserId;
                     db.LOG.Add(log);
                     db.SaveChanges();
                 }
@@ -251,13 +389,30 @@ namespace AngularJSAuthentication.API.Controllers
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            /* if (id != item.ID_ITEM)
+
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
             {
-                return BadRequest("id doesn't match");
-            }*/
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
             CV_ITEM cv = new CV_ITEM();
             CV_ITEM currentCV = new CV_ITEM();
-            List<ATTACHMENT> links = new List<ATTACHMENT>();
+            List<CV_ITEM_LINK> links = new List<CV_ITEM_LINK>();
             try
             {
                 //AsNOTracking(): no caching of in DBcontext or ObjectContext. 
@@ -275,11 +430,13 @@ namespace AngularJSAuthentication.API.Controllers
                 string root = HttpContext.Current.Server.MapPath("~/App_Data");
                 var provider = new MultipartFormDataStreamProvider(root);
                 await Request.Content.ReadAsMultipartAsync(provider);
-                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ATTACHMENT>>(provider.FormData.GetValues("LINKS").First());
+                links = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CV_ITEM_LINK>>(provider.FormData.GetValues("LINKS").First());
+
+                cv.CV_TABLE_ID_CV = response.UserId;
                 cv.ID_ITEM = id;
                 cv.NAME = provider.FormData.GetValues("NAME").First();
                 cv.DESCRIPTION = provider.FormData.GetValues("DESCRIPTION").First();
-                cv.CV_TABLE_ID_CV = Convert.ToInt64(provider.FormData.GetValues("CV_TABLE_ID_CV").First());
+                //ispravka ToInt32 je bilo 64
                 cv.CRITERIA_ID_CRITERIA = Convert.ToInt64(provider.FormData.GetValues("CRITERIA_ID_CRITERIA").First());
                 cv.START_DATE =Convert.ToDateTime(provider.FormData.GetValues("START_DATE").First());
                 cv.END_DATE = Convert.ToDateTime(provider.FormData.GetValues("END_DATE").First());
@@ -292,10 +449,10 @@ namespace AngularJSAuthentication.API.Controllers
                 //current file is deleted only if new is provided
                 if (provider.FileData.Count > 0)
                 {
-                    if (currentCV.ATTACHMENT_LINK != null)
+                    if (currentCV.CV_ITEM_LINK_LINK != null)
                     {
                         //delete old ATTACHMENT_LINK from blob storage 
-                        string a = currentCV.ATTACHMENT_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                        string a = currentCV.CV_ITEM_LINK_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
                         blobContainer.CreateIfNotExists();
                         blob = blobContainer.GetBlockBlobReference(a);
                         blob.DeleteIfExists();
@@ -326,12 +483,12 @@ namespace AngularJSAuthentication.API.Controllers
                     blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
                     blob.UploadFromFile(localfilename);
-                    cv.ATTACHMENT_LINK = blob.Uri.ToString();
+                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
                 }
                 //no new file uploaded => use old file
                 else
                 {
-                    cv.ATTACHMENT_LINK = currentCV.ATTACHMENT_LINK;
+                    cv.CV_ITEM_LINK_LINK = currentCV.CV_ITEM_LINK_LINK;
                 }
 
             }
@@ -359,14 +516,14 @@ namespace AngularJSAuthentication.API.Controllers
                 }
             }
             //remove all current links from database
-            db.ATTACHMENT.RemoveRange(db.ATTACHMENT.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
+            db.CV_ITEM_LINK.RemoveRange(db.CV_ITEM_LINK.Where(l => l.CV_ITEM_ID == cv.ID_ITEM));
            
             //update CV_ITEM_ID in every link; In case that CV_ITEM_ID field in links is not set
-            foreach (ATTACHMENT link in links)
+            foreach (CV_ITEM_LINK link in links)
                 link.CV_ITEM_ID = id;
 
             //add new links to database
-            db.ATTACHMENT.AddRange(links);     
+            db.CV_ITEM_LINK.AddRange(links);    
 
             //db.ATTACHMENT.AddRange(links);
             db.SaveChanges();
@@ -381,7 +538,30 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(CV_ITEM))]
         public IHttpActionResult DeleteCV_ITEM(long id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                    return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+
             CV_ITEM cV_ITEM = db.CV_ITEM.Find(id);
+            if (cV_ITEM.CV_TABLE_ID_CV != response.UserId)
+                return BadRequest("You cannot delete item from other user!");
+
             if (cV_ITEM == null)
             {
                 return NotFound();
@@ -413,34 +593,6 @@ namespace AngularJSAuthentication.API.Controllers
         {
             return db.CV_ITEM.Count(e => e.ID_ITEM == id) > 0;
         }
-
-        private void UploadToBlobStorage()
-        {
-
-            var cvItemId = 23;
-            var fileExtension = ".zip";
-            var fileName = Path.GetFileName("attachment-" + cvItemId+fileExtension);
-            
-            // string directoryPath = string.Format(@"{0}\{1}", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "attachments");
-            //var directoryPath = Server.MapPath("~/Resources/Attachments/NotificationRuns");
-            string directoryPath = string.Format(@"{0}\{1}", @"C:\", "attachments");
-
-            if (!System.IO.Directory.Exists(directoryPath))
-                System.IO.Directory.CreateDirectory(directoryPath);
-            var path = Path.Combine(directoryPath, fileName);
-            //  model.File.SaveAs(path);
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAttachmentsStorage"].ToString());
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            CloudBlobContainer blobContainer = blobClient.GetContainerReference("attachment-files");
-            blobContainer.CreateIfNotExists();
-            CloudBlockBlob blob = blobContainer.GetBlockBlobReference(fileName);
-            blob.UploadFromFile(path);
-            if (System.IO.File.Exists(path))
-                System.IO.File.Delete(path);
-
-        }
-
     }
     
     

@@ -1,13 +1,14 @@
 ﻿'use strict';
-app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', function ($http, $q, localStorageService, ngAuthSettings) {
+app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$location', function ($http, $q, localStorageService, ngAuthSettings, $location) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var authServiceFactory = {};
-
+    
     var _authentication = {
         isAuth: false,
         userName: "",
-        useRefreshTokens: false
+        UserId :null,
+        roles: new Array()
     };
 
     var _externalAuthData = {
@@ -16,155 +17,125 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         externalAccessToken: ""
     };
 
-    var _saveRegistration = function (registration) {
 
-        _logOut();
 
-        return $http.post(serviceBase + 'api/account/register', registration).then(function (response) {
-            return response;
-        });
+    var _login = function (data) {
 
-    };
-
-    var _login = function (loginData) {
-
-        var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
-
-        if (loginData.useRefreshTokens) {
-            data = data + "&client_id=" + ngAuthSettings.clientId;
-        }
+        //console.log(data);
 
         var deferred = $q.defer();
 
-        $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-
-            if (loginData.useRefreshTokens) {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
-            }
-            else {
-                localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
-            }
-            _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
-            _authentication.useRefreshTokens = loginData.useRefreshTokens;
-
+        $http({
+            url: 'http://localhost:48202/BusinessLogic/Account.svc/json/login',
+            method: "POST",
+            data: {
+                loginModel: {
+                    "Username": data.userName,
+                    "Password": data.password
+                }
+            },
+            withCredentials: true
+        }).then(function (response) {
+            //success
+            console.log(response); 
             deferred.resolve(response);
 
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
+        },
+        function (response) {
 
+            deferred.reject(response);
+        });
+       
         return deferred.promise;
 
     };
 
     var _logOut = function () {
 
-        localStorageService.remove('authorizationData');
+          return $http({
+              url: 'http://localhost:48202/BusinessLogic/Account.svc/json/logout',
+              method:"POST",
+              withCredentials:true
+          })
+          .then(function (response) {
+              console.log(response.data);
+              _authentication.isAuth = false;
+              _authentication.userName = "";
+          });
 
-        _authentication.isAuth = false;
-        _authentication.userName = "";
-        _authentication.useRefreshTokens = false;
+      
+        
+
+    };
+
+
+    var _register= function (registerData) {
+
+        console.log(registerData);
+
+        var deferred = $q.defer();
+
+        $http({
+            url: 'http://localhost:48202/BusinessLogic/Account.svc/json/register',
+            method: "POST",
+            data: registerData,
+            withCredentials: true
+        }).then(function (response) {
+            //success
+            console.log(response);
+            deferred.resolve(response);
+
+        },
+        function (response) {
+
+            deferred.reject(response);
+        });
+
+        return deferred.promise;
 
     };
 
     var _fillAuthData = function () {
-
-        var authData = localStorageService.get('authorizationData');
-        if (authData) {
-            _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
-            _authentication.useRefreshTokens = authData.useRefreshTokens;
+        if (_authentication.isAuth == true) {
+            
+            return;
         }
-
-    };
-
-    var _refreshToken = function () {
+       
         var deferred = $q.defer();
+        
+        $http.get('http://localhost:48202/BusinessLogic/Account.svc/json/auth', { withCredentials: true })
+         .then(function (response) {
+             
+             _authentication.isAuth = true;
+             _authentication.userName = response.data.Username;
+             _authentication.roles = new Array();
+             _authentication.UserId = response.data.UserId;
+             for (var i = 0; i < response.data.Roles.length; i++)
+                 _authentication.roles.push(response.data.Roles[i]);
+             console.log(_authentication);
+             deferred.resolve(response);
+             if ($location.url() == '/login') {
+                 if (_authentication.roles.lastIndexOf("CV_ADMIN") != -1)
+                     $location.path('/myCV');
+                 if (_authentication.roles.lastIndexOf("ADMIN") != -1)
+                     $location.path('/criteria');
+                 if (_authentication.roles.lastIndexOf("STUDENTSKA") != -1)
+                     $location.path('/requests');
+             }
 
-        var authData = localStorageService.get('authorizationData');
-
-        if (authData) {
-
-            if (authData.useRefreshTokens) {
-
-                var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + ngAuthSettings.clientId;
-
-                localStorageService.remove('authorizationData');
-
-                $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-
-                    localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
-
-                    deferred.resolve(response);
-
-                }).error(function (err, status) {
-                    _logOut();
-                    deferred.reject(err);
-                });
-            }
-        }
-
+             
+         }, function (response) {
+             deferred.reject(response);
+             console.log("Something went wrong");
+         });
         return deferred.promise;
     };
 
-    var _obtainAccessToken = function (externalData) {
 
-        var deferred = $q.defer();
-
-        $http.get(serviceBase + 'api/account/ObtainLocalAccessToken', { params: { provider: externalData.provider, externalAccessToken: externalData.externalAccessToken } }).success(function (response) {
-
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false });
-
-            _authentication.isAuth = true;
-            _authentication.userName = response.userName;
-            _authentication.useRefreshTokens = false;
-
-            deferred.resolve(response);
-
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
-
-    };
-
-    var _registerExternal = function (registerExternalData) {
-
-        var deferred = $q.defer();
-
-        $http.post(serviceBase + 'api/account/registerexternal', registerExternalData).success(function (response) {
-
-            localStorageService.set('authorizationData', { token: response.access_token, userName: response.userName, refreshToken: "", useRefreshTokens: false });
-
-            _authentication.isAuth = true;
-            _authentication.userName = response.userName;
-            _authentication.useRefreshTokens = false;
-
-            deferred.resolve(response);
-
-        }).error(function (err, status) {
-            _logOut();
-            deferred.reject(err);
-        });
-
-        return deferred.promise;
-
-    };
-
-    authServiceFactory.saveRegistration = _saveRegistration;
     authServiceFactory.login = _login;
     authServiceFactory.logOut = _logOut;
+    authServiceFactory.register = _register;
     authServiceFactory.fillAuthData = _fillAuthData;
     authServiceFactory.authentication = _authentication;
-    authServiceFactory.refreshToken = _refreshToken;
-
-    authServiceFactory.obtainAccessToken = _obtainAccessToken;
-    authServiceFactory.externalAuthData = _externalAuthData;
-    authServiceFactory.registerExternal = _registerExternal;
-
     return authServiceFactory;
 }]);

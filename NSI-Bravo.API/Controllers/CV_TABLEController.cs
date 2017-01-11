@@ -11,6 +11,8 @@ using System.Web.Http.Description;
 using AngularJSAuthentication.API.Models;
 using System.Globalization;
 using Newtonsoft.Json.Linq;
+using AngularJSAuthentication.API.SSO;
+using System.Web;
 
 namespace AngularJSAuthentication.API.Controllers
 {
@@ -19,22 +21,24 @@ namespace AngularJSAuthentication.API.Controllers
     public class CV_TABLEController : ApiController
     {
         private MyEntities db = new MyEntities();
+        SSO.IdentityClient identity = new SSO.IdentityClient();
+        AuthResponse response = new AuthResponse();
 
         //Route: http://localhost:26264/api/CVtable/GetAll
         [HttpGet]
         [Route("GetAll")]
-        public IQueryable<CV_TABLE> GetCV_TABLE()
+        public IQueryable<CV_USER> GetCV_TABLE()
         {
-            return db.CV_TABLE;
+            return db.CV_USER;
         }
 
         //Route: http://localhost:26264/api/CVtable/Get/5
         [HttpGet]
         [Route("Get/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
+        [ResponseType(typeof(CV_USER))]
         public IHttpActionResult GetCV_TABLE(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
+            CV_USER cV_TABLE = db.CV_USER.Find(id);
             if (cV_TABLE == null)
             {
                 return NotFound();
@@ -47,14 +51,14 @@ namespace AngularJSAuthentication.API.Controllers
         [HttpPut]
         [Route("Update/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCV_TABLE(long id, CV_TABLE cV_TABLE)
+        public IHttpActionResult PutCV_TABLE(long id, CV_USER cV_TABLE)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != cV_TABLE.ID_CV)
+            if (id != cV_TABLE.ID)
             {
                 return BadRequest();
             }
@@ -83,15 +87,15 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVtable/Create
         [HttpPost]
         [Route("Create")]
-        [ResponseType(typeof(CV_TABLE))]
-        public IHttpActionResult PostCV_TABLE(CV_TABLE cV_TABLE)
+        [ResponseType(typeof(CV_USER))]
+        public IHttpActionResult PostCV_TABLE(CV_USER cV_TABLE)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.CV_TABLE.Add(cV_TABLE);
+            db.CV_USER.Add(cV_TABLE);
 
             try
             {
@@ -99,7 +103,7 @@ namespace AngularJSAuthentication.API.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CV_TABLEExists(cV_TABLE.ID_CV))
+                if (CV_TABLEExists(cV_TABLE.ID))
                 {
                     return Conflict();
                 }
@@ -116,16 +120,16 @@ namespace AngularJSAuthentication.API.Controllers
         //Route: http://localhost:26264/api/CVtable/Delete/5
         [HttpDelete]
         [Route("Delete/{id}")]
-        [ResponseType(typeof(CV_TABLE))]
+        [ResponseType(typeof(CV_USER))]
         public IHttpActionResult DeleteCV_TABLE(long id)
         {
-            CV_TABLE cV_TABLE = db.CV_TABLE.Find(id);
+            CV_USER cV_TABLE = db.CV_USER.Find(id);
             if (cV_TABLE == null)
             {
                 return NotFound();
             }
 
-            db.CV_TABLE.Remove(cV_TABLE);
+            db.CV_USER.Remove(cV_TABLE);
             db.SaveChanges();
 
             return Ok(cV_TABLE);
@@ -137,10 +141,29 @@ namespace AngularJSAuthentication.API.Controllers
         [ResponseType(typeof(int))]
         public IHttpActionResult GetScore(long id)
         {
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+                //if (!(response.Roles.Contains("CV_ADMIN") || response.Roles.Contains("ADMIN")))
+                   // return BadRequest("You are not authorized for this action");
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
             int score;
             try {
                 //first find all CV_ITEMs with CV_TABLE_ID_CV==id, than sum points of criteria in all CV_ITEMs
-                 score = (int) db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id).Sum(o => o.CRITERIA.POINTS);
+                 score = (int) db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id && o.CV_ITEM_STATUS.STATUS=="confirmed").Sum(o => o.CRITERIA.POINTS);
             }
             catch (DBConcurrencyException)
             {
@@ -166,21 +189,19 @@ namespace AngularJSAuthentication.API.Controllers
                 return InternalServerError(e);
             }
 
-           
+         
             return Ok(items);
         }
 
         // Vraca sve profesore
         [HttpGet]
         [Route("GetAllProfessors")]
-
-        //Returns a JSON with all criteria entries
         public IHttpActionResult GetAllProfessors()
         {
-            List<CV_TABLE> lista;
+            List<CV_USER> lista;
             try
             {
-                lista = db.CV_TABLE.OrderBy(u => u.ID_CV).ToList();
+                lista = db.CV_USER.OrderBy(u => u.ID).ToList();
             }
             catch (Exception e) {
                 return InternalServerError(e);
@@ -188,13 +209,29 @@ namespace AngularJSAuthentication.API.Controllers
             return Ok(lista);
         }
 
-        // Vraca historiju mojih stavki - User sa ID 1 sada HARDCODED
         [HttpPost]
         [Route("GetMyHistory")]
         [ResponseType(typeof(List<CV_ITEM>))]
         public IHttpActionResult GetMyHistory(HISTORY dateRange)
         {
-            int id = 1;
+            if (HttpContext.Current.Request.Cookies.AllKeys.Contains("sid"))
+            {
+                try
+                {
+                    response = identity.Auth(HttpContext.Current.Request.Cookies.Get("sid").Value);
+                }
+                catch
+                {
+                    return BadRequest("Invalid token. Login in again!");
+                }
+            }
+            else
+            {
+
+                return BadRequest("You are not logged in. Please login and try again.");
+            }
+
+            var id = response.UserId;
             List<CV_ITEM> items;
             DateTime from = (DateTime)dateRange.from;
             DateTime to = (DateTime)dateRange.to;
@@ -224,7 +261,7 @@ namespace AngularJSAuthentication.API.Controllers
 
         private bool CV_TABLEExists(long id)
         {
-            return db.CV_TABLE.Count(e => e.ID_CV == id) > 0;
+            return db.CV_USER.Count(e => e.ID == id) > 0;
         }
     }
 }

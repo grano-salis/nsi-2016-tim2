@@ -23,19 +23,19 @@ app.factory('criteriaService', ['$http', '$q', 'localStorageService', 'ngAuthSet
     };
 
     var _DeleteCriteria = function (id) {
-        return $http.delete(serviceBase + 'api/Criteria/DeleteCriteria/' + id).then(function (response) {
+        return $http.delete(serviceBase + 'api/Criteria/DeleteCriteria/' + id, { withCredentials: true }).then(function (response) {
             return response;
         });
     };
 
     var _AddCriteria = function(data) {
-            return $http.post(serviceBase + 'api/Criteria/PostCriteria', data).then(function (response) {
+        return $http.post(serviceBase + 'api/Criteria/PostCriteria', data, { withCredentials: true }).then(function (response) {
                 return response;
             });
     };
 
     var _UpdateCriteria = function(id, data) {
-            return $http.put(serviceBase + 'api/Criteria/UpdateCriteria/' + id, data).then(function (response) {
+        return $http.put(serviceBase + 'api/Criteria/UpdateCriteria/' + id, data, { withCredentials: true }).then(function (response) {
                 return response;
             });
     };

@@ -4,8 +4,8 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var criteriaServiceFactory = {};
 
-    var _GetMyCVs = function (cv_id) {
-        return $http.get(serviceBase + 'api/CVitem/GetAll/'+cv_id).then(function (response) {
+    var _GetMyCVItems = function () {
+        return $http.get(serviceBase + 'api/CVitem/GetMy/',{ withCredentials: true }).then(function (response) {
             return response;
         });
     };
@@ -15,21 +15,14 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         return Upload.upload({
             url: serviceBase + 'api/CVitem/Update/'+id,
             data: data,
-            method: 'put'
+            method: 'put',
+            withCredentials: true
         });
-
-
-
-        /*
-        return $http.put(serviceBase + 'api/CVitem/Update/' + id, data).then(function (response) {
-            console.log(response);
-            return response;
-        });*/
     };
 
-
+    //with credentials-> send cookie to api
     var _DeleteCVItem = function (id) {
-        return $http.delete(serviceBase + 'api/CVItem/Delete/' + id).then(function (response) {
+        return $http.delete(serviceBase + 'api/CVItem/Delete/' + id, { withCredentials: true }).then(function (response) {
             return response;
         });
     };
@@ -38,7 +31,7 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
 
     var _GetAllCriteria = function () {
-        return $http.get(serviceBase + 'api/Criteria/GetAllCriteria/').then(function (response) {
+        return $http.get(serviceBase + 'api/Criteria/GetAllCriteria/',{ withCredentials: true }).then(function (response) {
             return response;
         });
     };
@@ -54,7 +47,8 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _AddCV = function (data) {
         return Upload.upload({
             url: serviceBase + 'api/CVitem/Create',
-            data: data
+            data: data,
+            withCredentials: true
         }).then(function (resp) {
             console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.status);
         }, function (resp) {
@@ -74,12 +68,12 @@ app.factory('myCVService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
 
     var _GetScore = function (id) {
-        return $http.get(serviceBase + 'api/CVtable/Score/' + id).then(function (response) {
+        return $http.get(serviceBase + 'api/CVtable/Score/' + id, { withCredentials: true }).then(function (response) {
             return response;
         });
     };
 
-    criteriaServiceFactory.GetMyCVs = _GetMyCVs;
+    criteriaServiceFactory.GetMyCVItems = _GetMyCVItems;
     criteriaServiceFactory.EditCVItem = _EditCVItem;
     criteriaServiceFactory.DeleteCVItem = _DeleteCVItem;
     criteriaServiceFactory.GetAllCriteria = _GetAllCriteria;

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d47b6104-8224-44d6-b0ac-7a714a72d7cf" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:48202/BusinessLogic/Identity.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Identity.xsd" MetadataType="Schema" ID="4f47f7e2-f6de-4f58-9a62-ffd7835799a0" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?xsd=xsd3" />
+    <MetadataFile FileName="Identity.disco" MetadataType="Disco" ID="9a4911fd-5883-4ca1-a1a5-ab737df4b30b" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?disco" />
+    <MetadataFile FileName="Identity.wsdl" MetadataType="Wsdl" ID="f670d1ef-82fd-47ef-971f-2628a04cb39f" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?wsdl" />
+    <MetadataFile FileName="Identity1.xsd" MetadataType="Schema" ID="44914c2b-ef27-48bf-8b5b-2f89bdf957ff" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?xsd=xsd0" />
+    <MetadataFile FileName="Identity2.xsd" MetadataType="Schema" ID="1f5ae29b-1c88-490e-8685-7bf2229fe520" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?xsd=xsd2" />
+    <MetadataFile FileName="Identity3.xsd" MetadataType="Schema" ID="7d507247-33ec-4213-9704-34a460b6f871" SourceId="1" SourceUrl="http://localhost:48202/BusinessLogic/Identity.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

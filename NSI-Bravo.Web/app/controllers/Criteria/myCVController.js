@@ -1,8 +1,11 @@
 ﻿'use strict';
 
-app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route) {
+app.controller('myCVController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'myCVService', '$route', 'authService', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, myCvService, $route, authService, Notification) {
+
+    //$scope.authentication = authService.authentication;
     // MY CV TABLE
-//Inicijalni podaci
+    //Inicijalni podaci
+
     $scope.data = new Array();
     $scope.tree_data = new Array();
     var rawTreeData = new Array();
@@ -64,6 +67,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             cellTemplateScope: {
                 clickEdit: function (branch) {
                     $scope.editCr = branch;
+                    $scope.filterString = "";
                     console.log(branch.links);
                     if (branch.links.length > 0) {
                         $scope.links = [];
@@ -74,7 +78,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     for (var i = 0; i < branch.links.length; i++) {
                         $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
                     }
-                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                    myCvService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.editCriteriaFull = response.data;
                         $scope.editCriteria = $scope.editCriteriaFull.name;
                         console.log($scope.editCriteriaFull.name);
@@ -83,13 +87,14 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 },
                 clickDel: function (branch) {
                     $scope.delCr = branch;
-                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                    myCvService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.delCriteriaFull = response.data;
                         $scope.delCriteria = $scope.editCriteriaFull.name;
                         console.log($scope.editCriteriaFull.name);
                     });
                 },
                 clickView: function (branch) {
+                    
                     $scope.viewCr = branch;
                     if (branch.links.length > 0) {
                         $scope.links = [];
@@ -100,7 +105,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     for (var i = 0; i < branch.links.length; i++) {
                         $scope.links.push({ DESCRIPTION: branch.links[i].description, URL: branch.links[i].url });
                     }
-                    criteriaService.GetCriteria(branch.criteria_id).then(function (response) {
+                    myCvService.GetCriteria(branch.criteria_id).then(function (response) {
                         $scope.viewCriteriaFull = response.data;
                         $scope.viewCriteria = $scope.viewCriteriaFull.name;
                         console.log($scope.viewCriteriaFull.name);
@@ -133,7 +138,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     function GetMyCVs() {
         clearTable();
         // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
-        criteriaService.GetMyCVs(1).then(function (response) {
+        myCvService.GetMyCVItems().then(function (response) {
             data = response.data;
             for (var i = 0; i < data.length; i++) {
                 var cv_item = {
@@ -150,10 +155,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
                 cv_item.description = data[i].description;
-                cv_item.link = data[i].attachmenT_LINK;
+                cv_item.link = data[i].cV_ITEM_LINK_LINK;
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
-                cv_item.links = data[i].attachment;
+                cv_item.links = data[i].cV_ITEM_LINK;
                 
 
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
@@ -181,7 +186,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
 // Racunanje poena od profesora
     function calculatePoints() {
         $scope.currentPoints = 0;
-        criteriaService.GetScore(1).then(function (response) {
+        myCvService.GetScore(authService.authentication.UserId).then(function (response) {
             $scope.currentPoints=response.data;
         });
     }
@@ -222,7 +227,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             cellTemplate: "<button ng-click='cellTemplateScope.clickAdd(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#criteriaChoiceModal' >Select</button>",
             cellTemplateScope: {
                 clickAdd: function (branch) {
-                    criteriaService.GetCriteria(branch.id).then(function (response) {
+                    myCvService.GetCriteria(branch.id).then(function (response) {
                         $scope.editCriteriaFull = response.data;
                         $scope.editCriteria = $scope.editCriteriaFull.name;
                         console.log($scope.editCriteriaFull.name);
@@ -245,7 +250,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
 
         clearTableCrit();
 
-        criteriaService.GetAllCriteria().then(function (response) {
+        myCvService.GetAllCriteria().then(function (response) {
 
             var data = response.data;
             for (var i = 0; i < data.length; i++) {
@@ -328,14 +333,16 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.file = file;
 
         // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 1;
+        //data.CV_TABLE_ID_CV = 142;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
-        criteriaService.EditCVItem(cr.id,data).then(function (response) {
+        myCvService.EditCVItem(cr.id,data).then(function (response) {
             $log.log(response);
             $scope.clearForm();
             GetAllCriteria();
             GetMyCVs();
+            $location.path('/myRequests');
+            Notification.success({ message: 'Please wait for review.', title: 'Request sent' });
         });
     };
     $scope.selectedCr;
@@ -345,9 +352,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         $scope.selectedCr = null;
     };
     $scope.delCVItem = function (cr) {
-        criteriaService.DeleteCVItem(cr.id).then(function (response) {
+        myCvService.DeleteCVItem(cr.id).then(function (response) {
             $log.log(response);
             GetMyCVs();
+            Notification.success('Deleted from your CV');
         });
     };
     //END DeleteCriteria
@@ -364,19 +372,25 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         data.END_DATE = cr.endDate;
         data.CRITERIA_ID_CRITERIA = $scope.editCriteriaFull.iD_CRITERIA;
         $scope.editCriteriaFull = {};
-        // FORCED FOR THE MOMENT
-        data.CV_TABLE_ID_CV = 1;
+        // FORCED FOR THE MOMENT | not more
+        //data.CV_TABLE_ID_CV = 142;
         data.STATUS_ID = 2;
         //Angular COPY za uklanjanje HASH Taga, JSON Stringify da Server moze procesirati
         data.LINKS = JSON.stringify(angular.copy($scope.links));
         // END OF FORCED DATA
         data.file = file;
-        criteriaService.AddCV(data).then(function (response) {
+        myCvService.AddCV(data).then(function (response) {
             $log.log(response);
             $scope.clearForm();
             GetAllCriteria();
             GetMyCVs();
+            $location.path('/myRequests');
+            Notification.success({ message: 'Please wait for review.', title: 'Request sent' });
         });
     };
+
+    $scope.resetSearch = function () {
+        $scope.filterString = "";
+    }
 
 }]);
