@@ -1,0 +1,184 @@
+
+
+
+<div class="page-header">
+
+    <div class="content-title text-center">
+        <h3 class="text-center">Criteria management</h3>
+        <a class="btn btn-primary criteria-add-btn" ng-click="my_tree.collapse_all()" role="button" data-toggle='modal' data-target='#addCrModal'>Add Master Criteria</a>
+    </div>
+</div>
+<div ng-show="!showMinDir">
+
+    <div class="table-search main" style="padding:0">
+
+        <form class="form">
+            <div class="form-group">
+                <input class="form-control " type="text" data-ng-model="filterString" placeholder="Quick search" />
+            </div>
+        </form>
+
+    </div>   
+   <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handlerCV(branch)" expand-level="20" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+       
+</div>
+
+
+
+    <!--Add Criteria Modal -->
+    <div id="addCrModal" name="modal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add criteria</h4>
+                </div>
+                <form name="addCrForm" role="form">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="cr.name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="points" class="col-xs-2 col-form-label">Points</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="number" min="1" value="1" required ng-model="cr.points">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-xs-2 col-form-label">Description</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" type="text" id="description" rows="3" ng-minlength="20" minlength="20" required ng-model="cr.desc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" ng-click="addCriteria(cr);" ng-if="!(addCrForm.$invalid||addCrForm.$error.minlength||addCrForm.$error.required)" data-dismiss="modal">Add</button>
+                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="addCrForm.$invalid||addCrForm.$error.minlength||addCrForm.$error.required">Add</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Edit Criteria Modal -->
+    <div id="editCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit criteria</h4>
+                </div>
+                <form name="editCrForm" role="form">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" required ng-model="editCr.name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="points" class="col-xs-2 col-form-label">Points</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="number" min="1" value="1" required ng-model="editCr.points">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-xs-2 col-form-label">Description</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" id="description" rows="3" ng-minlength="20" minlength="20" required ng-model="editCr.desc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" ng-click="editCriteria(editCr);" ng-if="!(editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required)" data-dismiss="modal">Edit</button>
+                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required">Edit</button>
+                        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Delete Criteria Modal -->
+    <div id="delCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete criteria</h4>
+                </div>
+                <div>
+                    <div class="modal-body ">
+
+                        <div class="text-left">
+                        </div>
+                        <div class="text-center">
+                            <div class="text-danger text-large"><h2>Are you sure you want to proceed with deletion of <span class="text-primary">{{editCr.name}}</span> ?</h2></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" ng-click="deleteCriteria(editCr.id);" data-dismiss="modal">Yes</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- View CV Modal-->
+    <div id="viewCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">View CV Item</h4>
+                </div>
+                <div>
+                    <div class="modal-body ">
+
+                        <div class="text-left">
+                            <h4><b>Name</b></h4> {{viewCr.title}}
+                        </div>
+
+                        <div class="text-left" style="word-wrap:break-word">
+                            <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.desc}}</span>
+                        </div>
+
+
+                        <div class="text-left">
+                            <h4><b>Created</b></h4> {{viewCr.created}}
+                        </div>
+
+                        <div class="text-left">
+                            <h4><b>Criteria Points</b></h4> {{viewCr.points}}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+

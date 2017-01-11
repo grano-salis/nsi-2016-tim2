@@ -1,5 +1,4 @@
-﻿
-var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
+﻿var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar', 'treeGrid', 'ngFileUpload', 'ui.bootstrap','ui-notification']);
 
 app.config(function ($routeProvider) {
 
@@ -38,6 +37,45 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/associate.html"
     });
 
+
+    $routeProvider.when("/criteria", {
+        controller: "criteriaController",
+        templateUrl: "/app/views/Criteria/criteria.html"
+    });
+    $routeProvider.when("/myCV", {
+        controller: "myCVController",
+        templateUrl: "/app/views/Criteria/myCV.html"
+    });
+
+    $routeProvider.when("/myHistory", {
+        controller: "historyController",
+        templateUrl: "/app/views/Criteria/myHistory.html"
+    });
+
+    $routeProvider.when("/history", {
+        controller: "historyController",
+        templateUrl: "/app/views/Criteria/history.html"
+    });
+
+    $routeProvider.when("/requests", {
+        controller: "unconfirmedRequestsController",
+        templateUrl: "/app/views/Requests/unconfirmedRequests.html"
+    });
+
+    $routeProvider.when("/processedRequests", {
+        controller: "processedRequestsController",
+        templateUrl: "/app/views/Requests/processedRequests.html"
+    });
+    $routeProvider.when("/myRequests", {
+        controller: "myUnconfirmedRequestsController",
+        templateUrl: "/app/views/myRequests.html"
+    });
+
+    $routeProvider.when("/log", {
+        controller: "logController",
+        templateUrl: "/app/views/Criteria/log.html"
+    });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
@@ -48,13 +86,28 @@ app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,
     clientId: 'ngAuthApp'
 });
-
+/*
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');
-});
+});*/
 
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
 
+app.config(function (NotificationProvider) {
+    NotificationProvider.setOptions({
+        
+        startTop: 20,
+        startRight: 70,
+        delay: 5000,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'center',
+        positionY: 'bottom'
+    });
+});
 
+app.config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.withCredentials = true;
+}])

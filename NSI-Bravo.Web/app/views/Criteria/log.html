@@ -1,0 +1,66 @@
+﻿<div class="page-header">
+
+    <div class="content-title text-center">
+        <h3 class="text-center">Processed requests</h3>
+    </div>
+</div>
+<div ng-show="!showMinDir">
+
+    <div class="table-search main" style="padding:0">
+
+        <form class="form">
+            <div class="form-group">
+                <input class="form-control " type="text" data-ng-model="filterString" placeholder="Quick search" />
+            </div>
+        </form>
+
+    </div>
+    <tree-grid tree-data="tree_data" tree-control="my_tree" col-defs="col_defs" expand-on="expanding_property" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+
+</div>
+
+
+
+
+
+<!-- View CV Modal-->
+<div id="viewCrModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View CV Item</h4>
+            </div>
+            <div>
+                <div class="modal-body ">
+
+                    <div class="text-left">
+                        <h4><b>Name</b></h4> {{viewCr.title}}
+                    </div>
+
+                    <div class="text-left" style="word-wrap:break-word">
+                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.desc}}</span>
+                    </div>
+
+
+                    <div class="text-left">
+                        <h4><b>Created</b></h4> {{viewCr.created}}
+                    </div>
+
+                    <div class="text-left">
+                        <h4><b>Criteria Points</b></h4> {{viewCr.points}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

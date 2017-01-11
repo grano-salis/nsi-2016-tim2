@@ -2,29 +2,24 @@
 -------------------------------------------------- */
 html {
     position: relative;
+    height: 100%;
+    background-color:#EEF1F4;
+}   
+
+body {
+  padding-top: 0px;
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: 400;
+  background-color: #ffffff;
+  color: #313646;
+  width: 90%;
+  margin:0 auto;
     min-height: 100%;
 }
 
-body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-      padding-top: 40px;
-  xpadding-bottom: 10px;
-}
-
-
-
-#footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    background-color: #f5f5f5;
-}
-
-.text-muted {
-    margin: 20px 0;
+a, a:hover, a:focus{
+    color: #138BBA;
+    text-decoration: none !important;
 }
 
 .form-login {
@@ -58,3 +53,185 @@ body {
         border-top-right-radius: 0;
     }
 
+.content-header{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    height: 65px;
+    margin-bottom: 8px;
+}
+
+.content-title{
+    padding: 5px;
+}
+
+.content-title h1{
+    font-size: 20px;
+}
+
+.criteria-content{
+    padding-top: 20px;
+}
+
+.criteria-dropdowns .dropdown{
+    display:inline;
+}
+
+.criteria-add-btn{
+  margin-top: 20px;
+}
+
+.modal-header{
+  background-color: #f5f5f5;
+  border-radius: 2px;
+}
+
+.modal-footer{
+  background-color: #f5f5f5;
+  border-radius: 2px;
+}
+
+.table-search{
+  height: 45px;
+  width: 100%;
+  border-bottom: 1px solid #EEF1F4;
+}
+
+.quick-search{
+    width: 300px;
+    position: absolute;
+    left: 0;
+    border-right: 1px solid #EEF1F4;
+    z-index: 5;
+}
+
+.form-search {
+    height: 36px;
+    font-size: 14px;
+    background-color: transparent;
+    border-color: transparent;
+    padding-left: 35px;
+}
+
+.form-group i.fa.fa-search{
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  opacity: .35;
+  transform: translateY(-50%);
+  font-size: .85em;
+}
+
+input.form-search:focus{
+  outline:none;
+}
+
+.quick-search .form-group{
+    margin: 0px;
+}
+
+ /*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed !important;
+    top: 50px !important;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #0EADEB;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  
+  padding-left:5%;
+  padding-right:5%;
+  margin: 0 auto;
+  
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 5%;
+    padding-left:5%;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+#navigationItems
+{
+   
+    
+
+   
+}

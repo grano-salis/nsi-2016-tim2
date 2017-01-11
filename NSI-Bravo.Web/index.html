@@ -6,88 +6,101 @@
     <meta name="description" content="" />
     <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
     <title>NSI-Bravo</title>
-    <link href="content/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="content/css/site.css" rel="stylesheet" />
-    <link href="content/css/loading-bar.css" rel="stylesheet" />
-    <link href="content/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="content/css/social-buttons.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="content/css/loading-bar.css" rel="stylesheet" />
+    
+    <link href="content/css/treeGrid.css" rel="stylesheet" />
+    <link href="content/css/angular-ui-notification.css" rel="stylesheet" />
+    <link href="content/css/site.css" rel="stylesheet" />
 </head>
 <body>
+ 
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="indexController">
-        <div class="container">
-            <div class="navbar-header">
-                <button class="btn btn-success navbar-toggle" data-ng-click="navbarExpanded = !navbarExpanded">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
+    <nav class="navbar navbar-inverse "  data-ng-controller="indexController">
+        <div class="container-fluid" style="margin:0;padding-left:0px; padding-right:0px" >
+            <div class="navbar-header" >
+                <button  type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#/">Home</a>
             </div>
-            <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
-                <ul class="nav navbar-nav navbar-right">
-                    <li data-ng-hide="!authentication.isAuth"><a href="#">Welcome {{authentication.userName}}</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#/orders">My Orders</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="#/refresh">Refresh Token</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a href="" data-ng-click="logOut()">Logout</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/login">Login</a></li>
-                    <li data-ng-hide="authentication.isAuth"> <a href="#/signup">Sign Up</a></li>
+            <div class="collapse navbar-collapse" style="margin:0;padding-left:0px; padding-right:0px"  data-collapse="!navbarExpanded" id="myNavbar">
+                <ul class="nav navbar-nav" style="font-size:14px;">
+                    <li data-ng-hide="!authentication.isAuth" style="background-color:#424242;"><a style="color:white" href="#">Welcome <span class="glyphicon glyphicon-user"></span> {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth" style="background-color:#424242;"><a style="color:white;" id="navigationItems" href="" data-ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+                    <li data-ng-hide="!isAdmin()" ng-class="{ active: isActive('/criteria')}"><a href="#/criteria">Criteria <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myCV')}"><a href="#/myCV">My CV <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myRequests')}"><a href="#/myRequests">My Requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/requests')}"><a href="#/requests">New requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/login')}"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
+                    <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/signup')}"> <a href="#/signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                 </ul>
+               
             </div>
         </div>
-    </div>
-    <div class="jumbotron">
-        <div class="container">
-            <div class="page-header text-center">
-                <h1>NSI-Bravo</h1>
-            </div>
-            <p>NSI-Bravo projekat</p>
-        </div>
-    </div>
+    </nav>
 
-    <div class="container">
-        <div data-ng-view="">
-        </div>
-    </div>
 
-    <hr />
 
-    <div id="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="text-muted">Created by Almin Halilovic </p>
-                </div>
-                
+    <div class="main">
+        <div class="container-fluid">
+            <div data-ng-view="">
             </div>
         </div>
-    </div>
 
-    <!-- 3rd party libraries -->
+   </div>
+            <!-- 3rd party libraries -->
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
-    <script src="scripts/angular-local-storage.min.js"></script>
-    <script src="scripts/loading-bar.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+            <script src="scripts/angular-local-storage.min.js"></script>
+            <script src="scripts/loading-bar.min.js"></script>
+            <script src="scripts/tree-grid-directive.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+            <script src="scripts/ng-file-upload-all.js"></script>
+            <script src="scripts/angular-ui/ui-bootstrap.min.js"></script>
 
-    <!-- Load app main script -->
-    <script src="app/app.js?v=2"></script>
+            <script src="app/custom-elements/angular-ui-notification.js"></script>
+            <!-- Load app main script -->
+            <script src="app/app.js?v=2"></script>
 
-    <!-- Load services -->
-    <script src="app/services/authInterceptorService.js?v=2"></script>
-    <script src="app/services/authService.js?v=2"></script>
-    <script src="app/services/ordersService.js?v=2"></script>
-    <script src="app/services/tokensManagerService.js?v=2"></script>
-    <!-- Load controllers -->
-    <script src="app/controllers/indexController.js?v=2"></script>
-    <script src="app/controllers/homeController.js?v=2"></script>
-    <script src="app/controllers/loginController.js?v=2"></script>
-    <script src="app/controllers/signupController.js?v=2"></script>
-    <script src="app/controllers/ordersController.js?v=2"></script>
-    <script src="app/controllers/refreshController.js?v=2"></script>
-    <script src="app/controllers/tokensManagerController.js?v=2"></script>
-    <script src="app/controllers/associateController.js?v=2"></script>
-    <!-- Load custom filters -->
-    <!-- Load custom directives -->
+            <!-- Load services -->
+            <script src="app/services/authInterceptorService.js?v=2"></script>
+            <script src="app/services/authService.js?v=2"></script>
+            <script src="app/services/ordersService.js?v=2"></script>
+            <script src="app/services/tokensManagerService.js?v=2"></script>
+            <script src="app/services/Criteria/criteriaService.js"></script>
+            <script src="app/services/Criteria/myCVService.js"></script>
+            <script src="app/services/Criteria/historyService.js"></script>
+            <script src="app/services/Requests/requestsService.js"></script>
+            <script src="app/services/Criteria/logService.js"></script>
+
+            <!-- Load controllers -->
+            <script src="app/controllers/indexController.js?v=2"></script>
+            <script src="app/controllers/homeController.js?v=2"></script>
+            <script src="app/controllers/loginController.js?v=2"></script>
+            <script src="app/controllers/signupController.js?v=2"></script>
+            <script src="app/controllers/ordersController.js?v=2"></script>
+            <script src="app/controllers/refreshController.js?v=2"></script>
+            <script src="app/controllers/tokensManagerController.js?v=2"></script>
+            <script src="app/controllers/associateController.js?v=2"></script>
+            <script src="app/controllers/Criteria/criteriaController.js"></script>
+            <script src="app/controllers/Criteria/myCVController.js"></script>
+            <script src="app/controllers/Criteria/histroyController.js"></script>
+            <script src="app/controllers/Requests/unconfirmedRequestsController.js"></script>
+            <script src="app/controllers/Requests/myUnconfirmedRequestsController.js"></script>
+            <script src="app/controllers/Requests/processedRequestsController.js"></script>
+            <script src="app/controllers/Criteria/logController.js"></script>
+            <!-- Load custom filters -->
+            <!-- Load custom directives -->
 
 </body>
 </html>

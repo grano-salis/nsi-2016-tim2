@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,30 +59,56 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\controllers\associateController.js" />
+    <Content Include="app\controllers\Criteria\criteriaController.js" />
+    <Content Include="app\controllers\Criteria\histroyController.js" />
+    <Content Include="app\controllers\Criteria\logController.js" />
+    <Content Include="app\controllers\Criteria\myCVController.js" />
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
     <Content Include="app\controllers\ordersController.js" />
     <Content Include="app\controllers\refreshController.js" />
+    <Content Include="app\controllers\Requests\myUnconfirmedRequestsController.js" />
+    <Content Include="app\controllers\Requests\processedRequestsController.js" />
+    <Content Include="app\controllers\Requests\unconfirmedRequestsController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\controllers\tokensManagerController.js" />
+    <Content Include="app\custom-elements\angular-ui-notification.js" />
+    <Content Include="app\custom-elements\tree-grid-directive.js" />
+    <Content Include="app\custom-elements\treeGrid.css" />
     <Content Include="app\services\authInterceptorService.js" />
     <Content Include="app\services\authService.js" />
+    <Content Include="app\services\Criteria\criteriaService.js" />
+    <Content Include="app\services\Criteria\historyService.js" />
+    <Content Include="app\services\Criteria\logService.js" />
+    <Content Include="app\services\Criteria\myCVService.js" />
     <Content Include="app\services\ordersService.js" />
+    <Content Include="app\services\Requests\requestsService.js" />
     <Content Include="app\services\tokensManagerService.js" />
     <Content Include="app\views\associate.html" />
+    <Content Include="app\views\Criteria\criteria.html" />
+    <Content Include="app\views\Criteria\history.html" />
+    <Content Include="app\views\Criteria\log.html" />
+    <Content Include="app\views\Criteria\myCV.html" />
+    <Content Include="app\views\Criteria\myHistory.html" />
+    <Content Include="app\views\myRequests.html" />
+    <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
     <Content Include="app\views\orders.html" />
     <Content Include="app\views\refresh.html" />
+    <Content Include="app\views\Requests\processedRequests.html" />
+    <Content Include="app\views\Requests\unconfirmedRequests.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="app\views\tokens.html" />
     <Content Include="authComplete.html" />
+    <Content Include="content\css\angular-ui-notification.css" />
     <Content Include="content\css\font-awesome.min.css" />
     <Content Include="content\css\loading-bar.css" />
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="content\css\site.css" />
     <Content Include="content\css\social-buttons.css" />
+    <Content Include="content\css\treeGrid.css" />
     <Content Include="content\fonts\fontawesome-webfont.svg" />
     <Content Include="content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="content\fonts\glyphicons-halflings-regular.ttf" />
@@ -90,6 +117,8 @@
     <Content Include="content\fonts\fontawesome-webfont.ttf" />
     <Content Include="content\fonts\fontawesome-webfont.woff" />
     <Content Include="content\fonts\FontAwesome.otf" />
+    <Content Include="content\ui-bootstrap-csp.css" />
+    <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -104,8 +133,22 @@
     <Content Include="content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
     <Content Include="scripts\angular-local-storage.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="scripts\authComplete.js" />
+    <Content Include="scripts\FileAPI.flash.swf" />
+    <Content Include="scripts\FileAPI.js" />
+    <Content Include="scripts\FileAPI.min.js" />
     <Content Include="scripts\loading-bar.min.js" />
+    <Content Include="scripts\ng-file-upload-all.js" />
+    <Content Include="scripts\ng-file-upload-all.min.js" />
+    <Content Include="scripts\ng-file-upload-shim.js" />
+    <Content Include="scripts\ng-file-upload-shim.min.js" />
+    <Content Include="scripts\ng-file-upload.js" />
+    <Content Include="scripts\ng-file-upload.min.js" />
+    <Content Include="scripts\tree-grid-directive.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -127,7 +170,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:32150/</IISUrl>
+          <IISUrl>http://localhost:32150</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

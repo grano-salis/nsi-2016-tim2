@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="001f76c13d804ece875c4139bc9ddd21" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="Model.CRITERIA" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_ITEM" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_ITEM_LINK" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_ITEM_STATUS" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CV_USER" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.LOG" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_CRITERIA_PARENT_CRITERIA" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_ID_CRITERIA" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_CV_ITEM_STATUS" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_CV_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_LINK_CV_ITEM" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CV_ITEM_OLD_ITEM_ID" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_LOG_CV_USER" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
