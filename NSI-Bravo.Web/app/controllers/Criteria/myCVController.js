@@ -43,20 +43,21 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         {
             field: "link",
             displayName: "Attachment link",
-            sortable: true,
+            sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
-            sortingType: "number",
-            filterable: true
+            filterable: false
         },
         {
             field: "start_date",
             displayName: "Start Date",
-            sortable: true,
+            cellTemplate: "<i>{{row.branch[col.field]}}</i> <i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was started.'></i>",
+            sortable: true  ,
             sortingType: "string"
         },
         {
             field: "end_date",
             displayName: "End Date",
+            cellTemplate: "<i>{{row.branch[col.field]}}</i> <i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was finished.'></i>",
             sortable: true,
             sortingType: "string"
         },
@@ -68,7 +69,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 clickEdit: function (branch) {
                     $scope.editCr = branch;
                     $scope.filterString = "";
-                    console.log(branch.links);
+                    console.log(branch);
                     if (branch.links.length > 0) {
                         $scope.links = [];
                     }
@@ -212,8 +213,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             field: "created",
             displayName: "Created",
             sortable: true,
-            sortingType: "number",
-            filterable: true
+            sortingType: "string",
+            filterable: false
         },
         {
             field: "points",

@@ -26,7 +26,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
             field: "created",
             displayName: "Created",
             sortable: true,
-            sortingType: "number",
+            sortingType: "string",
             filterable: true
         },
         {

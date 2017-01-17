@@ -39,12 +39,27 @@ namespace AngularJSAuthentication.API.Controllers
             }
         };
 
+        [JsonObject(IsReference = false)]
+        public class ListModel
+        {
+            public string CV { get; set; }
+            public LogModel LOG { get; set; }
+
+            public ListModel(string cv, LogModel log)
+            {
+                CV = cv;
+                LOG = log;
+            }
+        };
+
+
+        
         // GET: api/LOGs
         [HttpGet]
         [Route("GetAllLogs")]
         public IHttpActionResult GetLOG()
         {
-            List<LOG> lOGs = db.LOG.ToList();
+            List<LOG> lOGs = db.LOG.OrderBy(x=> x.LOG_ID).ToList();
             if (lOGs == null)
             {
                 return NotFound();
@@ -71,6 +86,57 @@ namespace AngularJSAuthentication.API.Controllers
             }
             return Ok(returnData);
         }
+        
+
+
+
+        // GET: api/LOGs
+        [HttpGet]
+        [Route("GetFullLog")]
+        public IHttpActionResult GetFullLog()
+        {
+            List<LOG> lOGs = db.LOG.OrderBy(x => x.LOG_ID).ToList();
+            if (lOGs == null)
+            {
+                return NotFound();
+            }
+            CV_USER userModified;
+            CV_ITEM cvitem;
+            List<List<ListModel>> returnData = new List<List<ListModel>>();
+            for(int i = lOGs.Count-1;i>=0;i--)
+            {
+
+                LOG log = lOGs[i];
+                Int64 k = Convert.ToInt64(log.DESCRIPTION);
+                cvitem = db.CV_ITEM.Where(x => x.ID_ITEM == k).FirstOrDefault();
+                userModified = db.CV_USER.Where(o => o.ID == log.USER_ID).FirstOrDefault();
+                List<ListModel> list = new List<ListModel>();
+                String check = log.DESCRIPTION;
+
+                for (int j = lOGs.Count-1; j >= 0; j--) {
+                    if (lOGs[j].DESCRIPTION.Equals(check))
+                    {
+                        log = lOGs[j];
+                        list.Add(new ListModel(check,new LogModel(log.LOG_ID,
+                                log.EVENT_CREATED,
+                                cvitem,
+                                userModified,
+                                log.EVENT_TYPE,
+                                log.DESCRIPTION)));
+                        lOGs.RemoveAt(j);
+                    }
+                }
+                i = lOGs.Count;
+                returnData.Add(list);
+            }
+            return Ok(returnData);
+        }
+
+
+
+
+
+
 
         //TODO: Write the action for get log by date
 

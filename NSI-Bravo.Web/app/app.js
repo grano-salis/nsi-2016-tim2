@@ -76,6 +76,11 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/Criteria/log.html"
     });
 
+    $routeProvider.when("/fullLog", {
+        controller: "fullLogController",
+        templateUrl: "/app/views/Criteria/fullLog.html"
+    });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });

@@ -357,11 +357,18 @@ namespace AngularJSAuthentication.API.Controllers
                 var result = db.CV_ITEM.Where(a => a.ID_ITEM == cv_item_id).Single();
                 result.STATUS_ID = status_id;
 
-                if (status.STATUS == "confirmed" || status.STATUS == "rejected")
+                if (status.STATUS == "confirmed" || status.STATUS == "rejected" || status_id == 3)
                 {
+                    string statuschange = "";
+                    if (status.STATUS == "confirmed")
+                    {
+                        statuschange = "CONFIRMED";
+                    }
+                    else if (status.STATUS == "rejected") { statuschange = "REJECTED"; }
+                    else if (status_id == 3) { statuschange = "RESTORED"; }
                     var log = new LOG();
                     log.EVENT_CREATED = DateTime.Now;
-                    log.EVENT_TYPE = status.STATUS;
+                    log.EVENT_TYPE = statuschange;
                     log.DESCRIPTION = cv_item_id.ToString();
                     log.USER_ID = response.UserId;
                     db.LOG.Add(log);
@@ -503,6 +510,13 @@ namespace AngularJSAuthentication.API.Controllers
            try
             {
                 db.SaveChanges();
+                var log = new LOG();
+                log.EVENT_CREATED = DateTime.Now;
+                log.EVENT_TYPE = "MODIFIED";
+                log.DESCRIPTION = cv.ID_ITEM.ToString();
+                log.USER_ID = response.UserId;
+                db.LOG.Add(log);
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -571,6 +585,15 @@ namespace AngularJSAuthentication.API.Controllers
             try {
                 db.Entry(cV_ITEM).State = EntityState.Modified;
                 db.SaveChanges();
+                
+                    var log = new LOG();
+                    log.EVENT_CREATED = DateTime.Now;
+                    log.EVENT_TYPE = "DELETED";
+                    log.DESCRIPTION = cV_ITEM.ID_ITEM.ToString();
+                    log.USER_ID = response.UserId;
+                    db.LOG.Add(log);
+                    db.SaveChanges();
+                
             }
             catch
             {
