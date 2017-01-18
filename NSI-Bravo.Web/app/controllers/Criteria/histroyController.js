@@ -61,8 +61,31 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     criteria_id: "",
                     start_date: "",
                     end_date: "",
+                    status: "",
                     links: []
                 }
+                var status_code = data[i].statuS_ID;
+                var status = "UNKNOWN";
+                switch (status_code) {
+                    case 1:
+                        status = "UNCONFIRMED NEW"
+                        break;
+                    case 2:
+                        status = "CONFIRMED"
+                        break;
+                    case 3:
+                        status = "UNCONFIRMED MODIFIED"
+                        break;
+                    case 4:
+                        status = "REJECTED"
+                        break;
+                    case 5:
+                        status = "DELETED"
+                        break;
+                    default:
+                        break;
+                }
+                cv_item.status = status;
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
                 cv_item.description = data[i].description;
@@ -102,9 +125,15 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         {
             field: "link",
             displayName: "Attachment link",
-            sortable: true,
+            sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
-            sortingType: "number",
+            filterable: false
+        },
+        {
+            field: "status",
+            displayName: "Status",
+            sortable: true,
+            sortingType: "string",
             filterable: true
         },
         {
@@ -239,6 +268,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     criteria_id: "0",
                     start_date: data.from,
                     end_date: data.to,
+                    status: "NO ENTRY",
                     links: []
                 }
                 rawTreeDataCrit.push(cv);
@@ -255,8 +285,31 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     criteria_id: "",
                     start_date: "",
                     end_date: "",
+                    status:"",
                     links: []
                 }
+                var status_code = data[i].statuS_ID;
+                var status = "UNKNOWN";
+                switch (status_code) {
+                    case 1:
+                        status = "UNCONFIRMED NEW"
+                        break;
+                    case 2:
+                        status = "CONFIRMED"
+                        break;
+                    case 3:
+                        status = "UNCONFIRMED MODIFIED"
+                        break;
+                    case 4:
+                        status = "REJECTED"
+                        break;
+                    case 5:
+                        status = "DELETED"
+                        break;
+                    default:
+                        break;
+                }
+                cv_item.status = status;
                 cv_item.id = data[i].iD_ITEM;
                 cv_item.title = data[i].name;
                 cv_item.description = data[i].description;
@@ -296,9 +349,15 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         {
             field: "link",
             displayName: "Attachment link",
-            sortable: true,
+            sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
-            sortingType: "number",
+            filterable: false
+        },
+        {
+            field: "status",
+            displayName: "Status",
+            sortable: true,
+            sortingType: "string",
             filterable: true
         },
         {

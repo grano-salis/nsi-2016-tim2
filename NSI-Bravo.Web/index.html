@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html data-ng-app="AngularAuthApp">
+<html data-ng-app="AngularAuthApp" ng-cloak>
 <head>
 
     <meta name="keywords" content="" />
@@ -15,6 +15,7 @@
     <link href="content/css/treeGrid.css" rel="stylesheet" />
     <link href="content/css/angular-ui-notification.css" rel="stylesheet" />
     <link href="content/css/site.css" rel="stylesheet" />
+
 </head>
 <body>
  
@@ -37,9 +38,8 @@
                     <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myRequests')}"><a href="#/myRequests">My Requests <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isAdminOrCVAdmin()" ng-class="{ active: isActive('/myHistory')}"><a href="#/myHistory">My History <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/history')}"><a href="#/history">Full History <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/requests')}"><a href="#/requests">New requests <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/processedRequests')}"><a href="#/processedRequests">Processed requests <span class="sr-only">(current)</span></a></li>
-                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/log')}"><a href="#/log">Log <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/requests')}"><a href="#/requests">New Requests <span class="sr-only">(current)</span></a></li>
+                    <li data-ng-hide="!isStudentskaOrAdmin()" ng-class="{ active: isActive('/fullLog')}"><a href="#/fullLog">Log <span class="sr-only">(current)</span></a></li>
                     <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/login')}"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span>Login</a></li>
                     <li data-ng-hide="authentication.isAuth" ng-class="{ active: isActive('/signup')}"> <a href="#/signup"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>
                 </ul>
@@ -61,6 +61,7 @@
 
             <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
             <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-route.min.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-animate.min.js"></script>
             <script src="scripts/angular-local-storage.min.js"></script>
             <script src="scripts/loading-bar.min.js"></script>
             <script src="scripts/tree-grid-directive.js"></script>
@@ -69,6 +70,7 @@
             <script src="scripts/angular-ui/ui-bootstrap.min.js"></script>
 
             <script src="app/custom-elements/angular-ui-notification.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
             <!-- Load app main script -->
             <script src="app/app.js?v=2"></script>
 
@@ -82,7 +84,7 @@
             <script src="app/services/Criteria/historyService.js"></script>
             <script src="app/services/Requests/requestsService.js"></script>
             <script src="app/services/Criteria/logService.js"></script>
-
+            <script src="app/services/Criteria/fullLogService.js"></script>
             <!-- Load controllers -->
             <script src="app/controllers/indexController.js?v=2"></script>
             <script src="app/controllers/homeController.js?v=2"></script>
@@ -99,6 +101,7 @@
             <script src="app/controllers/Requests/myUnconfirmedRequestsController.js"></script>
             <script src="app/controllers/Requests/processedRequestsController.js"></script>
             <script src="app/controllers/Criteria/logController.js"></script>
+            <script src="app/controllers/Criteria/fullLogController.js"></script>
             <!-- Load custom filters -->
             <!-- Load custom directives -->
 

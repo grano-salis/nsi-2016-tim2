@@ -35,10 +35,9 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         {
             field: "link",
             displayName: "Attachment link",
-            sortable: true,
+            sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
-            sortingType: "number",
-            filterable: true
+            filterable: false
         },
        {
            field: "date_created",
@@ -134,9 +133,9 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
                 cv_item.owner = data[i].cV_USER.username;
 
                 if (data[i].statuS_ID == 3)
-                    cv_item.status = "Modified";
+                    cv_item.status = "MODIFIED";
                 else if (data[i].statuS_ID == 1)
-                    cv_item.status = "Added";
+                    cv_item.status = "ADDED";
 
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
@@ -187,7 +186,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
             displayName: "Created",
             sortable: true,
             sortingType: "number",
-            filterable: true
+            filterable: false
         },
         {
             field: "points",

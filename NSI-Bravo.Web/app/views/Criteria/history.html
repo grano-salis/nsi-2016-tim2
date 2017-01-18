@@ -29,24 +29,22 @@
 <!-- Choose Criteria Modal-->
 <div id="selectModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-target="#selectModal" data-toggle="modal" ng-click="clearHistory();" >&times;</button>
                 <h4 class="modal-title">History of {{profName}}</h4>
             </div>
-            <div class="row">
-                <div class="col-sm-0 col-sm-offset-1 col-md-9 col-md-offset-1 main">
-                    <div class="table-search">
-                        <div class="quick-search">
-                            <form class="form">
-                                <div class="form-group">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                    <input class="form-search" type="text" data-ng-model="filterString" placeholder="Quick search" />
-                                </div>
-                            </form>
-                        </div>
+            <div>
+                <div class="modal-body">
+                    <div class="table-search main" style="padding:0">
+
+                        <form class="form">
+                            <div class="form-group">
+                                <input class="form-control " type="text" data-ng-model="filterString" placeholder="Quick search" />
+                            </div>
+                        </form>
+
                     </div>
                     <br/>
 
@@ -65,13 +63,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Get History</button>
                     </form>
-                    <div class="criteria-content">
-                        <div class="row">
-                            <div ng-show="!showMinDir">
-                                <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
-                            </div>
-                        </div>
-                    </div>
+                    <tree-grid tree-data="tree_dataCrit" tree-control="my_treeCrit" col-defs="col_defsCrit" expand-on="expanding_propertyCrit" on-select="my_tree_handler(branch)" expand-level="1" icon-expand="glyphicon glyphicon-chevron-right" icon-collapse="glyphicon glyphicon-chevron-down" icon-leaf="glyphicon glyphicon-globe"></tree-grid>
+
                 </div>
             </div>
             <div class="modal-footer">
