@@ -1,16 +1,16 @@
 'use strict';
 
-app.controller('criteriaController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'criteriaService', '$route','Notification', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route, Notification) {
-//START DeleteCriteria
+app.controller('criteriaController', ['$scope', '$location', '$timeout', '$routeParams', '$log', 'criteriaService', '$route', 'Notification', function ($scope, $location, $timeout, $routeParams, $log, criteriaService, $route, Notification) {
+    //START DeleteCriteria
     $scope.data = new Array();
     $scope.tree_data = new Array();
     var rawTreeData = new Array();
     var data = new Array();
     var tree;
     $scope.my_tree = tree = {};
-   
+
     var myTreeData = new Array();
-   // $scope.row.branch.expanded = true;
+    // $scope.row.branch.expanded = true;
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
@@ -50,10 +50,10 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                     //$scope.deleteCriteria(branch.id);
                 },
                 clickAdd: function (branch) {
-                    $scope.addCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id,desc:branch.description };
+                    $scope.addCr = { name: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description };
                 },
                 clickView: function (branch) {
-                    $scope.viewCr = { title: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description,created:branch.created };
+                    $scope.viewCr = { title: branch.title, points: branch.points, id: branch.id, parent_id: branch.parent_id, desc: branch.description, created: branch.created };
                 }
             }
         }
@@ -63,24 +63,23 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         console.log('you clicked on', branch);
     }
 
-    function clearTable(){
+    function clearTable() {
         $scope.data = [];
         $scope.tree_data = [];
         rawTreeData = [];
         data = [];
-        $scope.my_tree = tree = {};
         myTreeData = [];
     };
     $scope.selectedCr;
     function GetAllCriteria() {
 
         clearTable();
-    
+
         criteriaService.GetAllCriteria().then(function (response) {
 
             data = response.data;
             for (var i = 0; i < data.length; i++) {
-                
+
                 var criterion = {
                     id: "",
                     title: "",
@@ -94,7 +93,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                 criterion.description = data[i].description;
                 criterion.parent_id = data[i].parenT_CRITERIA;
                 var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
-                if(date !== null)
+                if (date !== null)
                     criterion.created = date;
                 criterion.points = data[i].points;
                 if (criterion.title != null) {
@@ -103,7 +102,13 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
             }
             myTreeData = getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
+            var timer = $timeout(function () {
+                $timeout.cancel(timer);
+                $scope.my_tree.expand_all();
+            }, 0);
+
         });
+
     };
 
     GetAllCriteria();
@@ -162,13 +167,13 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
             //$scope.deleteMessage = "Uspjesno ste izbrisali dati kriterij.";
             Notification.success('Successfully deleted');
             GetAllCriteria();
-            
+
         },
          function (response) {
              Notification.error({ message: response.data.message, title: 'Failed to delete' });
 
              //Notification.error('Failed to delete:'+response.data.message);
-             
+
          });
     };
 
@@ -180,22 +185,22 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
 
     };
 
-    $scope.editCriteria = function(cr) {
+    $scope.editCriteria = function (cr) {
         $log.log(cr);
         var data = {};
         data.NAME = cr.name;
         console.log(cr.desc);
         data.DESCRIPTION = cr.desc;
         data.POINTS = cr.points;
-        data.ID_CRITERIA =  cr.id;
+        data.ID_CRITERIA = cr.id;
         data.PARENT_CRITERIA = cr.parent_id;
 
-        criteriaService.UpdateCriteria(cr.id,data).then(function(response) { 
+        criteriaService.UpdateCriteria(cr.id, data).then(function (response) {
             $log.log(response);
             Notification.success('Successfully edited');
             GetAllCriteria();
         },
-        function(response){
+        function (response) {
             Notification.error({ message: response.data.message, title: 'Failed to Edit' });
 
         }
@@ -218,17 +223,17 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                 var criterion = {};
                 criterion.id = data[i].iD_CRITERIA;
                 criterion.name = data[i].name;
-                if (criterion.name != null) 
+                if (criterion.name != null)
                     $scope.firstCriteria.push(criterion);
-                    $log.log(criterion);
-                }
-        
+                $log.log(criterion);
+            }
+
         });
     };
     $scope.getMasterCriteria();
 
-    $scope.listSubcriteria = function(cr) {
-        
+    $scope.listSubcriteria = function (cr) {
+
         $scope.first = cr.name;
         $scope.second = 'Subcategory';
         $scope.selectedCr = cr.id;
@@ -245,7 +250,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
                 }
             }
             $log.log('sub' + subcriteria);
-            if(subcriteria.length > 0){
+            if (subcriteria.length > 0) {
                 $scope.secondCriteria = subcriteria;
                 $log.log($scope.secondCriteria);
             }
@@ -253,8 +258,8 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
 
     };
 
-    
-    $scope.addCriteria = function (cr,modal) {
+
+    $scope.addCriteria = function (cr, modal) {
         var data = {};
         this.hide;
         data.NAME = cr.name;
@@ -264,7 +269,7 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         if ($scope.addCr != null) {
             data.PARENT_CRITERIA = $scope.addCr.id;
         }
-        criteriaService.AddCriteria(data).then(function(response) { 
+        criteriaService.AddCriteria(data).then(function (response) {
             $log.log(response);
             Notification.success('Successfully added');
             $scope.clearForm();
@@ -275,12 +280,12 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         });
     };
 
-    $scope.selectSecondCr = function(cr){
+    $scope.selectSecondCr = function (cr) {
         $scope.second = cr.name;
         $scope.selectedCr = cr.id;
     };
 
-    $scope.clearForm = function(){
+    $scope.clearForm = function () {
         //clear form
         $scope.cr = {};
         $scope.first = "Criteria";
@@ -292,6 +297,6 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
         $scope.getMasterCriteria();
     };
 
-//END DeleteCriteria
+    //END DeleteCriteria
 
 }]);

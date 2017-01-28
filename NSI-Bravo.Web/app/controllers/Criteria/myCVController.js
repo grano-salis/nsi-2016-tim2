@@ -14,9 +14,9 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     $scope.my_tree = tree = {};
     var myTreeData = new Array();
     $scope.editCriteriaFull = new Array();
-    
+
     $scope.currentPoints = 0;
-// Linkovi
+    // Linkovi
     $scope.links = [{ DESCRIPTION: '', URL: '' }];
     $scope.addNewLink = function () {
         $scope.links.push({ DESCRIPTION: '', URL: '' });
@@ -26,10 +26,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     }
     $scope.removeLink = function (id) {
         if ($scope.links.length > 1) {
-            $scope.links.splice(id,1);
+            $scope.links.splice(id, 1);
         }
     }
-// Pregled stavki Lista
+    // Pregled stavki Lista
     $scope.expanding_property = {
         field: "title",
         displayName: "Name",
@@ -51,7 +51,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             field: "start_date",
             displayName: "Start Date",
             cellTemplate: "<i>{{row.branch[col.field]}}</i> <i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was started.'></i>",
-            sortable: true  ,
+            sortable: true,
             sortingType: "string"
         },
         {
@@ -64,7 +64,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         {
             field: "Actions",
             displayName: "Actions",
-            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>"+" "+"<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
+            cellTemplate: "<button id='viewMe{{row.branch.id}}' ng-click='cellTemplateScope.clickView(row.branch)' class='btn btn-primary btn-xs' data-toggle='modal' data-target='#viewCrModal' >View</button>" + " " + "<button ng-click='cellTemplateScope.clickEdit(row.branch)' class='btn btn-warning btn-xs' data-toggle='modal' data-target='#editCrModal' >Edit</button>" + " " + "<button ng-click='cellTemplateScope.clickDel(row.branch)' class='btn btn-danger btn-xs' data-toggle='modal' data-target='#delCrModal'  >Delete</button>",
             cellTemplateScope: {
                 clickEdit: function (branch) {
                     $scope.editCr = branch;
@@ -95,7 +95,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                     });
                 },
                 clickView: function (branch) {
-                    
+
                     $scope.viewCr = branch;
                     if (branch.links.length > 0) {
                         $scope.links = [];
@@ -115,7 +115,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             }
         }
     ];
-// Clear Tree CV Edit
+    // Clear Tree CV Edit
     function clearTable() {
         $scope.data = [];
         $scope.tree_data = [];
@@ -124,10 +124,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         $scope.my_tree = tree = {};
         myTreeData = [];
     };
-// Testiranje Klika Na neku tree stavku
+    // Testiranje Klika Na neku tree stavku
     $scope.my_tree_handlerCV = function (branch) {
         console.log('You clicked on', branch);
-        var modal = document.getElementById("viewMe"+branch.id);
+        var modal = document.getElementById("viewMe" + branch.id);
         modal.click();
     }
 
@@ -135,7 +135,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         console.log('you clicked on', branch);
     }
 
-// Dobavljanje liste CVova
+    // Dobavljanje liste CVova
     function GetMyCVs() {
         clearTable();
         // HARDCODED 3, SHOULD BE FIXED IN BACKEND TO RETURN FOR CURRENT USER - > When login system is implemented
@@ -160,7 +160,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
                 cv_item.links = data[i].cV_ITEM_LINK;
-                
+
 
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
@@ -176,7 +176,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
                 }
             }
             myTreeData = rawTreeData;
-                //getTree(rawTreeData, 'id', 'parent_id');
+            //getTree(rawTreeData, 'id', 'parent_id');
             $scope.tree_data = myTreeData;
             calculatePoints();
         });
@@ -184,11 +184,11 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     GetMyCVs();
     // MY CV TABLE END
 
-// Racunanje poena od profesora
+    // Racunanje poena od profesora
     function calculatePoints() {
         $scope.currentPoints = 0;
         myCvService.GetScore(authService.authentication.UserId).then(function (response) {
-            $scope.currentPoints=response.data;
+            $scope.currentPoints = response.data;
         });
     }
 
@@ -237,16 +237,15 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             }
         }
     ];
-// Ciscenje Criteria vjijednosti
+    // Ciscenje Criteria vjijednosti
     function clearTableCrit() {
         $scope.dataCrit = [];
         $scope.tree_dataCrit = [];
         rawTreeDataCrit = [];
         data = [];
-        $scope.my_treeCrit = tree = {};
         myTreeDataCrit = [];
     };
-// Dobavljanje svih kriterija
+    // Dobavljanje svih kriterija
     function GetAllCriteria() {
 
         clearTableCrit();
@@ -276,10 +275,15 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             }
             myTreeDataCrit = getTree(rawTreeDataCrit, 'id', 'parent_id');
             $scope.tree_dataCrit = myTreeDataCrit;
+
+            var timer = $timeout(function () {
+                $timeout.cancel(timer);
+                $scope.my_treeCrit.expand_all();
+            }, 0);
         });
     };
     GetAllCriteria();
-// Zajednicki getTree
+    // Zajednicki getTree
     function getTree(data, primaryIdName, parentIdName) {
 
         if (!data || data.length == 0 || !primaryIdName || !parentIdName)
@@ -321,7 +325,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     // Tree for CriteriaEnd
     //MYCV Edit Criteria Choose END
 
-// EDIT CV ITem
+    // EDIT CV ITem
     $scope.editCVItem = function (cr, file) {
         var data = {};
         data.ID_ITEM = cr.id;
@@ -337,7 +341,7 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         //data.CV_TABLE_ID_CV = 142;
         data.STATUS_ID = 2;
         // END OF FORCED DATA
-        myCvService.EditCVItem(cr.id,data).then(function (response) {
+        myCvService.EditCVItem(cr.id, data).then(function (response) {
             $log.log(response);
             $scope.clearForm();
             GetAllCriteria();
