@@ -18,17 +18,17 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
     // Pregled stavki Lista
     $scope.expanding_property = {
         field: "owner",
-        displayName: "Owner",
+        displayName: "CV Owner",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
     $scope.col_defs = [
         {
             field: "title",
-            displayName: "Title",
+            displayName: "CV Name",
             sortable: true,
             sortingType: "string"
         },
@@ -176,7 +176,7 @@ app.controller('processedRequestsController', ['$scope', '$location', '$timeout'
         displayName: "Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defsCrit = [

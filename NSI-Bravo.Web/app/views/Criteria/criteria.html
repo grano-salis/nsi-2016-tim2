@@ -5,7 +5,7 @@
 
     <div class="content-title text-center">
         <h3 class="text-center">Criteria management</h3>
-        <a class="btn btn-primary criteria-add-btn" ng-click="my_tree.collapse_all()" role="button" data-toggle='modal' data-target='#addCrModal'>Add Master Criteria</a>
+        <a class="btn btn-primary criteria-add-btn" role="button" data-toggle='modal' data-target='#addCrModal'>Add Master Criteria</a>
     </div>
 </div>
 <div ng-show="!showMinDir">
@@ -98,8 +98,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success" ng-click="editCriteria(editCr);" ng-if="!(editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required)" data-dismiss="modal">Edit</button>
-                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required">Edit</button>
+                        <button type="submit" class="btn btn-success" ng-click="editCriteria(editCr);" ng-if="!(editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required)" data-dismiss="modal">Save</button>
+                        <button type="submit" class="btn btn-warning" ng-click="" ng-if="editCrForm.$invalid||editCrForm.$error.minlength||editCrForm.$error.required">Save</button>
                         <button class="btn btn-primary" data-dismiss="modal">Close</button>
                     </div>
                 </form>
@@ -149,30 +149,36 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">View CV Item</h4>
                 </div>
-                <div>
-                    <div class="modal-body ">
 
-                        <div class="text-left">
-                            <h4><b>Name</b></h4> {{viewCr.title}}
+                <form name="viewCrForm" role="form">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="" ng-minlength="3" minlength="3" readonly ng-model="viewCr.title">
+                            </div>
                         </div>
-
-                        <div class="text-left" style="word-wrap:break-word">
-                            <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.desc}}</span>
+                        <div class="form-group row">
+                            <label for="points" class="col-xs-2 col-form-label">Points</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="number" min="1" value="1" readonly ng-model="viewCr.points">
+                            </div>
                         </div>
-
-
-                        <div class="text-left">
-                            <h4><b>Created</b></h4> {{viewCr.created}}
+                        <div class="form-group row">
+                            <label for="description" class="col-xs-2 col-form-label">Description</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" id="description" rows="5" readonly ng-model="viewCr.desc"></textarea>
+                            </div>
                         </div>
-
-                        <div class="text-left">
-                            <h4><b>Criteria Points</b></h4> {{viewCr.points}}
+                        <div class="form-group row">
+                            <label for="startDate" class="col-xs-2 col-form-label">Created</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" value="" ng-model="viewCr.created" readonly>
+                            </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
+
+                </form>
             </div>
 
         </div>

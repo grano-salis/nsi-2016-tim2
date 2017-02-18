@@ -1,0 +1,184 @@
+﻿<div class="container-fluid">
+    <div class="panel-group" id="accordion">
+        <div class="faqHeader">General questions</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Is account registration required?</a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Account registration is required.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseTen">I cannot register, what is password format ?</a>
+                </h4>
+            </div>
+            <div id="collapseTen" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Password format is :  Minimum 8 characters, and at least one upper case letter and one lower case letter.
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">Is there any more info on how to use application ?</a>
+                </h4>
+            </div>
+            <div id="collapseEleven" class="panel-collapse collapse">
+                <div class="panel-body">
+                    Yes, but for other info you have to be logged in first, and depending on your credentials you will see more info.
+                </div>
+            </div>
+        </div>
+        <div data-ng-hide="!authentication.isAuth">
+            <div class="faqHeader">Professors</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">How to add new CV Item ?</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Go to "My CV" page and fill data, everything except Links is required, then press Add.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">I added new CV Item but it does not show on my page, what now ?</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        After adding new CV Item, you can check "My Requests" page to see your pending requests. In order for CV Item to appear in your CV, Admin must approve it, after Admin approves your CV, you will be able to see it in "My CV".
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">I added CV Item, and it disappeared from My Reqests, but it also does not show in My CV.</a>
+                    </h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        This means that your CV Item was not approved. You can check though your CV data in "My History". "My History" page is designed for you to see all of your submited CV Items and their latest status, all you need to do is fill Date Range From and To, this would be dates when you suspect that you created CV Request.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseSix">What is start and end date ?</a>
+                    </h4>
+                </div>
+                <div id="collapseSix" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Info on these two fields you can check in next few steps : Click "Add New CV Item" or "Edit" => Hover mouse over <i class="glyphicon glyphicon-info-sign"></i>
+                        <br />
+                          <strong> More Detailed Description</strong>
+                        <br />
+                            Start Date : Date when you started your Project (Where project can be book, experiment or anything similar).
+                        <br />
+                            End Date : Date when you finished or rather finalized and submited your project for review.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseEight">I deleted my CV Item, can I get it back ?</a>
+                    </h4>
+                </div>
+                <div id="collapseEight" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        You have to make formal request for Item Retrieval, please contact : admin@example.com
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-hide="!isStudentskaOrAdmin()">
+            <div class="faqHeader">Admins</div>
+
+            <div data-ng-hide="!isAdmin()">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">What is difference between master and subcriteria ?</a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse">
+                        <div class="panel-body">
+                           Master criteria is primary criteria from which all other criteria options are derived, there can be more than one Master criteria. For example, master criteria could be 
+                           type of work : Science, Mathematics, Biology ... While subcriteria can be (derived from Biology) : Human Biology. Each subcriteria can be then derived further into 
+                           more specific criteria.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">What does "Professor History" page reprisent ?</a>
+                    </h4>
+                </div>
+                <div id="collapseSeven" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        This page is designed for Admins to view full history of all users of our application, in it you can search users and view their history of submited items, including those that have been deleted.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#collapseNine">What are "New Requests" ?</a>
+                    </h4>
+                </div>
+                <div id="collapseNine" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        New Requests is page in which Admin can Confirm or Reject CV Item submitted or Modified by professor, after reviewing the request you can choose one of two options : Confirm or Reject.
+                        After you Confirm or Reject an item, it will appear in Log page as latest change on that item.
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle collapsed" name="faq" data-toggle="collapse" data-parent="#accordion" href="#Log1">What is Log and what are its options ?</a>
+                    </h4>
+                </div>
+                <div id="Log1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Log stores data for review on some main changes made to CV Items. In Log you can also fix some mistakes made by Admin or CV Owners (Professors usually).
+                        Options shown in Review depends on latest CV Item status, and these are the options :
+                        <ul>
+                            <li>Confirm : In order to Confirm CV Item that was recently either Modified or Rejected.</li>
+                            <li>Reject : In order to Reject CV Item that was recently either Modified or Confirmed.</li>
+                            <li>Restore : In order to reactivate, or undelete CV Item that was recently Deleted. After restoring an item, it will show in New Requests as MODIFIED, while it will show in Log with its true Status 
+                            RESTORED. This Item will need further Review, meaning it will need to be either Confirmed or Rejected.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+$('a[name=faq]').click( function(e) {
+  e.preventDefault();
+});
+</script>

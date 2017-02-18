@@ -15,7 +15,7 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
         displayName: "Event Type",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defs = [
@@ -28,7 +28,7 @@ app.controller('logController', ['$scope', '$location', '$timeout', '$routeParam
         },
         {
             field: "cv_item",
-            displayName: "CV Item",
+            displayName: "CV Name",
             sortable: true,
             sortingType: "string"
         },

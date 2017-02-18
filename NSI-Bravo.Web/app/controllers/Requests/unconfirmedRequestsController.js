@@ -18,10 +18,10 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
     // Pregled stavki Lista
     $scope.expanding_property = {
         field: "owner",
-        displayName: "Owner",
+        displayName: "CV Owner",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
@@ -41,7 +41,7 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
         },
        {
            field: "date_created",
-           displayName: "Date requested",
+           displayName: "Date created",
            sortable: true,
            sortingType: "string"
        },
@@ -174,10 +174,10 @@ app.controller('unconfirmedRequestsController', ['$scope', '$location', '$timeou
     // Tree for Criteria
     $scope.expanding_propertyCrit = {
         field: "title",
-        displayName: "Name",
+        displayName: "Criteria Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defsCrit = [

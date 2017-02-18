@@ -21,7 +21,7 @@ app.controller('fullLogController', ['$scope', '$location', '$timeout', '$routeP
         displayName: "CV Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defs = [
@@ -161,7 +161,7 @@ app.controller('fullLogController', ['$scope', '$location', '$timeout', '$routeP
         displayName: "CV Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defs_cv = [

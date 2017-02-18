@@ -4,7 +4,10 @@
     <br />
     <input type="email" class="form-control" placeholder="Email" data-ng-model="registration.Email" required autofocus>
     <br />
-    <input type="password" class="form-control" placeholder="Password" data-ng-model="registration.Password" required>
+    <input type="password" class="form-control" placeholder="Password" pattern = "^(?=.*?[A-Z])(?=.*?[a-z]).{8,}$" oninvalid="setCustomValidity('Invalid password. Password format : Minimum 8 characters, and at least one upper case letter and one lower case letter.')" onkeypress="try { setCustomValidity('') } catch (e) { }" minlength="8" data-ng-model="registration.Password" required>
+    <!-- <input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required>-->
+    <br />
+    <input type="password" class="form-control" placeholder="Confirm Password" pattern="^(?=.*?[A-Z])(?=.*?[a-z]).{8,}$" oninvalid="setCustomValidity('Invalid password. Password format : Minimum 8 characters, and at least one upper case letter and one lower case letter.')" onkeypress="try { setCustomValidity('') } catch (e) { }" minlength="8" data-ng-model="registration.confirmPassword" required>
     <!-- <input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required>-->
     <br />
     <input type="text" class="form-control" placeholder="First name" data-ng-model="registration.FirstName" required autofocus>

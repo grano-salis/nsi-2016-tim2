@@ -701,7 +701,7 @@
             return function (arr, filterString, expandingProperty, colDefinitions, expand) {
                 var filtered = [];
                 //only apply filter for strings 3 characters long or more
-                if (!filterString || filterString.length < 3) {
+                if (!filterString) {
                     for (var i = 0; i < arr.length; i++) {
                         var item = arr[i];
                         if (item.visible) {

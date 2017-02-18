@@ -127,11 +127,11 @@ namespace AngularJSAuthentication.API.Controllers
                         return BadRequest("File not supported");
                     }
 
-                    blobContainer.CreateIfNotExists();
-                    blob = blobContainer.GetBlockBlobReference(fileName);
+                    //blobContainer.CreateIfNotExists();
+                    //blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
-                    blob.UploadFromFile(localfilename);
-                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
+                    //blob.UploadFromFile(localfilename);
+                    cv.CV_ITEM_LINK_LINK = "http://www.pdf995.com/samples/pdf.pdf";//blob.Uri.ToString();
                 }
             }
             catch (Exception e)
@@ -459,10 +459,10 @@ namespace AngularJSAuthentication.API.Controllers
                     if (currentCV.CV_ITEM_LINK_LINK != null)
                     {
                         //delete old ATTACHMENT_LINK from blob storage 
-                        string a = currentCV.CV_ITEM_LINK_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
-                        blobContainer.CreateIfNotExists();
-                        blob = blobContainer.GetBlockBlobReference(a);
-                        blob.DeleteIfExists();
+                        string a = "http://www.pdf995.com/samples/pdf.pdf";//currentCV.CV_ITEM_LINK_LINK.Replace("https://etfnsi.blob.core.windows.net/attachment-files/", "");
+                        //blobContainer.CreateIfNotExists();
+                        //blob = blobContainer.GetBlockBlobReference(a);
+                        //blob.DeleteIfExists();
                     }
                     string uploadedFile = "";
                     string localfilename = "";
@@ -486,11 +486,11 @@ namespace AngularJSAuthentication.API.Controllers
                         return BadRequest("File not supported");
                     }
 
-                    blobContainer.CreateIfNotExists();
-                    blob = blobContainer.GetBlockBlobReference(fileName);
+                    //blobContainer.CreateIfNotExists();
+                    //blob = blobContainer.GetBlockBlobReference(fileName);
                     //localfilename: path of the file on server
-                    blob.UploadFromFile(localfilename);
-                    cv.CV_ITEM_LINK_LINK = blob.Uri.ToString();
+                    //blob.UploadFromFile(localfilename);
+                    cv.CV_ITEM_LINK_LINK = "http://www.pdf995.com/samples/pdf.pdf";//blob.Uri.ToString();
                 }
                 //no new file uploaded => use old file
                 else

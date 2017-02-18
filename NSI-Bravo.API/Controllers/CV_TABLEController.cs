@@ -160,12 +160,14 @@ namespace AngularJSAuthentication.API.Controllers
                 return BadRequest("You are not logged in. Please login and try again.");
             }
 
-            int score;
-            try {
+            int score = 0;
+            try
+            {
                 //first find all CV_ITEMs with CV_TABLE_ID_CV==id, than sum points of criteria in all CV_ITEMs
-                 score = (int) db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id && o.CV_ITEM_STATUS.STATUS=="confirmed").Sum(o => o.CRITERIA.POINTS);
+                if(db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id && o.CV_ITEM_STATUS.STATUS == "confirmed").Count()>0)
+                    score = (int)db.CV_ITEM.Where(o => o.CV_TABLE_ID_CV == id && o.CV_ITEM_STATUS.STATUS == "confirmed").Sum(o => o.CRITERIA.POINTS);
             }
-            catch (DBConcurrencyException)
+            catch (Exception)
             {
                 return BadRequest("Error");
             }

@@ -13,10 +13,10 @@ app.controller('criteriaController', ['$scope', '$location', '$timeout', '$route
     // $scope.row.branch.expanded = true;
     $scope.expanding_property = {
         field: "title",
-        displayName: "Name",
+        displayName: "Criteria Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
         expanded: true
 
     };

@@ -32,10 +32,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     // Pregled stavki Lista
     $scope.expanding_property = {
         field: "title",
-        displayName: "Name",
+        displayName: "CV Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
@@ -50,14 +50,14 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
         {
             field: "start_date",
             displayName: "Start Date",
-            cellTemplate: "<i>{{row.branch[col.field]}}</i> <i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was started.'></i>",
+            cellTemplate: "<i>{{row.branch[col.field]}}</i>",
             sortable: true,
             sortingType: "string"
         },
         {
             field: "end_date",
             displayName: "End Date",
-            cellTemplate: "<i>{{row.branch[col.field]}}</i> <i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was finished.'></i>",
+            cellTemplate: "<i>{{row.branch[col.field]}}</i>",
             sortable: true,
             sortingType: "string"
         },
@@ -127,8 +127,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     // Testiranje Klika Na neku tree stavku
     $scope.my_tree_handlerCV = function (branch) {
         console.log('You clicked on', branch);
-        var modal = document.getElementById("viewMe" + branch.id);
-        modal.click();
+        //var modal = document.getElementById("viewMe" + branch.id);
+        //modal.click();
     }
 
     $scope.my_tree_handler = function (branch) {
@@ -202,10 +202,10 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
     // Tree for Criteria
     $scope.expanding_propertyCrit = {
         field: "title",
-        displayName: "Name",
+        displayName: "Criteria Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>"
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>"
     };
 
     $scope.col_defsCrit = [
@@ -391,6 +391,8 @@ app.controller('myCVController', ['$scope', '$location', '$timeout', '$routePara
             GetMyCVs();
             $location.path('/myRequests');
             Notification.success({ message: 'Please wait for review.', title: 'Request sent' });
+        }, function(response){
+            Notification.error({ message: 'Error: Criteria not chosen.' + error, title: 'Failed to Add CV Item' });
         });
     };
 

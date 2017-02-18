@@ -94,6 +94,7 @@
     <Content Include="app\views\Criteria\log.html" />
     <Content Include="app\views\Criteria\myCV.html" />
     <Content Include="app\views\Criteria\myHistory.html" />
+    <Content Include="app\views\FAQ.html" />
     <Content Include="app\views\myRequests.html" />
     <Content Include="app\views\Criteria\requests.html" />
     <Content Include="app\views\home.html" />
@@ -106,7 +107,9 @@
     <Content Include="app\views\tokens.html" />
     <Content Include="authComplete.html" />
     <Content Include="content\css\angular-ui-notification.css" />
+    <Content Include="content\css\faq.css" />
     <Content Include="content\css\font-awesome.min.css" />
+    <Content Include="content\css\indexnavbar.css" />
     <Content Include="content\css\loading-bar.css" />
     <Content Include="content\css\loading-bar.min.css" />
     <Content Include="content\css\site.css" />

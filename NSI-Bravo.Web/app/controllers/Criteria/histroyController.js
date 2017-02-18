@@ -62,7 +62,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     start_date: "",
                     end_date: "",
                     status: "",
-                    links: []
+                    links: [],
+                    date_created:""
                 }
                 var status_code = data[i].statuS_ID;
                 var status = "UNKNOWN";
@@ -93,6 +94,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
                 cv_item.links = data[i].cV_ITEM_LINK;
+                var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+                cv_item.date_created = date;
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
                 date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
@@ -114,10 +117,10 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
 
     $scope.expanding_property = {
         field: "title",
-        displayName: "Name",
+        displayName: "CV Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
@@ -128,6 +131,12 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
             sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
             filterable: false
+        },
+        {
+            field: "date_created",
+            displayName: "Date created",
+            sortable: true,
+            sortingType: "string"
         },
         {
             field: "status",
@@ -214,7 +223,7 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
         displayName: "Username",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
@@ -286,7 +295,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                     start_date: "",
                     end_date: "",
                     status:"",
-                    links: []
+                    links: [],
+                    date_created:""
                 }
                 var status_code = data[i].statuS_ID;
                 var status = "UNKNOWN";
@@ -317,6 +327,8 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
                 cv_item.user_cv_id = data[i].cV_TABLE_ID_CV;
                 cv_item.criteria_id = data[i].criteriA_ID_CRITERIA;
                 cv_item.links = data[i].cV_ITEM_LINK;
+                var date = moment(data[i].datE_CREATED).format("YYYY-MM-DD");
+                cv_item.date_created = date;
                 var date = moment(data[i].starT_DATE).format("YYYY-MM-DD");
                 cv_item.start_date = date;
                 date = moment(data[i].enD_DATE).format("YYYY-MM-DD");
@@ -338,10 +350,10 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
 
     $scope.expanding_propertyCrit = {
         field: "title",
-        displayName: "Name",
+        displayName: "CV Name",
         sortable: true,
         filterable: true,
-        cellTemplate: "<a ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</a>",
+        cellTemplate: "<span ng-click = 'user_clicks_branch(row.branch)'>{{row.branch[expandingProperty.field]}}</span>",
     };
 
 
@@ -352,6 +364,12 @@ app.controller('historyController', ['$scope', '$location', '$timeout', '$routeP
             sortable: false,
             cellTemplate: "<span ng-switch='row.branch[col.field]'><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href='{{row.branch[col.field]}}'>Download</a></span>",
             filterable: false
+        },
+        {
+            field: "date_created",
+            displayName: "Date created",
+            sortable: true,
+            sortingType: "string"
         },
         {
             field: "status",

@@ -59,53 +59,71 @@
                 <h4 class="modal-title">View CV Item</h4>
             </div>
             <div>
-                <div class="modal-body ">
-
-                    <div class="text-left">
-                        <h4><b>Name</b></h4> {{viewCr.title}}
-                    </div>
-
-                    <div class="text-left" style="word-wrap:break-word">
-                        <h4><b>Description</b></h4> <span style="white-space:pre-line;"> {{viewCr.description}}</span>
-                    </div>
-
-                    <div class="text-left">
-                        <h4><b>Attachment</b></h4>
-
-                        <span ng-switch="viewCr.link"><a ng-switch-when='undefined'>No Attachment</a><a ng-switch-default ng-href="{{viewCr.link}}">Download</a></span>
-                    </div>
-
-                    <div class="form-group row" data-ng-repeat="link in links">
-                        <h4 ng-show="$first" class="col-xs-2 col-form-label"><b>Links</b></h4>
-                        <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
-                        <div class="col-xs-10">
-                            <h5><b>Link {{$index+1}}</b></h5>
-                            <div class="text-left" style="word-wrap:break-word">
-                                <h6><b>URL</b></h6><span>{{link.URL}}</span>
+                <form name="viewCVForm" role="form">
+                    <div class="modal-body">
+                        <!--Name-->
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="" readonly ng-model="viewCr.title">
                             </div>
+                        </div>
+                        <!--Description-->
+                        <div class="form-group row">
+                            <label for="description" class="col-xs-2 col-form-label">Description</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" id="description" rows="5" readonly ng-model="viewCr.description"></textarea>
+                            </div>
+                        </div>
 
-                            <div class="text-left" style="word-wrap:break-word">
-                                <h6><b>Description</b></h6><div style="white-space:pre-line;">{{link.DESCRIPTION}}</div>
+                        <!--Attachment-->
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Attachment</label>
+                            <div class="col-xs-10">
+                                <span ng-switch="viewCr.link"><span ng-switch-when='undefined'>No Attachment</span><a ng-switch-default ng-href="{{viewCr.link}}">Download</a></span>
+                            </div>
+                        </div>
+
+                        <!--Links-->
+                        <div class="form-group row" data-ng-repeat="link in links" ng-hide="{{links[0].URL === undefined}}">
+                            <label for="links" ng-show="$first" class="col-xs-2 col-form-label">Links</label>
+                            <label class="col-xs-2 col-form-label" ng-show="$index>0"></label>
+                            <div class="col-xs-10">
+                                <label>Link {{$index+1}}</label>
+                                <input type="url" class="form-control" ng-model="link.URL" name="" placeholder="Enter link here" readonly>
+                                <input type="text" class="form-control" ng-model="link.DESCRIPTION" name="" readonly placeholder="Enter description here">
+                            </div>
+                        </div>
+                        <!--StartDate-->
+                        <div class="form-group row">
+                            <label for="startDate" class="col-xs-2 col-form-label">Start Date<i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was started.'></i></label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" value="" ng-model="viewCr.start_date" readonly>
+                            </div>
+                        </div>
+                        <!--EndDate-->
+                        <div class="form-group row">
+                            <label for="endDate" class="col-xs-2 col-form-label">End Date<i class='glyphicon glyphicon-info-sign' data-toggle='tooltip' title='Date when project was finished.'></i></label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="date" value="" ng-model="viewCr.end_date" readonly>
+                            </div>
+                        </div>
+                        <!--Crit Name-->
+                        <div class="form-group row">
+                            <label for="name" class="col-xs-2 col-form-label">Criteria Name</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="" readonly ng-model="viewCriteria">
+                            </div>
+                        </div>
+                        <!-- Crit Points-->
+                        <div class="form-group row">
+                            <label for="points" class="col-xs-2 col-form-label">Criteria Points</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="number" min="1" value="1" readonly ng-model="viewCriteriaFull.points">
                             </div>
                         </div>
                     </div>
-                    <div class="text-left">
-                        <h4><b>Start Date</b></h4> {{viewCr.start_date}}
-                    </div>
-
-                    <div class="text-left">
-                        <h4><b>End Date</b></h4> {{viewCr.end_date}}
-                    </div>
-
-                    <!--Criteria View/Change-->
-                    <div class="text-left">
-                        <h4><b>Criteria</b></h4> {{viewCriteria}}
-                    </div>
-
-                    <div class="text-left">
-                        <h4><b>Criteria Points</b></h4> {{viewCriteriaFull.points}}
-                    </div>
-                </div>
+                </form>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" data-dismiss="modal">Close</button>
                 </div>

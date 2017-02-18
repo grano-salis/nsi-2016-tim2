@@ -5,15 +5,16 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     $scope.message = "";
 
     $scope.registration = {
-        userName: "",
+        Username: "",
         password: "",
         confirmPassword: ""
     };
 
     $scope.signUp = function () {
-        //validation needed: password must have minimum 8 characters ,at least one lowercase & uppercase,
-        //username must be unique
-        //email must be unique
+        if ($scope.registration.confirmPassword != $scope.registration.Password) {
+            Notification.error({ message: 'Error: Passwords do not match.', title: 'Failed to register' });
+            return;
+        }
         authService.register($scope.registration).then(function (response) {
 
             $scope.savedSuccessfully = true;
@@ -22,13 +23,12 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
 
         },
          function (response) {
-             var errors = [];
-             for (var key in response.data.modelState) {
-                 for (var i = 0; i < response.data.modelState[key].length; i++) {
-                     errors.push(response.data.modelState[key][i]);
-                 }
+             if (response.data.Message == "undefined")
+                 return;
+             var error = response.data.Message;
+             if (!(error == undefined || error == "Password weak.")) {
+                 Notification.error({ message: 'Error: ' + error, title: 'Failed to register' });
              }
-             Notification.error({ message: 'Error', title: 'Failed to register' });
          });
     };
 

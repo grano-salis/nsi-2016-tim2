@@ -1,0 +1,48 @@
+﻿    #navigationItems{
+        color:white; 
+        width:100%;
+    }
+
+
+
+@media (min-width: 768px) {
+            .verticalBorder {
+                height: 30px;
+                margin: 0 9px;
+                margin-top:10px;
+                margin-bottom:10px;
+                border-left: 1px solid #F2F2F2;
+                border-right: 1px solid #FFF;
+            }
+
+            #mainnav {
+                margin:0;
+                margin-left:-1.5%;
+                margin-right:-0.5%;
+                padding-left:1%; 
+                padding-right:1%;
+            }
+
+        }
+        @media (max-width: 767px) {
+            .horizontalBorder {
+                height: 1px;
+                width:90%;
+                display:block; /* for use on default inline elements like span */
+                margin: 9px 0;
+                margin-left:5%;
+                margin-right:5%;
+                overflow: hidden;
+                background-color: #e5e5e5;
+            }
+        }
+
+        .navbar-inverse .navbar-nav > .active > a,
+        .navbar-inverse .navbar-nav > .active > a:focus {
+            background-color:white; /* Anything you want */
+            color:black;
+            font-weight:bolder;
+        }
+        #logoutnav {
+            background-color:#424242; 
+        }
